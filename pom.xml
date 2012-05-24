@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.awired.restmcu</groupId>
+	<artifactId>rest-mcu</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>RestMcu</name>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>net.awired.parent.parent-java</groupId>
+		<artifactId>parent-java</artifactId>
+		<version>1.13</version>
+	</parent>
+
+
+	<modules>
+		<module>api</module>
+		<module>program</module>
+		<module>it</module>
+	</modules>
+
+	<properties>
+		<jacoco.file.path>/tmp/hccJacoco.out</jacoco.file.path>
+		<ajsl.version>0.5-SNAPSHOT</ajsl.version>
+		<cxf.version>2.5.3</cxf.version>
+		<spring.version>3.1.0.RELEASE</spring.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>net.awired.restmcu</groupId>
+				<artifactId>restmcu-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>
