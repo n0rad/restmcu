@@ -5,7 +5,7 @@
 
 	<groupId>net.awired.restmcu</groupId>
 	<artifactId>restmcu</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>RestMcu</name>
 	<packaging>pom</packaging>
 
