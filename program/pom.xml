@@ -5,10 +5,11 @@
 
 	<artifactId>restmcu-program</artifactId>
 	<name>RestMcu - Program</name>
+	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>net.awired.restmcu</groupId>
-		<artifactId>rest-mcu</artifactId>
+		<artifactId>restmcu</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>

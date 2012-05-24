@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.awired.restmcu</groupId>
-	<artifactId>rest-mcu</artifactId>
+	<artifactId>restmcu</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>RestMcu</name>
 	<packaging>pom</packaging>
@@ -19,6 +19,7 @@
 	<modules>
 		<module>api</module>
 		<module>program</module>
+		<module>stub</module>
 		<module>it</module>
 	</modules>
 
