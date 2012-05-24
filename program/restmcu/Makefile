@@ -25,7 +25,7 @@ CXXSRC += $(ARDUINO_CXXSRC)
 ############################################################################
 
 
-TARGET = hcc
+TARGET = restmcu
 
 
 # Below here nothing should be changed...

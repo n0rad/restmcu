@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>restmcu-api</artifactId>
-	<name>RestMcu - Api</name>	
+	<name>RestMcu - Api</name>
 
 	<parent>
-	        <groupId>net.awired.restmcu</groupId>
-        	<artifactId>rest-mcu</artifactId>
+		<groupId>net.awired.restmcu</groupId>
+		<artifactId>rest-mcu</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
