@@ -2,28 +2,27 @@ package net.awired.restmcu.it;
 
 import static org.junit.Assert.assertNotNull;
 import javax.ws.rs.Path;
-import net.awired.restmcu.HccTestRule;
-import net.awired.restmcu.NotifyServer;
-import net.awired.restmcu.api.domain.board.HccBoard;
-import net.awired.restmcu.api.domain.board.HccBoardNotification;
-import net.awired.restmcu.api.domain.pin.HccPinNotification;
-import net.awired.restmcu.api.resource.server.HccNotifyResource;
+import net.awired.restmcu.api.domain.board.RmcuBoard;
+import net.awired.restmcu.api.domain.board.RmcuBoardNotification;
+import net.awired.restmcu.api.domain.pin.RmcuPinNotification;
+import net.awired.restmcu.api.resource.server.RmcuNotifyResource;
 import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
+@Ignore
 public class NotifyResourceIT {
 
     @Rule
-    public HccTestRule hcc = new HccTestRule();
+    public RmcuTestRule hcc = new RmcuTestRule();
 
-    public static HccPinNotification notification;
+    public static RmcuPinNotification notification;
 
     @Path("/")
-    public static class testNotify implements HccNotifyResource {
+    public static class testNotify implements RmcuNotifyResource {
         @Override
-        public void pinNotification(HccPinNotification pinNotification) {
+        public void pinNotification(RmcuPinNotification pinNotification) {
             //            HccPinNotification pinNotification
             System.out.println("salutttt!");
             notification = pinNotification;
@@ -31,18 +30,18 @@ public class NotifyResourceIT {
         }
 
         @Override
-        public void boardNotification(HccBoardNotification boardNotification) {
+        public void boardNotification(RmcuBoardNotification boardNotification) {
             throw new RuntimeException();
         }
 
     }
 
     @ClassRule
-    public static NotifyServer server = new NotifyServer(5879, testNotify.class);
+    public static NotifyServerRule server = new NotifyServerRule(5879, testNotify.class);
 
     @Test
-    public void should_test() throws Exception {
-        HccBoard deviceInfo = hcc.getBoardResource().getBoard();
+    public void should_notify() throws Exception {
+        RmcuBoard deviceInfo = hcc.getBoardResource().getBoard();
         deviceInfo.setNotifyUrl("http://localhost:5879");
         hcc.getBoardResource().setBoard(deviceInfo);
 
@@ -59,7 +58,7 @@ public class NotifyResourceIT {
     @Ignore
     public void should_reset_data() throws Exception {
         // set notify url
-        HccBoard deviceInfo = hcc.getBoardResource().getBoard();
+        RmcuBoard deviceInfo = hcc.getBoardResource().getBoard();
         deviceInfo.setNotifyUrl("http://localhost:5879");
         hcc.getBoardResource().setBoard(deviceInfo);
 

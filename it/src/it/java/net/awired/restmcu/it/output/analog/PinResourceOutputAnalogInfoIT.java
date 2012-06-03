@@ -1,6 +1,6 @@
 package net.awired.restmcu.it.output.analog;
 
-import net.awired.restmcu.HccTestRule;
+import net.awired.restmcu.it.RmcuTestRule;
 import org.junit.Rule;
 
 public class PinResourceOutputAnalogInfoIT {
@@ -8,7 +8,7 @@ public class PinResourceOutputAnalogInfoIT {
     private static final int PIN_ID = 3;
 
     @Rule
-    public HccTestRule hcc = new HccTestRule();
+    public RmcuTestRule hcc = new RmcuTestRule();
     //
     //    @Test
     //    public void should_update_pin() throws Exception {

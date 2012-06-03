@@ -5,30 +5,27 @@
 	xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+       
+       default-autowire="byName">
 
-	<context:component-scan base-package="net.awired.housecream" />
+	<context:component-scan base-package="net.awired.restmcu" />
 
 	<jaxrs:server id="transport" address="/">
 		<jaxrs:serviceBeans>
 			<ref bean="pinResourceStub" />
-			<ref bean="hccResourceStub" />
-			<ref bean="hccDebugResource" />
+			<ref bean="boardResourceStub" />
+			<ref bean="rmcuDebugResourceImpl" />
 		</jaxrs:serviceBeans>
-		<jaxrs:extensionMappings>
-			<entry key="xml" value="application/xml" />
-			<entry key="json" value="application/json" />
-		</jaxrs:extensionMappings>
 		<jaxrs:providers>
-			<ref bean="jaxbProvider" />
 			<ref bean="jsonProvider" />
-			<ref bean="hccUpdateExceptionMapper" />
-			<ref bean="hccNotFoundExceptionMapper" />
+			<ref bean="ajslUpdateExceptionMapper" />
+			<ref bean="ajslNotFoundExceptionMapper" />
 		</jaxrs:providers>
 	</jaxrs:server>
 
-
-	<bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" />
 	<bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.JSONProvider" />
+	<bean id="ajslNotFoundExceptionMapper" class="net.awired.ajsl.web.resource.mapper.AjslNotFoundExceptionMapper"/>
+	<bean id="ajslUpdateExceptionMapper" class="net.awired.ajsl.web.resource.mapper.AjslUpdateExceptionMapper"/>
 
 </beans>

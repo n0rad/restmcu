@@ -7,16 +7,16 @@
 	<name>RestMcu - IT</name>
 
 	<parent>
-	        <groupId>net.awired.restmcu</groupId>
-        	<artifactId>restmcu</artifactId>
+		<groupId>net.awired.restmcu</groupId>
+		<artifactId>restmcu</artifactId>
 		<version>0.1-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 
 	<dependencies>
 		<dependency>
-	                <groupId>net.awired.restmcu</groupId>
- 		        <artifactId>restmcu-api</artifactId>
+			<groupId>net.awired.restmcu</groupId>
+			<artifactId>restmcu-api</artifactId>
 		</dependency>
 
 		<dependency>
@@ -31,7 +31,7 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
@@ -42,15 +42,15 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 		</dependency>
- 		<dependency>
+		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-grizzly2</artifactId>
 			<version>1.11</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.sun.jersey</groupId>
-		    <artifactId>jersey-json</artifactId>
-		    <version>1.11</version>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>1.11</version>
 		</dependency>
 
 
@@ -61,12 +61,12 @@
 		</dependency>
 
 <!-- 		<dependency>
-			<groupId>net.awired.housecream.client</groupId>
-			<artifactId>housecream-client-stub</artifactId>
+			<groupId>net.awired.restmcu</groupId>
+			<artifactId>restmcu-stub</artifactId>
 			<type>war</type>
 		</dependency>
  -->
-	</dependencies>
+ 	</dependencies>
 
 	<build>
 		<resources>
@@ -84,7 +84,7 @@
 		</testResources>
 
 		<plugins>
-		<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.11</version>
@@ -114,56 +114,76 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			
-			
-			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.1.4</version>
-				<configuration>
-					<container>
-						<containerId>jetty8x</containerId>
-						<type>embedded</type>
-					</container>
-					<configuration>
-						<properties>
-							<cargo.servlet.port>34567</cargo.servlet.port>
-							<cargo.logging>low</cargo.logging>
-							<cargo.jvmargs>${cargo.jvm.args}</cargo.jvmargs>
-						</properties>
-						<deployables>
-							<deployable>
-								<groupId>net.awired.housecream.client</groupId>
-								<artifactId>housecream-client-stub</artifactId>
-								<type>war</type>
-								<properties>
-									<context>hcc</context>
-								</properties>
-							</deployable>
-						</deployables>
-					</configuration>
-					<wait>false</wait>
-				</configuration>
-				<executions>
-					<execution>
-						<id>start-container</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>start</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>stop-container</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
 		</plugins>
 	</build>
+
+	<!-- profiles -->
+	<profiles>
+		<profile>
+			<id>board</id>
+			<properties>
+				<config.file>../it/src/main/java/net/awired/restmcu/it/TestBoardConfig.cpp</config.file>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<id>Make-all</id>
+								<phase>compile</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>make</executable>
+									<arguments>
+										<argument>-C</argument>
+										<argument>../program</argument>
+										<argument>CONFIG=${config.file}</argument>
+										<argument>all</argument>
+									</arguments>
+								</configuration>
+							</execution>
+							<execution>
+								<id>Make-clean</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>make</executable>
+									<arguments>
+										<argument>-C</argument>
+										<argument>../program</argument>
+										<argument>CONFIG=${config.file}</argument>
+										<argument>clean</argument>
+									</arguments>
+								</configuration>
+							</execution>
+							<execution>
+								<id>Make-upload</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>make</executable>
+									<arguments>
+										<argument>-C</argument>
+										<argument>../program</argument>
+										<argument>upload</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
 

@@ -19,7 +19,11 @@
 			<groupId>net.awired.restmcu</groupId>
 			<artifactId>restmcu-api</artifactId>
 		</dependency>
-
+ 		<dependency>
+			<groupId>net.awired.ajsl</groupId>
+			<artifactId>ajsl-web</artifactId>
+			<version>${ajsl.version}</version>
+		</dependency>
 
 		<!-- Spring -->
 		<dependency>
