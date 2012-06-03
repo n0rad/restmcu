@@ -1,64 +1,60 @@
-# HouseCream Makefile based on arduino / crumb644 makefiles
-SRC =
-CXXSRC =
-ARDUINO_SRC =  lib/arduino/wiring.c lib/arduino/wiring_analog.c lib/arduino/wiring_digital.c \
-	lib/arduino/wiring_pulse.c lib/arduino/wiring_shift.c lib/arduino/WInterrupts.c
-ARDUINO_CXXSRC = lib/arduino/HardwareSerial.cpp lib/arduino/Print.cpp
-############################################################################
-# your configuration part
-PORT = /dev/ttyUSB0
-UPLOAD_RATE = 115200
-AVRDUDE_PROGRAMMER = stk500v2
-#MCU = atmega328p
+# Arduino makefile
+#
+# This makefile allows you to build sketches from the command line
+# without the Arduino environment (or Java).
+#
+# The Arduino environment does preliminary processing on a sketch before
+# compiling it.  If you're using this makefile instead, you'll need to do
+# a few things differently:
+#
+#   - Give your program's file a .cpp extension (e.g. foo.cpp).
+#
+#   - Put this line at top of your code: #include <WProgram.h>
+#
+#   - Write prototypes for all your functions (or define them before you
+#     call them).  A prototype declares the types of parameters a
+#     function will take and what type of value it will return.  This
+#     means that you can have a call to a function before the definition
+#     of the function.  A function prototype looks like the first line of
+#     the function, with a semi-colon at the end.  For example:
+#     int digitalRead(int pin);
+#
+# Instructions for using the makefile:
+#
+#  1. Copy this file into the folder with your sketch.
+#
+#  2. Below, modify the line containing "TARGET" to refer to the name of
+#     of your program's file without an extension (e.g. TARGET = foo).
+#
+#  3. Modify the line containg "ARDUINO" to point the directory that
+#     contains the Arduino core (for normal Arduino installations, this
+#     is the lib/targets/arduino sub-directory).
+#
+#  4. Modify the line containing "PORT" to refer to the filename
+#     representing the USB or serial connection to your Arduino board
+#     (e.g. PORT = /dev/tty.USB0).  If the exact name of this file
+#     changes, you can use * as a wildcard (e.g. PORT = /dev/tty.USB*).
+#
+#  5. At the command line, change to the directory containing your
+#     program's file and the makefile.
+#
+#  6. Type "make" and press enter to compile/verify your program.
+#
+#  7. Type "make upload", reset your Arduino board, and press enter  to
+#     upload your program to the Arduino board.
+#
+# $Id$
+
+PORT = /dev/tty.usbserial*
+TARGET = foo
+ARDUINO_CORE = lib/arduino/hardware/arduino/cores/arduino
+SRC = $(ARDUINO_CORE)/wiring.c $(ARDUINO_CORE)/wiring_analog.c $(ARDUINO_CORE)/wiring_digital.c \
+	$(ARDUINO_CORE)/wiring_pulse.c $(ARDUINO_CORE)/wiring_shift.c $(ARDUINO_CORE)/WInterrupts.c
+CXXSRC = src/hcc.cpp src/util/pure_virtual.cpp $(ARDUINO_CORE)/HardwareSerial.cpp $(ARDUINO_CORE)/Print.cpp
+MCU = atmega8
 F_CPU = 16000000
-
-#-- arduino duemilanove
-SRC += $(ARDUINO_SRC) 
-CXXSRC += $(ARDUINO_CXXSRC)
-
-############################################################################
-############################################################################
-############################################################################
-############################################################################
-############################################################################
-############################################################################
-############################################################################
-
-
-TARGET = restmcu
-
-CONFIG = config.cpp
-
-# Below here nothing should be changed...
-#AVR_TOOLS_PATH = /usr/local/bin/
-
-
-# ARDUINO
-ARDUINO = lib/arduino
-
-# HCC
-HCC_CXXSRC = lib/SPI/SPI.cpp src/hcc.cpp src/util/pure_virtual.cpp \
-		src/util/availableMemory.cpp $(CONFIG) src/settings/settings.cpp \
-		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
-		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
-		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp \
-		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp
-
-# BOARD
-HCC_CXXSRC += src/driver/hardware/board-duemilanove.cpp src/driver/hardware/pin-arduino.cpp
-
-# ENC28j60 ETHERNET SHIELD
-ETHERNET_SHIELD_PATH = lib/ethernetShield-enc28j60
-SRC += $(ETHERNET_SHIELD_PATH)/enc28j60.c $(ETHERNET_SHIELD_PATH)/ip_arp_udp_tcp.c  
-HCC_CXXSRC += $(ETHERNET_SHIELD_PATH)/etherShield.cpp src/driver/hardware/network-enc28j60.cpp
-
-HCC_CXXSRC += lib/SPI/SPI.cpp lib/Ethernet/utility/w5100.cpp lib/Ethernet/Ethernet.cpp lib/Ethernet/EthernetClient.cpp \
-		lib/Ethernet/EthernetServer.cpp lib/Ethernet/EthernetUdp.cpp
-
-#lib/Ethernet/utility/socket.cpp
-
-
 FORMAT = ihex
+UPLOAD_RATE = 19200
 
 # Name of this Makefile (used for "make depend").
 MAKEFILE = Makefile
@@ -75,9 +71,8 @@ CDEFS = -DF_CPU=$(F_CPU)
 CXXDEFS = -DF_CPU=$(F_CPU)
 
 # Place -I options here
-CINCS = -I$(ARDUINO)
-CXXINCS = -I$(ARDUINO)
-
+CINCS = -I$(ARDUINO_CORE) -Ilib/arduino/hardware/arduino/variants/standard
+CXXINCS = -I$(ARDUINO_CORE)
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C
@@ -93,30 +88,29 @@ CTUNING = -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CSTANDARD) $(CEXTRA)
 CXXFLAGS = $(CDEFS) $(CINCS) -O$(OPT)
 #ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs 
-LDFLAGS = -lm
+LDFLAGS = 
 
 
 # Programming support using avrdude. Settings and variables.
+AVRDUDE_PROGRAMMER = stk500
 AVRDUDE_PORT = $(PORT)
-AVRDUDE_WRITE_FLASH = -U flash:w:target/$(TARGET).hex
-AVRDUDE_CONF = /etc/avrdude.conf
-AVRDUDE_FLAGS = -V -F -C $(AVRDUDE_CONF) -p $(MCU) -P $(AVRDUDE_PORT) \
--c $(AVRDUDE_PROGRAMMER) -b $(UPLOAD_RATE)
+AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
+AVRDUDE_FLAGS = -F -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) \
+  -b $(UPLOAD_RATE)
 
 # Program settings
-CC = $(AVR_TOOLS_PATH)avr-gcc
-CXX = $(AVR_TOOLS_PATH)avr-g++
-OBJCOPY = $(AVR_TOOLS_PATH)avr-objcopy
-OBJDUMP = $(AVR_TOOLS_PATH)avr-objdump
-AR  = $(AVR_TOOLS_PATH)avr-ar
-SIZE = $(AVR_TOOLS_PATH)avr-size
-NM = $(AVR_TOOLS_PATH)avr-nm
-AVRDUDE = $(AVR_TOOLS_PATH)avrdude
+CC = avr-gcc
+CXX = avr-g++
+OBJCOPY = avr-objcopy
+OBJDUMP = avr-objdump
+SIZE = avr-size
+NM = avr-nm
+AVRDUDE = avrdude
 REMOVE = rm -f
 MV = mv -f
 
 # Define all object files.
-OBJ = $(SRC:.c=.o) $(CXXSRC:.cpp=.o) $(ASRC:.S=.o)  $(HCC_CXXSRC:.cpp=.o)
+OBJ = $(SRC:.c=.o) $(CXXSRC:.cpp=.o) $(ASRC:.S=.o)
 
 # Define all listing files.
 LST = $(ASRC:.S=.lst) $(CXXSRC:.cpp=.lst) $(SRC:.c=.lst)
@@ -129,39 +123,21 @@ ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
 
 # Default target.
-all: target_files build sizeafter
+all: build
 
-test:
-	if [ -z $$MCU ]; then \
-		echo "missing $$MCU"; \
-		exit 42; \
-	fi
+build: elf hex eep
 
-build: test elf hex
-
-# Here is the "preprocessing".
-target_files:
-	test -d target || mkdir target
-
-elf: target/$(TARGET).elf
-hex: target/$(TARGET).hex
-eep: target/$(TARGET).eep
-lss: target/$(TARGET).lss 
-sym: target/$(TARGET).sym
+elf: $(TARGET).elf
+hex: $(TARGET).hex
+eep: $(TARGET).eep
+lss: $(TARGET).lss 
+sym: $(TARGET).sym
 
 # Program the device.  
-upload: target/$(TARGET).hex
+upload: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
 
 
-# Display size of file.
-HEXSIZE = $(SIZE) --target=$(FORMAT) target/$(TARGET).hex
-ELFSIZE = $(SIZE)  target/$(TARGET).elf
-sizebefore:
-	@if [ -f target/$(TARGET).elf ]; then echo; echo $(MSG_SIZE_BEFORE); $(HEXSIZE); echo; fi
-
-sizeafter:
-	@if [ -f target/$(TARGET).elf ]; then echo; echo $(MSG_SIZE_AFTER); $(HEXSIZE); echo; fi
 
 
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
@@ -172,15 +148,15 @@ COFFCONVERT=$(OBJCOPY) --debugging \
 --change-section-address .eeprom-0x810000 
 
 
-coff: target/$(TARGET).elf
-	$(COFFCONVERT) -O coff-avr target/$(TARGET).elf $(TARGET).cof
+coff: $(TARGET).elf
+	$(COFFCONVERT) -O coff-avr $(TARGET).elf $(TARGET).cof
 
 
 extcoff: $(TARGET).elf
-	$(COFFCONVERT) -O coff-ext-avr target/$(TARGET).elf $(TARGET).cof
+	$(COFFCONVERT) -O coff-ext-avr $(TARGET).elf $(TARGET).cof
 
 
-.SUFFIXES: .elf .hex .eep .lss .sym .cpp .o .c .s .S
+.SUFFIXES: .elf .hex .eep .lss .sym
 
 .elf.hex:
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom $< $@
@@ -197,18 +173,17 @@ extcoff: $(TARGET).elf
 .elf.sym:
 	$(NM) -n $< > $@
 
-# Link: create ELF output file from library.
-target/$(TARGET).elf: target/core.a
-	$(CXX) $(ALL_CXXFLAGS) -o $@ -L. target/core.a /usr/lib/avr/lib/avr5/libc.a $(LDFLAGS)
 
-target/core.a: $(OBJ)
-	@for i in $(OBJ); do echo $(AR) rcs target/core.a $$i; $(AR) rcs target/core.a $$i; done
+
+# Link: create ELF output file from object files.
+$(TARGET).elf: $(OBJ)
+	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
 
 
 # Compile: create object files from C++ source files.
 .cpp.o:
 	$(CXX) -c $(ALL_CXXFLAGS) $< -o $@ 
-	
+
 # Compile: create object files from C source files.
 .c.o:
 	$(CC) -c $(ALL_CFLAGS) $< -o $@ 
@@ -224,18 +199,23 @@ target/core.a: $(OBJ)
 	$(CC) -c $(ALL_ASFLAGS) $< -o $@
 
 
-# Automatic dependencies
-%.d: %.c
-	$(CC) -M $(ALL_CFLAGS) $< | sed "s;$(notdir $*).o:;$*.o $*.d:;" > $@
-
-%.d: %.cpp
-	$(CXX) -M $(ALL_CXXFLAGS) $< | sed "s;$(notdir $*).o:;$*.o $*.d:;" > $@
-
 
 # Target: clean project.
 clean:
-	$(REMOVE) target/$(TARGET).hex target/$(TARGET).eep target/$(TARGET).cof target/$(TARGET).elf \
-	target/$(TARGET).map target/$(TARGET).sym target/$(TARGET).lss target/core.a \
+	$(REMOVE) $(TARGET).hex $(TARGET).eep $(TARGET).cof $(TARGET).elf \
+	$(TARGET).map $(TARGET).sym $(TARGET).lss \
 	$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d) $(CXXSRC:.cpp=.s) $(CXXSRC:.cpp=.d)
 
-.PHONY:	all build elf hex eep lss sym program coff extcoff clean target_files sizebefore sizeafter
+depend:
+	if grep '^# DO NOT DELETE' $(MAKEFILE) >/dev/null; \
+	then \
+		sed -e '/^# DO NOT DELETE/,$$d' $(MAKEFILE) > \
+			$(MAKEFILE).$$$$ && \
+		$(MV) $(MAKEFILE).$$$$ $(MAKEFILE); \
+	fi
+	echo '# DO NOT DELETE THIS LINE -- make depend depends on it.' \
+		>> $(MAKEFILE); \
+	$(CC) -M -mmcu=$(MCU) $(CDEFS) $(CINCS) $(SRC) $(ASRC) >> $(MAKEFILE)
+
+.PHONY:	all build elf hex eep lss sym program coff extcoff clean depend
+
