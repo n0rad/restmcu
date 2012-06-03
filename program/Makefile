@@ -1,60 +1,36 @@
-# Arduino makefile
-#
-# This makefile allows you to build sketches from the command line
-# without the Arduino environment (or Java).
-#
-# The Arduino environment does preliminary processing on a sketch before
-# compiling it.  If you're using this makefile instead, you'll need to do
-# a few things differently:
-#
-#   - Give your program's file a .cpp extension (e.g. foo.cpp).
-#
-#   - Put this line at top of your code: #include <WProgram.h>
-#
-#   - Write prototypes for all your functions (or define them before you
-#     call them).  A prototype declares the types of parameters a
-#     function will take and what type of value it will return.  This
-#     means that you can have a call to a function before the definition
-#     of the function.  A function prototype looks like the first line of
-#     the function, with a semi-colon at the end.  For example:
-#     int digitalRead(int pin);
-#
-# Instructions for using the makefile:
-#
-#  1. Copy this file into the folder with your sketch.
-#
-#  2. Below, modify the line containing "TARGET" to refer to the name of
-#     of your program's file without an extension (e.g. TARGET = foo).
-#
-#  3. Modify the line containg "ARDUINO" to point the directory that
-#     contains the Arduino core (for normal Arduino installations, this
-#     is the lib/targets/arduino sub-directory).
-#
-#  4. Modify the line containing "PORT" to refer to the filename
-#     representing the USB or serial connection to your Arduino board
-#     (e.g. PORT = /dev/tty.USB0).  If the exact name of this file
-#     changes, you can use * as a wildcard (e.g. PORT = /dev/tty.USB*).
-#
-#  5. At the command line, change to the directory containing your
-#     program's file and the makefile.
-#
-#  6. Type "make" and press enter to compile/verify your program.
-#
-#  7. Type "make upload", reset your Arduino board, and press enter  to
-#     upload your program to the Arduino board.
-#
-# $Id$
 
-PORT = /dev/tty.usbserial*
-TARGET = foo
+PORT = /dev/ttyUSB0
+TARGET = target/restMcu
 ARDUINO_CORE = lib/arduino/hardware/arduino/cores/arduino
-SRC = $(ARDUINO_CORE)/wiring.c $(ARDUINO_CORE)/wiring_analog.c $(ARDUINO_CORE)/wiring_digital.c \
+A_LIB = lib/arduino/libraries
+
+SRC =
+CXXSRC =
+
+
+###ARDUINO
+SRC += $(ARDUINO_CORE)/wiring.c $(ARDUINO_CORE)/wiring_analog.c $(ARDUINO_CORE)/wiring_digital.c \
 	$(ARDUINO_CORE)/wiring_pulse.c $(ARDUINO_CORE)/wiring_shift.c $(ARDUINO_CORE)/WInterrupts.c
-CXXSRC = src/hcc.cpp src/util/pure_virtual.cpp $(ARDUINO_CORE)/HardwareSerial.cpp $(ARDUINO_CORE)/Print.cpp
-MCU = atmega8
+CXXSRC += $(ARDUINO_CORE)/new.cpp $(ARDUINO_CORE)/HardwareSerial.cpp $(ARDUINO_CORE)/Print.cpp \
+	$(ARDUINO_CORE)/IPAddress.cpp $(A_LIB)/SPI/SPI.cpp $(ARDUINO_CORE)/WMath.cpp
+CINCS = -I$(ARDUINO_CORE) -I$(ARDUINO_CORE)/../../variants/standard -I$(ARDUINO_CORE) \
+	-I$(A_LIB)/SPI -I$(A_LIB)/Ethernet -I$(A_LIB)/Ethernet/utility
+CXXINCS = -I$(ARDUINO_CORE) -I$(A_LIB)/SPI -I$(A_LIB)/Ethernet
+
+#W5100
+CXXSRC += $(A_LIB)/Ethernet/utility/socket.cpp $(A_LIB)/Ethernet/utility/w5100.cpp $(A_LIB)/Ethernet/Dhcp.cpp \
+	 $(A_LIB)/Ethernet/Ethernet.cpp $(A_LIB)/Ethernet/EthernetUdp.cpp $(A_LIB)/Ethernet/Dns.cpp  \
+	$(A_LIB)/Ethernet/EthernetClient.cpp $(A_LIB)/Ethernet/EthernetServer.cpp
+
+
+CXXSRC += src/hcc.cpp
+# src/util/pure_virtual.cpp 
+
+
+MCU = atmega328p
 F_CPU = 16000000
 FORMAT = ihex
-UPLOAD_RATE = 19200
+UPLOAD_RATE = 115200
 
 # Name of this Makefile (used for "make depend").
 MAKEFILE = Makefile
@@ -70,9 +46,6 @@ OPT = s
 CDEFS = -DF_CPU=$(F_CPU)
 CXXDEFS = -DF_CPU=$(F_CPU)
 
-# Place -I options here
-CINCS = -I$(ARDUINO_CORE) -Ilib/arduino/hardware/arduino/variants/standard
-CXXINCS = -I$(ARDUINO_CORE)
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C
@@ -122,10 +95,27 @@ ALL_CXXFLAGS = -mmcu=$(MCU) -I. $(CXXFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
 
-# Default target.
-all: build
+# Display size of file.
+HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
+ELFSIZE = $(SIZE)  $(TARGET).elf
+sizebefore:
+	@if [ -f $(TARGET).elf ]; then echo; echo $(MSG_SIZE_BEFORE); $(HEXSIZE); echo; fi
 
-build: elf hex eep
+sizeafter:
+	@if [ -f $(TARGET).elf ]; then echo; echo $(MSG_SIZE_AFTER); $(HEXSIZE); echo; fi
+
+
+# Default target.
+all: package
+
+test:
+	if [ -z $$MCU ]; then \
+		echo "missing $$MCU"; \
+		exit 42; \
+	fi
+
+
+package: target_files test elf hex eep sizeafter
 
 elf: $(TARGET).elf
 hex: $(TARGET).hex
@@ -137,6 +127,8 @@ sym: $(TARGET).sym
 upload: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
 
+target_files:
+	test -d target || mkdir target
 
 
 
@@ -206,16 +198,16 @@ clean:
 	$(TARGET).map $(TARGET).sym $(TARGET).lss \
 	$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d) $(CXXSRC:.cpp=.s) $(CXXSRC:.cpp=.d)
 
-depend:
-	if grep '^# DO NOT DELETE' $(MAKEFILE) >/dev/null; \
-	then \
-		sed -e '/^# DO NOT DELETE/,$$d' $(MAKEFILE) > \
-			$(MAKEFILE).$$$$ && \
-		$(MV) $(MAKEFILE).$$$$ $(MAKEFILE); \
-	fi
-	echo '# DO NOT DELETE THIS LINE -- make depend depends on it.' \
-		>> $(MAKEFILE); \
-	$(CC) -M -mmcu=$(MCU) $(CDEFS) $(CINCS) $(SRC) $(ASRC) >> $(MAKEFILE)
+#depend:
+#	if grep '^# DO NOT DELETE' $(MAKEFILE) >/dev/null; \
+#	then \
+#		sed -e '/^# DO NOT DELETE/,$$d' $(MAKEFILE) > \
+#			$(MAKEFILE).$$$$ && \
+#		$(MV) $(MAKEFILE).$$$$ $(MAKEFILE); \
+#	fi
+#	echo '# DO NOT DELETE THIS LINE -- make depend depends on it.' \
+#		>> $(MAKEFILE); \
+#	$(CC) -M -mmcu=$(MCU) $(CDEFS) $(CINCS) $(SRC) $(ASRC) >> $(MAKEFILE)
 
-.PHONY:	all build elf hex eep lss sym program coff extcoff clean depend
+.PHONY:	all package elf hex eep lss sym program coff extcoff clean depend sizebefore sizeafter
 

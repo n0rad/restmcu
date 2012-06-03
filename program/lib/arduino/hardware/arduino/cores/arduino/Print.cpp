@@ -51,14 +51,6 @@ size_t Print::print(const __FlashStringHelper *ifsh)
   return n;
 }
 
-size_t Print::print(const String &s)
-{
-  size_t n = 0;
-  for (uint16_t i = 0; i < s.length(); i++) {
-    n += write(s[i]);
-  }
-  return n;
-}
 
 size_t Print::print(const char str[])
 {
@@ -131,12 +123,6 @@ size_t Print::println(void)
   return n;
 }
 
-size_t Print::println(const String &s)
-{
-  size_t n = print(s);
-  n += println();
-  return n;
-}
 
 size_t Print::println(const char c[])
 {
