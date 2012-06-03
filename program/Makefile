@@ -37,7 +37,7 @@ CONFIG = config.cpp
 ARDUINO = lib/arduino
 
 # HCC
-HCC_CXXSRC =  src/hcc.cpp src/util/pure_virtual.cpp \
+HCC_CXXSRC = lib/SPI/SPI.cpp src/hcc.cpp src/util/pure_virtual.cpp \
 		src/util/availableMemory.cpp $(CONFIG) src/settings/settings.cpp \
 		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
 		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
@@ -52,6 +52,10 @@ ETHERNET_SHIELD_PATH = lib/ethernetShield-enc28j60
 SRC += $(ETHERNET_SHIELD_PATH)/enc28j60.c $(ETHERNET_SHIELD_PATH)/ip_arp_udp_tcp.c  
 HCC_CXXSRC += $(ETHERNET_SHIELD_PATH)/etherShield.cpp src/driver/hardware/network-enc28j60.cpp
 
+HCC_CXXSRC += lib/SPI/SPI.cpp lib/Ethernet/utility/w5100.cpp lib/Ethernet/Ethernet.cpp lib/Ethernet/EthernetClient.cpp \
+		lib/Ethernet/EthernetServer.cpp lib/Ethernet/EthernetUdp.cpp
+
+#lib/Ethernet/utility/socket.cpp
 
 
 FORMAT = ihex
