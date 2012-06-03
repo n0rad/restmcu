@@ -11,11 +11,11 @@ CXXSRC =
 ###ARDUINO
 SRC += $(ARDUINO_CORE)/wiring.c $(ARDUINO_CORE)/wiring_analog.c $(ARDUINO_CORE)/wiring_digital.c \
 	$(ARDUINO_CORE)/wiring_pulse.c $(ARDUINO_CORE)/wiring_shift.c $(ARDUINO_CORE)/WInterrupts.c
-CXXSRC += $(ARDUINO_CORE)/new.cpp $(ARDUINO_CORE)/HardwareSerial.cpp $(ARDUINO_CORE)/Print.cpp \
-	$(ARDUINO_CORE)/IPAddress.cpp $(A_LIB)/SPI/SPI.cpp $(ARDUINO_CORE)/WMath.cpp
+CXXSRC += $(ARDUINO_CORE)/new.cpp $(ARDUINO_CORE)/HardwareSerial.cpp $(ARDUINO_CORE)/WString.cpp \
+	$(ARDUINO_CORE)/IPAddress.cpp $(A_LIB)/SPI/SPI.cpp $(ARDUINO_CORE)/WMath.cpp $(ARDUINO_CORE)/Print.cpp
 CINCS = -I$(ARDUINO_CORE) -I$(ARDUINO_CORE)/../../variants/standard -I$(ARDUINO_CORE) \
 	-I$(A_LIB)/SPI -I$(A_LIB)/Ethernet -I$(A_LIB)/Ethernet/utility
-CXXINCS = -I$(ARDUINO_CORE) -I$(A_LIB)/SPI -I$(A_LIB)/Ethernet
+CXXINCS = $(CINCS)
 
 #W5100
 CXXSRC += $(A_LIB)/Ethernet/utility/socket.cpp $(A_LIB)/Ethernet/utility/w5100.cpp $(A_LIB)/Ethernet/Dhcp.cpp \
@@ -28,7 +28,7 @@ CXXSRC += src/hcc.cpp
 
 
 MCU = atmega328p
-F_CPU = 16000000
+F_CPU = 16000000L
 FORMAT = ihex
 UPLOAD_RATE = 115200
 
@@ -38,13 +38,13 @@ MAKEFILE = Makefile
 # Debugging format.
 # Native formats for AVR-GCC's -g are stabs [default], or dwarf-2.
 # AVR (extended) COFF requires stabs, plus an avr-objcopy run.
-DEBUG = stabs
+#DEBUG = stabs
 
 OPT = s
 
 # Place -D or -U options here
-CDEFS = -DF_CPU=$(F_CPU)
-CXXDEFS = -DF_CPU=$(F_CPU)
+CDEFS = -DF_CPU=$(F_CPU) -MMD -DUSB_VID=null -DUSB_PID=null
+CXXDEFS = -DF_CPU=$(F_CPU) -MMD -DUSB_VID=null -DUSB_PID=null
 
 
 # Compiler flag to set the C Standard level.
@@ -52,23 +52,24 @@ CXXDEFS = -DF_CPU=$(F_CPU)
 # gnu89 - c89 plus GCC extensions
 # c99   - ISO C99 standard (not yet fully implemented)
 # gnu99 - c99 plus GCC extensions
-CSTANDARD = -std=gnu99
+#CSTANDARD = -std=gnu99
 CDEBUG = -g$(DEBUG)
-CWARN = -Wall -Wstrict-prototypes
+CWARN = -ffunction-sections -fdata-sections 
 CTUNING = -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 #CEXTRA = -Wa,-adhlns=$(<:.c=.lst)
 
-CFLAGS = $(CDEBUG) $(CDEFS) $(CINCS) -O$(OPT) $(CWARN) $(CSTANDARD) $(CEXTRA)
-CXXFLAGS = $(CDEFS) $(CINCS) -O$(OPT)
+CFLAGS = $(CDEBUG) -O$(OPT) $(CDEFS) $(CINCS)  $(CSTANDARD) $(CEXTRA)
+CXXFLAGS = $(CDEBUG) -O$(OPT) $(CXXDEFS) $(CXXINCS) 
 #ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs 
-LDFLAGS = 
+LDFLAGS = -lm
 
 
 # Programming support using avrdude. Settings and variables.
+AVRDUDE_CONF = /etc/avrdude.conf
 AVRDUDE_PROGRAMMER = stk500
 AVRDUDE_PORT = $(PORT)
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
-AVRDUDE_FLAGS = -F -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) \
+AVRDUDE_FLAGS = -V -F -C $(AVRDUDE_CONF) -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) \
   -b $(UPLOAD_RATE)
 
 # Program settings
@@ -91,7 +92,7 @@ LST = $(ASRC:.S=.lst) $(CXXSRC:.cpp=.lst) $(SRC:.c=.lst)
 # Combine all necessary flags and optional flags.
 # Add target processor to flags.
 ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS)
-ALL_CXXFLAGS = -mmcu=$(MCU) -I. $(CXXFLAGS)
+ALL_CXXFLAGS = -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=$(MCU) -I. $(CXXFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
 
@@ -124,7 +125,7 @@ lss: $(TARGET).lss
 sym: $(TARGET).sym
 
 # Program the device.  
-upload: $(TARGET).hex $(TARGET).eep
+upload: $(TARGET).hex $(TARGET).eep sizeafter
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
 
 target_files:
@@ -148,7 +149,7 @@ extcoff: $(TARGET).elf
 	$(COFFCONVERT) -O coff-ext-avr $(TARGET).elf $(TARGET).cof
 
 
-.SUFFIXES: .elf .hex .eep .lss .sym
+.SUFFIXES: .elf .hex .eep .lss .sym .cpp .o .c .s .S
 
 .elf.hex:
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom $< $@
@@ -168,8 +169,16 @@ extcoff: $(TARGET).elf
 
 
 # Link: create ELF output file from object files.
-$(TARGET).elf: $(OBJ)
-	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
+#$(TARGET).elf: $(OBJ)
+#	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
+
+## Link: create ELF output file from library.
+$(TARGET).elf: target/core.a
+	$(CC) -Os -Wl,--gc-sections -mmcu=atmega328p  -o $@ -L. target/core.a /usr/lib/avr/lib/avr5/libc.a $(LDFLAGS)
+
+target/core.a: $(OBJ)
+	@for i in $(OBJ); do echo $(AR) rcs target/core.a $$i; $(AR) rcs target/core.a $$i; done
+
 
 
 # Compile: create object files from C++ source files.
@@ -191,11 +200,19 @@ $(TARGET).elf: $(OBJ)
 	$(CC) -c $(ALL_ASFLAGS) $< -o $@
 
 
+# Automatic dependencies
+%.d: %.c
+	$(CC) -M $(ALL_CFLAGS) $< | sed "s;$(notdir $*).o:;$*.o $*.d:;" > $@
+
+%.d: %.cpp
+	$(CXX) -M $(ALL_CXXFLAGS) $< | sed "s;$(notdir $*).o:;$*.o $*.d:;" > $@
+
+
 
 # Target: clean project.
 clean:
 	$(REMOVE) $(TARGET).hex $(TARGET).eep $(TARGET).cof $(TARGET).elf \
-	$(TARGET).map $(TARGET).sym $(TARGET).lss \
+	$(TARGET).map $(TARGET).sym $(TARGET).lss target/core.a \
 	$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d) $(CXXSRC:.cpp=.s) $(CXXSRC:.cpp=.d)
 
 #depend:
