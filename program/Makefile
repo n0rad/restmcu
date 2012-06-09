@@ -69,7 +69,7 @@ CXX_APP = src/restmcu.cpp $(CONFIG) src/settings/settings.cpp \
 		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp \
 		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp
 
-CXX_APP += src/driver/hardware/board-mega.cpp
+CXX_APP += src/driver/hardware/board-mega.cpp src/driver/hardware/network-w5100.cpp
 
 
 ##################################################
