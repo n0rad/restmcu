@@ -1,51 +1,74 @@
-#
-# MCU=atmega1280 UPLOAD_RATE=57600 AVRDUDE_PROGRAMMER=stk500v1
-#
-#
-#
-#
-#
-#
+
+
 
 TARGET = target/restmcu
-ARDUINO_CORE = lib/arduino/hardware/arduino/cores/arduino
-A_LIB = lib/arduino/libraries
+# Change this to match your arduino installation directory
+PORT = /dev/ttyUSB0
+UPLOAD_RATE = 57600
+AVRDUDE_PROGRAMMER = stk500v1
+MCU = atmega1280
+F_CPU = 16000000
 
-SRC =
-CXXSRC =
+VERSION=101
+ARDUINO = lib/arduino/hardware/arduino/cores/arduino
+VARIANTS_DIR = lib/arduino/hardware/arduino/variants
+VARIANTS=$(VARIANTS_DIR)/standard
 
-###ARDUINO
-SRC += $(ARDUINO_CORE)/wiring.c $(ARDUINO_CORE)/wiring_analog.c $(ARDUINO_CORE)/wiring_digital.c \
-	$(ARDUINO_CORE)/wiring_pulse.c $(ARDUINO_CORE)/wiring_shift.c $(ARDUINO_CORE)/WInterrupts.c
-CXXSRC += $(ARDUINO_CORE)/new.cpp $(ARDUINO_CORE)/HardwareSerial.cpp $(ARDUINO_CORE)/WString.cpp \
-	$(ARDUINO_CORE)/IPAddress.cpp $(A_LIB)/SPI/SPI.cpp $(ARDUINO_CORE)/WMath.cpp $(ARDUINO_CORE)/Print.cpp
-CINCS = -I$(ARDUINO_CORE) -I$(ARDUINO_CORE)/../../variants/mega -I$(ARDUINO_CORE) \
-	-I$(A_LIB)/SPI -I$(A_LIB)/Ethernet -I$(A_LIB)/Ethernet/utility
-CXXINCS = $(CINCS)
-
-#W5100
-CXXSRC += $(A_LIB)/Ethernet/utility/socket.cpp $(A_LIB)/Ethernet/utility/w5100.cpp $(A_LIB)/Ethernet/Dhcp.cpp \
-	 $(A_LIB)/Ethernet/Ethernet.cpp $(A_LIB)/Ethernet/EthernetUdp.cpp $(A_LIB)/Ethernet/Dns.cpp  \
-	$(A_LIB)/Ethernet/EthernetClient.cpp $(A_LIB)/Ethernet/EthernetServer.cpp
-
-
-CONFIG = config.cpp
-
-CXXSRC += src/restmcu.cpp
-
-# $(CONFIG) src/settings/settings.cpp \
-#		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
-#		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
-#		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp \
-#		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp
-
-#hardware
-CXXSRC += src/driver/hardware/board-duemilanove.cpp src/driver/hardware/pin-arduino.cpp
+ifeq ($(MCU),atmega2560)
+	VARIANTS=$(VARIANTS_DIR)/mega
+endif
+ifeq ($(MCU),atmega1280)
+	VARIANTS=$(VARIANTS_DIR)/mega
+endif
 
 
-F_CPU = 16000000L
+ARDUINO_LIB = lib/arduino/libraries
+#AVR_TOOLS_PATH = /usr/bin/
+#AVRDUDE_PATH = $(INSTALL_DIR)/hardware/tools/
+
+#Note that if your program has dependencies other than those
+#already listed below, you will need to add them accordingly.
+C_MODULES =  \
+$(ARDUINO)/wiring_pulse.c \
+$(ARDUINO)/wiring_analog.c \
+$(ARDUINO)/wiring.c \
+$(ARDUINO)/wiring_digital.c \
+$(ARDUINO)/WInterrupts.c \
+$(ARDUINO)/wiring_shift.c \
+
+CXX_MODULES = \
+$(ARDUINO)/Tone.cpp \
+$(ARDUINO)/WMath.cpp \
+$(ARDUINO)/Print.cpp \
+$(ARDUINO)/HardwareSerial.cpp \
+$(ARDUINO)/CDC.cpp \
+$(ARDUINO)/HID.cpp \
+$(ARDUINO)/IPAddress.cpp \
+$(ARDUINO)/new.cpp \
+$(ARDUINO)/Stream.cpp \
+$(ARDUINO)/USBCore.cpp \
+$(ARDUINO)/WMath.cpp \
+$(ARDUINO)/WString.cpp \
+$(ARDUINO)/main.cpp \
+$(ARDUINO_LIB)/EEPROM/EEPROM.cpp \
+$(ARDUINO_LIB)/SPI/SPI.cpp \
+$(ARDUINO_LIB)/Ethernet/Ethernet.cpp \
+$(ARDUINO_LIB)/Ethernet/EthernetClient.cpp \
+$(ARDUINO_LIB)/Ethernet/EthernetServer.cpp \
+$(ARDUINO_LIB)/Ethernet/Dhcp.cpp \
+$(ARDUINO_LIB)/Ethernet/EthernetUdp.cpp \
+$(ARDUINO_LIB)/Ethernet/Dns.cpp \
+$(ARDUINO_LIB)/Ethernet/utility/socket.cpp \
+$(ARDUINO_LIB)/Ethernet/utility/w5100.cpp \
+
+
+C_APP = 
+CXX_APP = src/restmcu.cpp
+
+MODULES = $(C_MODULES) $(CXX_MODULES)
+SRC = $(C_MODULES) $(C_APP)
+CXXSRC = $(CXX_MODULES) $(CXX_APP)
 FORMAT = ihex
-UPLOAD_RATE = 115200
 
 # Name of this Makefile (used for "make depend").
 MAKEFILE = Makefile
@@ -54,13 +77,17 @@ MAKEFILE = Makefile
 # Native formats for AVR-GCC's -g are stabs [default], or dwarf-2.
 # AVR (extended) COFF requires stabs, plus an avr-objcopy run.
 #DEBUG = stabs
+DEBUG =
 
 OPT = s
 
 # Place -D or -U options here
-CDEFS = -DF_CPU=$(F_CPU) -MMD -DUSB_VID=null -DUSB_PID=null
-CXXDEFS = -DF_CPU=$(F_CPU) -MMD -DUSB_VID=null -DUSB_PID=null
+CDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
+CXXDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
 
+# Place -I options here
+CINCS = -I$(ARDUINO)  -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/SPI -I$(ARDUINO_LIB)/Ethernet -I$(ARDUINO_LIB)/Ethernet/utility
+CXXINCS = $(CINCS)
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C
@@ -69,47 +96,83 @@ CXXDEFS = -DF_CPU=$(F_CPU) -MMD -DUSB_VID=null -DUSB_PID=null
 # gnu99 - c99 plus GCC extensions
 #CSTANDARD = -std=gnu99
 CDEBUG = -g$(DEBUG)
-CWARN = -ffunction-sections -fdata-sections 
-CTUNING = -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+#CWARN = -Wall -Wstrict-prototypes
+#CWARN = -Wall   # show all warnings
+CWARN = -Wall #suppress all warnings
+####CTUNING = -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CTUNING = -ffunction-sections -fdata-sections
+CXXTUNING = -fno-exceptions -ffunction-sections -fdata-sections
 #CEXTRA = -Wa,-adhlns=$(<:.c=.lst)
 
-CFLAGS = $(CDEBUG) -O$(OPT) $(CDEFS) $(CINCS)  $(CSTANDARD) $(CEXTRA)
-CXXFLAGS = $(CDEBUG) -O$(OPT) $(CXXDEFS) $(CXXINCS) 
-#ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs 
-LDFLAGS = -lm
+CFLAGS = $(CDEBUG) -O$(OPT) $(CWARN) $(CTUNING) $(CDEFS) $(CINCS) $(CSTANDARD) $(CEXTRA)
+CXXFLAGS = $(CDEBUG) -O$(OPT) $(CWARN) $(CXXTUNING) $(CDEFS) $(CXXINCS)
+#ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
+LDFLAGS = -O$(OPT) -lm -Wl,--gc-sections
 
 
 # Programming support using avrdude. Settings and variables.
 AVRDUDE_CONF = /etc/avrdude.conf
-AVRDUDE_PROGRAMMER = stk500
-PORT = /dev/ttyUSB0
+AVRDUDE_PORT = $(PORT)
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
-AVRDUDE_FLAGS = -V -F -C $(AVRDUDE_CONF) -p $(MCU) -P $(PORT) -c $(AVRDUDE_PROGRAMMER) \
-  -b $(UPLOAD_RATE)
+
+AVRDUDE_FLAGS = -V -F -C $(AVRDUDE_CONF) -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) -b $(UPLOAD_RATE) -D
 
 # Program settings
-CC = avr-gcc
-CXX = avr-g++
-OBJCOPY = avr-objcopy
-OBJDUMP = avr-objdump
-SIZE = avr-size
-NM = avr-nm
-AVRDUDE = avrdude
+CC = $(AVR_TOOLS_PATH)avr-gcc
+CXX = $(AVR_TOOLS_PATH)avr-g++
+LD = $(AVR_TOOLS_PATH)avr-gcc
+OBJCOPY = $(AVR_TOOLS_PATH)avr-objcopy
+OBJDUMP = $(AVR_TOOLS_PATH)avr-objdump
+AR  = $(AVR_TOOLS_PATH)avr-ar
+SIZE = $(AVR_TOOLS_PATH)avr-size
+NM = $(AVR_TOOLS_PATH)avr-nm
+AVRDUDE = $(AVRDUDE_PATH)avrdude
 REMOVE = rm -f
 MV = mv -f
 
 # Define all object files.
 OBJ = $(SRC:.c=.o) $(CXXSRC:.cpp=.o) $(ASRC:.S=.o)
+OBJ_MODULES = $(C_MODULES:.c=.o) $(CXX_MODULES:.cpp=.o)
+OBJ_APP = $(CXX_APP:.c=.o) $(C_APP:.c=.o)
 
 # Define all listing files.
 LST = $(ASRC:.S=.lst) $(CXXSRC:.cpp=.lst) $(SRC:.c=.lst)
 
 # Combine all necessary flags and optional flags.
 # Add target processor to flags.
-ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS)
-ALL_CXXFLAGS = -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=$(MCU) -I. $(CXXFLAGS)
-ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
+ALL_CFLAGS = $(CFLAGS) -mmcu=$(MCU)
+ALL_CXXFLAGS = $(CXXFLAGS) -mmcu=$(MCU)
+ALL_ASFLAGS = -x assembler-with-cpp $(ASFLAGS) -mmcu=$(MCU)
+ALL_LDFLAGS = $(LDFLAGS) -mmcu=$(MCU)
 
+
+# Default target.
+all: target_files package sizeafter
+
+testMCU:
+	@if [ -z $$MCU ]; then \
+		echo "-----------------------"; \
+		echo "Missing \$$MCU property to set your micro-controller type"; \
+		echo "ex: # make MCU=atmega328p package"; \
+		echo "-----------------------"; \
+		exit 42; \
+	fi
+
+package: testMCU elf hex
+
+#$(TARGET).o: $(OBJ_APP)
+#	test -d target || mkdir target
+#	$(CXX) -c $(ALL_CXXFLAGS) main.cpp -o $(TARGET).o
+
+elf: $(TARGET).elf
+hex: $(TARGET).hex
+eep: $(TARGET).eep
+lss: $(TARGET).lss
+sym: $(TARGET).sym
+
+# Program the device.
+upload: $(TARGET).hex
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
 
 # Display size of file.
 HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
@@ -121,47 +184,12 @@ sizeafter:
 	@if [ -f $(TARGET).elf ]; then echo; echo $(MSG_SIZE_AFTER); $(HEXSIZE); echo; fi
 
 
-# Default target.
-all: package
-
-testMCU:
-	if [ -z $$MCU ]; then \
-		echo "-----------------------"; \
-		echo "Missing \$$MCU property to set your micro-controller type"; \
-		echo "ex: # make MCU=atmega328p package"; \
-		echo "-----------------------"; \
-		exit 42; \
-	fi
-
-#testBootloader:
-#	if [ -n "$${BOOTLOADER-x}" ]; then \
-#		set PORT=4242; \
-#	fi
-
-
-package: target_files testMCU elf hex eep sizeafter
-
-elf: $(TARGET).elf
-hex: $(TARGET).hex
-eep: $(TARGET).eep
-lss: $(TARGET).lss 
-sym: $(TARGET).sym
-
-# Program the device.  
-upload: $(TARGET).hex $(TARGET).eep sizeafter
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
-
-target_files:
-	test -d target || mkdir target
-
-
-
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
 COFFCONVERT=$(OBJCOPY) --debugging \
 --change-section-address .data-0x800000 \
 --change-section-address .bss-0x800000 \
 --change-section-address .noinit-0x800000 \
---change-section-address .eeprom-0x810000 
+--change-section-address .eeprom-0x810000
 
 
 coff: $(TARGET).elf
@@ -172,14 +200,15 @@ extcoff: $(TARGET).elf
 	$(COFFCONVERT) -O coff-ext-avr $(TARGET).elf $(TARGET).cof
 
 
-.SUFFIXES: .elf .hex .eep .lss .sym .cpp .o .c .s .S
+.SUFFIXES: .elf .hex .eep .lss .sym
 
 .elf.hex:
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom $< $@
 
 .elf.eep:
-	-$(OBJCOPY) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
-	--change-section-lma .eeprom=0 -O $(FORMAT) $< $@
+	$(OBJCOPY) -O $(FORMAT) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
+	--no-change-warnings \
+	--change-section-lma .eeprom=0 $< $@
 
 # Create extended listing file from ELF output file.
 .elf.lss:
@@ -189,37 +218,30 @@ extcoff: $(TARGET).elf
 .elf.sym:
 	$(NM) -n $< > $@
 
-
-
-# Link: create ELF output file from object files.
-#$(TARGET).elf: $(OBJ)
-#	$(CC) $(ALL_CFLAGS) $(OBJ) --output $@ $(LDFLAGS)
-
-## Link: create ELF output file from library.
+# Link: create ELF output file from library.
+#target/$(TARGET).elf: $(TARGET).pde target/core.a
 $(TARGET).elf: target/core.a
-	$(CC) -Os  -mmcu=atmega328p  -o $@ -L. target/core.a /usr/lib/avr/lib/avr5/libc.a $(LDFLAGS)
+	$(LD) $(ALL_LDFLAGS) -o $@ target/core.a
 
-#-Wl,--gc-sections
-
-target/core.a: testMCU $(OBJ)
+target/core.a: $(OBJ)
 	@for i in $(OBJ); do echo $(AR) rcs target/core.a $$i; $(AR) rcs target/core.a $$i; done
 
+#target/core.a: $(OBJ_MODULES)
+#	@for i in $(OBJ_MODULES); do echo $(AR) rcs target/core.a $$i; $(AR) rcs target/core.a $$i; done
 
 
 # Compile: create object files from C++ source files.
 .cpp.o:
-	$(CXX) -c $(ALL_CXXFLAGS) $< -o $@ 
+	$(CXX) -c $(ALL_CXXFLAGS) $< -o $@
 
 # Compile: create object files from C source files.
 .c.o:
-	$(CC) -c $(ALL_CFLAGS) $< -o $@ 
-
+	$(CC) -c $(ALL_CFLAGS) $< -o $@
 
 # Compile: create assembler files from C source files.
 .c.s:
 	$(CC) -S $(ALL_CFLAGS) $< -o $@
-
-
+	
 # Assemble: create object files from assembler source files.
 .S.o:
 	$(CC) -c $(ALL_ASFLAGS) $< -o $@
@@ -233,23 +255,13 @@ target/core.a: testMCU $(OBJ)
 	$(CXX) -M $(ALL_CXXFLAGS) $< | sed "s;$(notdir $*).o:;$*.o $*.d:;" > $@
 
 
-
 # Target: clean project.
 clean:
 	$(REMOVE) $(TARGET).hex $(TARGET).eep $(TARGET).cof $(TARGET).elf \
-	$(TARGET).map $(TARGET).sym $(TARGET).lss target/core.a \
+	$(TARGET).map $(TARGET).sym $(TARGET).o $(TARGET).lss target/core.a \
 	$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d) $(CXXSRC:.cpp=.s) $(CXXSRC:.cpp=.d)
 
-#depend:
-#	if grep '^# DO NOT DELETE' $(MAKEFILE) >/dev/null; \
-#	then \
-#		sed -e '/^# DO NOT DELETE/,$$d' $(MAKEFILE) > \
-#			$(MAKEFILE).$$$$ && \
-#		$(MV) $(MAKEFILE).$$$$ $(MAKEFILE); \
-#	fi
-#	echo '# DO NOT DELETE THIS LINE -- make depend depends on it.' \
-#		>> $(MAKEFILE); \
-#	$(CC) -M -mmcu=$(MCU) $(CDEFS) $(CINCS) $(SRC) $(ASRC) >> $(MAKEFILE)
+.PHONY:	all package elf hex eep lss sym program coff extcoff clean target_files sizebefore sizeafter
 
-.PHONY:	all package elf hex eep lss sym program coff extcoff clean depend sizebefore sizeafter
-
+#include $(SRC:.c=.d)
+#include $(CXXSRC:.cpp=.d)

@@ -192,7 +192,7 @@ sym: applet/main.sym
 upload: applet/main.hex
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
 
-	# Display size of file.
+# Display size of file.
 HEXSIZE = $(SIZE) --target=$(FORMAT) applet/main.hex
 ELFSIZE = $(SIZE)  applet/main.elf
 sizebefore:
@@ -253,12 +253,10 @@ applet/core.a: $(OBJ_MODULES)
 .c.o:
 	$(CC) -c $(ALL_CFLAGS) $< -o $@
 
-
 # Compile: create assembler files from C source files.
 .c.s:
 	$(CC) -S $(ALL_CFLAGS) $< -o $@
-
-
+	
 # Assemble: create object files from assembler source files.
 .S.o:
 	$(CC) -c $(ALL_ASFLAGS) $< -o $@
