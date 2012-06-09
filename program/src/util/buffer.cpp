@@ -1,5 +1,4 @@
 #include "buffer.h"
-#include "../hcc.h"
 
 static char value_to_add[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 

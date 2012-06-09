@@ -1,14 +1,14 @@
 #ifndef DEBUGUTILS_H
 #define DEBUGUTILS_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 void DEBUG_P(const prog_char *progmem);
 void DEBUG_E(const char *eeprom);
 
 
 #ifdef DEBUG
-    #include "hcc.h"
+    #include "restmcu.h"
 
     #define DEBUG_PRINT_FULL(str)    \
         Serial.print(millis());     \

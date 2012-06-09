@@ -19,7 +19,7 @@ SRC += $(ARDUINO_CORE)/wiring.c $(ARDUINO_CORE)/wiring_analog.c $(ARDUINO_CORE)/
 	$(ARDUINO_CORE)/wiring_pulse.c $(ARDUINO_CORE)/wiring_shift.c $(ARDUINO_CORE)/WInterrupts.c
 CXXSRC += $(ARDUINO_CORE)/new.cpp $(ARDUINO_CORE)/HardwareSerial.cpp $(ARDUINO_CORE)/WString.cpp \
 	$(ARDUINO_CORE)/IPAddress.cpp $(A_LIB)/SPI/SPI.cpp $(ARDUINO_CORE)/WMath.cpp $(ARDUINO_CORE)/Print.cpp
-CINCS = -I$(ARDUINO_CORE) -I$(ARDUINO_CORE)/../../variants/mega -I$(ARDUINO_CORE) \
+CINCS = -I$(ARDUINO_CORE) -I$(ARDUINO_CORE)/../../variants/standard -I$(ARDUINO_CORE) \
 	-I$(A_LIB)/SPI -I$(A_LIB)/Ethernet -I$(A_LIB)/Ethernet/utility
 CXXINCS = $(CINCS)
 
@@ -31,13 +31,11 @@ CXXSRC += $(A_LIB)/Ethernet/utility/socket.cpp $(A_LIB)/Ethernet/utility/w5100.c
 
 CONFIG = config.cpp
 
-CXXSRC += src/restmcu.cpp
-
-# $(CONFIG) src/settings/settings.cpp \
-#		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
-#		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
-#		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp \
-#		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp
+CXXSRC += src/restmcu.cpp $(CONFIG) src/settings/settings.cpp \
+		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
+		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
+		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp \
+		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp
 
 #hardware
 CXXSRC += src/driver/hardware/board-duemilanove.cpp src/driver/hardware/pin-arduino.cpp

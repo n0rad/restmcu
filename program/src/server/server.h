@@ -7,9 +7,8 @@
 #include "../config/config-manager.h"
 #include "../settings/settings.h"
 #include "../util/buffer.h"
-#include "../hcc.h"
+#include "../restmcu.h"
 #include "../util/json.h"
-
 
 const prog_char DOUBLE_ENDL[] PROGMEM = "\r\n\r\n";
 const prog_char RESOURCE_PIN[] PROGMEM = "/pin/";

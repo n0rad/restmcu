@@ -5,7 +5,7 @@
 #include <avr/eeprom.h>
 #include <stdio.h>
 
-#include "../hcc.h"
+#include "../restmcu.h"
 
 #define TCP_CHECKSUM_L_P    0x33 // TODO move to driver
 

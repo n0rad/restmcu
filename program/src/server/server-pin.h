@@ -4,7 +4,7 @@
 #include <avr/pgmspace.h>
 #include <stdio.h>
 
-#include "../hcc.h"
+#include "../restmcu.h"
 #include "../settings/settings-pin.h"
 
 uint16_t pinGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource);

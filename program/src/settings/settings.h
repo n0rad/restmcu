@@ -7,7 +7,7 @@
 #include <avr/eeprom.h>
 
 #include "../config/config.h"
-#include "../hcc.h"
+#include "../restmcu.h"
 #include "../pin/pin-manager.h"
 #include "../util/mylibc.h"
 

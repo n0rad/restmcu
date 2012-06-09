@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-#include "../hcc.h"
+#include "../restmcu.h"
 #include "../settings/settings-board.h"
 #include "../util/buffer.h"
 #include "../client/client.h"

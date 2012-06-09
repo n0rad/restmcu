@@ -1,6 +1,6 @@
 #include "pin-manager.h"
 #include "../client/client.h"
-#include "../hcc.h"
+#include "../restmcu.h"
 #include "../settings/settings-pin.h"
 #include "../driver/pin.h"
 

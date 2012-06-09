@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <avr/pgmspace.h>
 
-#include "../hcc.h"
+#include "../restmcu.h"
 #include "mylibc.h"
 
 

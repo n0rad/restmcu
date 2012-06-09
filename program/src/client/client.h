@@ -1,7 +1,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "../hcc.h"
+#include "../restmcu.h"
 #include "../config/config.h"
 #include "../util/buffer.h"
 #include "../settings/settings.h"

@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "../hcc.h"
+#include "../restmcu.h"
 #include "../settings/settings.h"
 #include "../config/config-manager.h"
 

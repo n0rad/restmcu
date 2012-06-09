@@ -3,7 +3,7 @@
 
 #include <avr/pgmspace.h>
 
-#include "../hcc.h"
+#include "../restmcu.h"
 #include "../server/server.h"
 #include "../client/client.h"
 #include "../settings/settings.h"
