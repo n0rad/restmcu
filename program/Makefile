@@ -1,6 +1,5 @@
 
 
-
 TARGET = target/restmcu
 # Change this to match your arduino installation directory
 PORT = /dev/ttyUSB0
@@ -9,25 +8,22 @@ AVRDUDE_PROGRAMMER = stk500v1
 MCU = atmega1280
 F_CPU = 16000000
 
+###################################################
+#ARDUINO
+###################################################
 VERSION=101
 ARDUINO = lib/arduino/hardware/arduino/cores/arduino
+ARDUINO_LIB = lib/arduino/libraries
 VARIANTS_DIR = lib/arduino/hardware/arduino/variants
 VARIANTS=$(VARIANTS_DIR)/standard
 
 ifeq ($(MCU),atmega2560)
 	VARIANTS=$(VARIANTS_DIR)/mega
 endif
+
 ifeq ($(MCU),atmega1280)
 	VARIANTS=$(VARIANTS_DIR)/mega
 endif
-
-
-ARDUINO_LIB = lib/arduino/libraries
-#AVR_TOOLS_PATH = /usr/bin/
-#AVRDUDE_PATH = $(INSTALL_DIR)/hardware/tools/
-
-#Note that if your program has dependencies other than those
-#already listed below, you will need to add them accordingly.
 C_MODULES =  \
 $(ARDUINO)/wiring_pulse.c \
 $(ARDUINO)/wiring_analog.c \
@@ -49,7 +45,6 @@ $(ARDUINO)/Stream.cpp \
 $(ARDUINO)/USBCore.cpp \
 $(ARDUINO)/WMath.cpp \
 $(ARDUINO)/WString.cpp \
-$(ARDUINO)/main.cpp \
 $(ARDUINO_LIB)/EEPROM/EEPROM.cpp \
 $(ARDUINO_LIB)/SPI/SPI.cpp \
 $(ARDUINO_LIB)/Ethernet/Ethernet.cpp \
@@ -61,9 +56,28 @@ $(ARDUINO_LIB)/Ethernet/Dns.cpp \
 $(ARDUINO_LIB)/Ethernet/utility/socket.cpp \
 $(ARDUINO_LIB)/Ethernet/utility/w5100.cpp \
 
+##################################################
+# RESTMCU
+##################################################
+
+CONFIG = config.cpp
 
 C_APP = 
-CXX_APP = src/restmcu.cpp
+CXX_APP = src/restmcu.cpp $(CONFIG) src/settings/settings.cpp \
+		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
+		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
+		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp \
+		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp
+
+CXX_APP += src/driver/hardware/board-mega.cpp
+
+
+##################################################
+
+#AVR_TOOLS_PATH = /usr/bin/
+#AVRDUDE_PATH = $(INSTALL_DIR)/hardware/tools/
+
+
 
 MODULES = $(C_MODULES) $(CXX_MODULES)
 SRC = $(C_MODULES) $(C_APP)
@@ -147,7 +161,7 @@ ALL_LDFLAGS = $(LDFLAGS) -mmcu=$(MCU)
 
 
 # Default target.
-all: target_files package sizeafter
+all: target_files package
 
 testMCU:
 	@if [ -z $$MCU ]; then \
@@ -158,7 +172,7 @@ testMCU:
 		exit 42; \
 	fi
 
-package: testMCU elf hex
+package: testMCU elf hex sizeafter
 
 #$(TARGET).o: $(OBJ_APP)
 #	test -d target || mkdir target
@@ -221,7 +235,7 @@ extcoff: $(TARGET).elf
 # Link: create ELF output file from library.
 #target/$(TARGET).elf: $(TARGET).pde target/core.a
 $(TARGET).elf: target/core.a
-	$(LD) $(ALL_LDFLAGS) -o $@ target/core.a
+	$(LD) $(ALL_LDFLAGS) -o $@ -L. target/core.a /usr/lib/avr/lib/avr5/libc.a  target/core.a
 
 target/core.a: $(OBJ)
 	@for i in $(OBJ); do echo $(AR) rcs target/core.a $$i; $(AR) rcs target/core.a $$i; done
