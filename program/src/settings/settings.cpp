@@ -10,8 +10,8 @@ t_notify **pinNotifies = 0;
 uint8_t pinInputSize = 0;
 uint8_t pinOutputSize = 0;
 
-const prog_char *pinType[] PROGMEM = { PIN_TYPE_ANALOG, PIN_TYPE_DIGITAL};
-const prog_char *pinNotification[] PROGMEM = { PIN_NOTIFICATION_SUP, PIN_NOTIFICATION_INF};
+const prog_char *pinType[] = { PIN_TYPE_ANALOG, PIN_TYPE_DIGITAL};
+const prog_char *pinNotification[] = { PIN_NOTIFICATION_SUP, PIN_NOTIFICATION_INF};
 
 static void eeprom_write_block_P(uint8_t *eepromPos, prog_char *progPos, uint16_t len) {
     for (uint16_t i = 0; i < len; i++) {

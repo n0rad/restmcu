@@ -1,6 +1,6 @@
 package net.awired.restmcu.it.output.digital;
 
-import net.awired.restmcu.it.RmcuTestRule;
+import net.awired.restmcu.it.RestMcuTestRule;
 import org.junit.Rule;
 
 public class PinResourceOutputDigitalValueIT {
@@ -8,7 +8,7 @@ public class PinResourceOutputDigitalValueIT {
     private static final int PIN_ID = 4;
 
     @Rule
-    public RmcuTestRule hcc = new RmcuTestRule();
+    public RestMcuTestRule hcc = new RestMcuTestRule();
     //
     //    @Test
     //    public void should_get_value() throws Exception {

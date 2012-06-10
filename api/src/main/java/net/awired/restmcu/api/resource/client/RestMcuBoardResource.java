@@ -6,18 +6,18 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import net.awired.ajsl.core.lang.exception.UpdateException;
-import net.awired.restmcu.api.domain.board.RmcuBoard;
+import net.awired.restmcu.api.domain.board.RestMcuBoard;
 
 @Path("/")
 @Produces("application/json")
 @Consumes("application/json")
-public interface RmcuBoardResource {
+public interface RestMcuBoardResource {
 
     @GET
-    public RmcuBoard getBoard();
+    public RestMcuBoard getBoard();
 
     @PUT
-    public void setBoard(RmcuBoard board) throws UpdateException;
+    public void setBoard(RestMcuBoard board) throws UpdateException;
 
     @PUT
     @Path("/reset")

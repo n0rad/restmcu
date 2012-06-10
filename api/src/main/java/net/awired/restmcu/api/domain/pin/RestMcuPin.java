@@ -8,20 +8,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "pin")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RmcuPin {
+public class RestMcuPin {
 
     private String name; // updatable
     private String description;
-    private RmcuPinDirection direction;
-    private RmcuPinType type;
+    private RestMcuPinDirection direction;
+    private RestMcuPinType type;
     private Float valueMin;
     private Float valueMax;
 
-    private List<RmcuPinNotify> notifies; // input only, updatable
+    private List<RestMcuPinNotify> notifies; // input only, updatable
 
-    public void addNotify(RmcuPinNotify notify) {
+    public void addNotify(RestMcuPinNotify notify) {
         if (this.notifies == null) {
-            this.notifies = new ArrayList<RmcuPinNotify>();
+            this.notifies = new ArrayList<RestMcuPinNotify>();
         }
         this.notifies.add(notify);
     }
@@ -42,27 +42,27 @@ public class RmcuPin {
         this.description = description;
     }
 
-    public List<RmcuPinNotify> getNotifies() {
+    public List<RestMcuPinNotify> getNotifies() {
         return notifies;
     }
 
-    public void setNotifies(List<RmcuPinNotify> notifies) {
+    public void setNotifies(List<RestMcuPinNotify> notifies) {
         this.notifies = notifies;
     }
 
-    public RmcuPinDirection getDirection() {
+    public RestMcuPinDirection getDirection() {
         return direction;
     }
 
-    public RmcuPinType getType() {
+    public RestMcuPinType getType() {
         return type;
     }
 
-    public void setType(RmcuPinType type) {
+    public void setType(RestMcuPinType type) {
         this.type = type;
     }
 
-    public void setDirection(RmcuPinDirection direction) {
+    public void setDirection(RestMcuPinDirection direction) {
         this.direction = direction;
     }
 

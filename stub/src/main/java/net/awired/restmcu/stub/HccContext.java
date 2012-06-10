@@ -4,17 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import net.awired.ajsl.core.lang.exception.NotFoundException;
 import net.awired.ajsl.core.lang.exception.UpdateException;
-import net.awired.restmcu.api.domain.board.RmcuBoard;
-import net.awired.restmcu.api.domain.pin.RmcuPin;
+import net.awired.restmcu.api.domain.board.RestMcuBoard;
+import net.awired.restmcu.api.domain.pin.RestMcuPin;
 import org.springframework.stereotype.Component;
 import com.google.common.base.Strings;
 
 @Component
 public class HccContext {
 
-    private RmcuBoard board;
+    private RestMcuBoard board;
 
-    Map<Integer, RmcuPin> pins = new HashMap<Integer, RmcuPin>();
+    Map<Integer, RestMcuPin> pins = new HashMap<Integer, RestMcuPin>();
 
     public HccContext() {
         //board = DefaultStubDomainHelper.buildDefaultDevice();
@@ -23,18 +23,18 @@ public class HccContext {
         //        }
     }
 
-    public RmcuBoard getBoard() {
+    public RestMcuBoard getBoard() {
         return board;
     }
 
-    public RmcuPin getPin(int pinId) throws NotFoundException {
+    public RestMcuPin getPin(int pinId) throws NotFoundException {
         if (pinId < 0 || pinId > pins.size() - 1) {
             throw new NotFoundException("cannot found pin with id " + pinId);
         }
         return pins.get(pinId);
     }
 
-    public void updateDevice(RmcuBoard board) throws UpdateException {
+    public void updateDevice(RestMcuBoard board) throws UpdateException {
         if (Strings.isNullOrEmpty(board.getName())) {
             throw new UpdateException("name cannot be empty");
         }

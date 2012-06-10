@@ -1,4 +1,4 @@
-#include "src/config/config.h"
+#include <restmcu-config.h>
 
 float tempConversion(float value) {
     return value * 50 / 1023;
@@ -6,12 +6,14 @@ float tempConversion(float value) {
 
 const t_boardDescription boardDescription PROGMEM = {
     {0x54, 0x55, 0x58, 0x10, 0x00, 0xF5},           // mac
-    {192, 168, 42, 245},                            // ip
+    {192, 168, 42, 244},                            // ip
     80,                                             // port
     "window1 controller",                           // name
     "window in front of the house not powered from POE but only by a transfo",   // description
     "http://192.168.42.211:8080",                   // notify url
 };
+
+//48 - 4 + 3
 
 // INPUT
 const t_pinInputDescription pinInputDescription[] PROGMEM = {
@@ -33,8 +35,8 @@ const t_pinInputDescription pinInputDescription[] PROGMEM = {
 
 // OUTPUT
 const t_pinOutputDescription pinOutputDescription[] PROGMEM = {
-//        {6, ANALOG, "variator for light 1", 0, 255, 10, noOutputConversion, defaultPinWrite, "optocoupler isolated and triac / no zero detection"},
-//        {7, DIGITAL, "variator for light 1", 0, 1, 0, noOutputConversion, defaultPinWrite, "optocoupler isolated and triac / no zero detection"},
+        {6, ANALOG, "variator for light 1", 0, 255, 10, noOutputConversion, defaultPinWrite, "optocoupler isolated and triac / no zero detection"},
+        {7, DIGITAL, "variator for light 1", 0, 1, 0, noOutputConversion, defaultPinWrite, "optocoupler isolated and triac / no zero detection"},
         {3, DIGITAL, "out green", 0, 1, 0, noOutputConversion, defaultPinWrite, "optocoupler isolated and triac / no zero detection"},
         {5, DIGITAL, "out red", 0, 1, 0, noOutputConversion, defaultPinWrite, "optocoupler isolated and triac / no zero detection"},
         {-1}

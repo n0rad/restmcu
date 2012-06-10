@@ -3,29 +3,29 @@ package net.awired.restmcu.it;
 import java.util.HashMap;
 import java.util.Map;
 import net.awired.ajsl.web.resource.mapper.AjslResponseExceptionMapper;
-import net.awired.restmcu.api.domain.board.RmcuBoard;
-import net.awired.restmcu.api.domain.pin.RmcuPin;
-import net.awired.restmcu.api.resource.client.RmcuBoardResource;
-import net.awired.restmcu.api.resource.client.RmcuPinResource;
-import net.awired.restmcu.api.resource.test.RmcuDebugResource;
+import net.awired.restmcu.api.domain.board.RestMcuBoard;
+import net.awired.restmcu.api.domain.pin.RestMcuPin;
+import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
+import net.awired.restmcu.api.resource.client.RestMcuPinResource;
+import net.awired.restmcu.api.resource.test.RestMcuDebugResource;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.provider.JSONProvider;
 import org.junit.rules.ExternalResource;
 import com.google.common.collect.ImmutableList;
 
-public class RmcuTestRule extends ExternalResource {
+public class RestMcuTestRule extends ExternalResource {
 
-    private RmcuBoardResource boardResource;
+    private RestMcuBoardResource boardResource;
 
-    private RmcuPinResource pinResource;
+    private RestMcuPinResource pinResource;
 
-    private RmcuDebugResource debugResource;
+    private RestMcuDebugResource debugResource;
 
-    private RmcuBoard board;
+    private RestMcuBoard board;
 
-    private Map<Integer, RmcuPin> pins = new HashMap<Integer, RmcuPin>();
+    private Map<Integer, RestMcuPin> pins = new HashMap<Integer, RestMcuPin>();
 
-    public RmcuTestRule() {
+    public RestMcuTestRule() {
         JSONProvider jsonProvider = new JSONProvider();
         jsonProvider.setSupportUnwrapped(true);
         jsonProvider.setDropRootElement(true);
@@ -33,9 +33,9 @@ public class RmcuTestRule extends ExternalResource {
         AjslResponseExceptionMapper exceptionMapper = new AjslResponseExceptionMapper(jsonProvider);
         ImmutableList<Object> providers = ImmutableList.of(exceptionMapper, jsonProvider);
 
-        pinResource = JAXRSClientFactory.create(RmcuContext.getUrl(), RmcuPinResource.class, providers);
-        boardResource = JAXRSClientFactory.create(RmcuContext.getUrl(), RmcuBoardResource.class, providers);
-        debugResource = JAXRSClientFactory.create(RmcuContext.getUrl(), RmcuDebugResource.class, providers);
+        pinResource = JAXRSClientFactory.create(RestMcuContext.getUrl(), RestMcuPinResource.class, providers);
+        boardResource = JAXRSClientFactory.create(RestMcuContext.getUrl(), RestMcuBoardResource.class, providers);
+        debugResource = JAXRSClientFactory.create(RestMcuContext.getUrl(), RestMcuDebugResource.class, providers);
     }
 
     @Override
@@ -62,15 +62,15 @@ public class RmcuTestRule extends ExternalResource {
         //        }
     }
 
-    public RmcuPinResource getPinResource() {
+    public RestMcuPinResource getPinResource() {
         return pinResource;
     }
 
-    public RmcuBoardResource getBoardResource() {
+    public RestMcuBoardResource getBoardResource() {
         return boardResource;
     }
 
-    public RmcuDebugResource getDebugResource() {
+    public RestMcuDebugResource getDebugResource() {
         return debugResource;
     }
 

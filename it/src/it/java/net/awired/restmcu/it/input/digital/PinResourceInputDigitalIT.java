@@ -1,6 +1,6 @@
 package net.awired.restmcu.it.input.digital;
 
-import net.awired.restmcu.it.RmcuTestRule;
+import net.awired.restmcu.it.RestMcuTestRule;
 import org.junit.Rule;
 
 public class PinResourceInputDigitalIT {
@@ -8,7 +8,7 @@ public class PinResourceInputDigitalIT {
     private static final int PIN_ID = 5;
 
     @Rule
-    public RmcuTestRule hcc = new RmcuTestRule();
+    public RestMcuTestRule hcc = new RestMcuTestRule();
 
     //    @Test
     //    public void should_get_valid_input_pin() throws Exception {

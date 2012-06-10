@@ -58,7 +58,9 @@ uint16_t pinGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResou
     uint8_t type = pgm_read_byte(webResource->pinIdx < pinInputSize ?
             &pinInputDescription[webResource->pinIdx].type : &pinOutputDescription[webResource->pinIdx - pinInputSize].type);
     plen = addToBufferTCP_P(buf, plen, PSTR(",\"type\":\""));
-    plen = addToBufferTCP_P(buf, plen, (const prog_char *) pgm_read_byte(&pinType[type - 1]));
+    DEBUG_PRINT("type");
+    DEBUG_PRINTLN(type);
+    plen = addToBufferTCP_P(buf, plen, pinType[type - 1]);
 
     if (webResource->pinIdx < pinInputSize) {
         PinInputConversion conversion = (PinInputConversion) pgm_read_word(&(pinInputDescription[webResource->pinIdx].convertValue));
@@ -80,7 +82,7 @@ uint16_t pinGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResou
                     plen = addToBufferTCP(buf, plen, ',');
                 }
                 plen = addToBufferTCP_P(buf, plen, PSTR("{\"notifyCondition\":\""));
-                plen = addToBufferTCP_P(buf, plen, (const prog_char *) pgm_read_byte(&pinNotification[notify->condition - 1]));
+                plen = addToBufferTCP_P(buf, plen, pinNotification[notify->condition - 1]);
 
                 plen = addToBufferTCP_P(buf, plen, PSTR("\",\"notifyValue\":"));
                 plen = addToBufferTCP(buf, plen, notify->value);
@@ -100,8 +102,8 @@ uint16_t pinGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResou
         plen = addToBufferTCP(buf, plen, maxValue);
     }
 
-//    plen = addToBufferTCP_P(buf, plen, PSTR(",\"value\":"));
-//    plen = addToBufferTCP(buf, plen, getPinValue(webResource->pinIdx));
+    plen = addToBufferTCP_P(buf, plen, PSTR(",\"value\":"));
+    plen = addToBufferTCP(buf, plen, getPinValue(webResource->pinIdx));
     plen = addToBufferTCP(buf, plen, '}');
     return plen;
 }

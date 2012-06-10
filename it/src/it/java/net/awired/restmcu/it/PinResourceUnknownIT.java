@@ -1,7 +1,7 @@
 package net.awired.restmcu.it;
 
 import net.awired.ajsl.core.lang.exception.NotFoundException;
-import net.awired.restmcu.api.domain.pin.RmcuPin;
+import net.awired.restmcu.api.domain.pin.RestMcuPin;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import org.junit.Test;
 public class PinResourceUnknownIT {
 
     @Rule
-    public RmcuTestRule hcc = new RmcuTestRule();
+    public RestMcuTestRule hcc = new RestMcuTestRule();
 
     @Test(expected = NotFoundException.class)
     public void should_throw_exception_on_unknown_pin() throws Exception {
@@ -44,12 +44,12 @@ public class PinResourceUnknownIT {
 
     @Test(expected = NotFoundException.class)
     public void should_throw_exception_on_unknown_pin13() throws Exception {
-        hcc.getPinResource().setPin(42, new RmcuPin());
+        hcc.getPinResource().setPin(42, new RestMcuPin());
     }
 
     @Test(expected = NotFoundException.class)
     public void should_throw_exception_on_unknown_pin14() throws Exception {
-        hcc.getPinResource().setPin(-1, new RmcuPin());
+        hcc.getPinResource().setPin(-1, new RestMcuPin());
     }
 
     @Test(expected = NotFoundException.class)

@@ -1,14 +1,14 @@
 package net.awired.restmcu.it;
 
 import net.awired.ajsl.core.lang.exception.UpdateException;
-import net.awired.restmcu.api.domain.board.RmcuBoard;
+import net.awired.restmcu.api.domain.board.RestMcuBoard;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class BoardIT {
 
     @Rule
-    public RmcuTestRule hcc = new RmcuTestRule();
+    public RestMcuTestRule hcc = new RestMcuTestRule();
 
     //    @Test
     //    public void should_reset_data() throws Exception {
@@ -155,9 +155,9 @@ public class BoardIT {
 
     @Test(expected = UpdateException.class)
     public void should_not_set_description_to_null() throws Exception {
-        RmcuBoard deviceInfo = hcc.getBoardResource().getBoard();
-        deviceInfo.setDescription(null);
-
+        RestMcuBoard deviceInfo = hcc.getBoardResource().getBoard();
+        deviceInfo.setDescription("new desc");
         hcc.getBoardResource().setBoard(deviceInfo);
     }
+
 }

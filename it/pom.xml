@@ -13,6 +13,12 @@
 		<relativePath>../</relativePath>
 	</parent>
 
+	<properties>
+		<board.host>localhost</board.host>
+		<board.port>8080</board.port>
+		<board.path>/restmcu</board.path>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>net.awired.restmcu</groupId>
@@ -60,21 +66,13 @@
 			<version>4.10</version>
 		</dependency>
 
-<!-- 		<dependency>
-			<groupId>net.awired.restmcu</groupId>
-			<artifactId>restmcu-stub</artifactId>
-			<type>war</type>
-		</dependency>
- -->
- 	</dependencies>
+		<!-- <dependency> <groupId>net.awired.restmcu</groupId> <artifactId>restmcu-stub</artifactId> 
+			<type>war</type> </dependency> -->
+	</dependencies>
 
 	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
+		<!-- <resources> <resource> <directory>src/main/resources</directory> <filtering>true</filtering> 
+			</resource> </resources> -->
 		<testSourceDirectory>src/it/java</testSourceDirectory>
 		<testResources>
 			<testResource>
@@ -91,8 +89,16 @@
 				<configuration>
 					<systemProperties>
 						<property>
-							<name>hcc.it.port</name>
-							<value>34567</value>
+							<name>board.host</name>
+							<value>${board.host}</value>
+						</property>
+						<property>
+							<name>board.port</name>
+							<value>${board.port}</value>
+						</property>
+						<property>
+							<name>board.path</name>
+							<value>${board.path}</value>
 						</property>
 					</systemProperties>
 				</configuration>
@@ -179,6 +185,28 @@
 								</configuration>
 							</execution>
 						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>wait-maven-plugin</artifactId>
+						<version>1.0</version>
+						<executions>
+							<execution>
+								<id>wait-board</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>wait</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<protocol>http</protocol>
+							<host>${board.host}</host>
+							<port>${board.port}</port>
+							<file>${board.path}</file>
+							<maxcount>10</maxcount>
+							<timeout>1000</timeout>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>

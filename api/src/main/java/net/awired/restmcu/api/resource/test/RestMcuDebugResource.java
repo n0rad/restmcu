@@ -5,7 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 @Path("/debug")
-public interface RmcuDebugResource {
+public interface RestMcuDebugResource {
 
     /**
      * debug call to set value of input pin for client/stub tests only

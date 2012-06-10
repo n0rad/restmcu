@@ -2,7 +2,7 @@
 #define CLIENT_H
 
 #include "../restmcu.h"
-#include "../config/config.h"
+#include <restmcu-config.h>
 #include "../util/buffer.h"
 #include "../settings/settings.h"
 

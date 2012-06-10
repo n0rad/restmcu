@@ -1,37 +1,37 @@
 package net.awired.restmcu.stub;
 
-import net.awired.restmcu.api.domain.board.RmcuBoard;
-import net.awired.restmcu.api.domain.pin.RmcuPin;
-import net.awired.restmcu.api.domain.pin.RmcuPinDirection;
-import net.awired.restmcu.api.domain.pin.RmcuPinNotify;
-import net.awired.restmcu.api.domain.pin.RmcuPinNotifyCondition;
-import net.awired.restmcu.api.domain.pin.RmcuPinType;
+import net.awired.restmcu.api.domain.board.RestMcuBoard;
+import net.awired.restmcu.api.domain.pin.RestMcuPin;
+import net.awired.restmcu.api.domain.pin.RestMcuPinDirection;
+import net.awired.restmcu.api.domain.pin.RestMcuPinNotify;
+import net.awired.restmcu.api.domain.pin.RestMcuPinNotifyCondition;
+import net.awired.restmcu.api.domain.pin.RestMcuPinType;
 
 class DefaultTestDomainHelper {
 
-    public static RmcuPin buildDefaultPin(int num) {
+    public static RestMcuPin buildDefaultPin(int num) {
         switch (num) {
             case 2: {
-                RmcuPin pin = new RmcuPin();
+                RestMcuPin pin = new RestMcuPin();
                 pin.setDescription("technical desc");
-                pin.setDirection(RmcuPinDirection.INPUT);
-                pin.setType(RmcuPinType.ANALOG);
+                pin.setDirection(RestMcuPinDirection.INPUT);
+                pin.setType(RestMcuPinType.ANALOG);
                 pin.setValueMin(0f);
                 pin.setValueMax(1023f);
 
                 pin.setName("pin2");
                 pin.setDescription("input analog pin");
-                pin.addNotify(new RmcuPinNotify(RmcuPinNotifyCondition.inf_or_equal, 0));
-                pin.addNotify(new RmcuPinNotify(RmcuPinNotifyCondition.inf_or_equal, 42));
+                pin.addNotify(new RestMcuPinNotify(RestMcuPinNotifyCondition.inf_or_equal, 0));
+                pin.addNotify(new RestMcuPinNotify(RestMcuPinNotifyCondition.inf_or_equal, 42));
                 //                pin.setValue(952f);
                 return pin;
             }
             case 3: {
-                RmcuPin pin = new RmcuPin();
+                RestMcuPin pin = new RestMcuPin();
 
                 pin.setDescription("out technical desc");
-                pin.setDirection(RmcuPinDirection.OUTPUT);
-                pin.setType(RmcuPinType.ANALOG);
+                pin.setDirection(RestMcuPinDirection.OUTPUT);
+                pin.setType(RestMcuPinType.ANALOG);
                 pin.setValueMin(0f);
                 pin.setValueMax(254f);
                 //                pin.setValueStep(2f);
@@ -42,10 +42,10 @@ class DefaultTestDomainHelper {
                 return pin;
             }
             case 4: {
-                RmcuPin pin = new RmcuPin();
+                RestMcuPin pin = new RestMcuPin();
                 pin.setDescription("out technical desc42");
-                pin.setDirection(RmcuPinDirection.OUTPUT);
-                pin.setType(RmcuPinType.DIGITAL);
+                pin.setDirection(RestMcuPinDirection.OUTPUT);
+                pin.setType(RestMcuPinType.DIGITAL);
                 pin.setValueMin(0f);
                 pin.setValueMax(1f);
 
@@ -55,18 +55,18 @@ class DefaultTestDomainHelper {
                 return pin;
             }
             case 5: {
-                RmcuPin pin = new RmcuPin();
+                RestMcuPin pin = new RestMcuPin();
 
                 pin.setDescription("in technical desc43");
-                pin.setDirection(RmcuPinDirection.INPUT);
-                pin.setType(RmcuPinType.DIGITAL);
+                pin.setDirection(RestMcuPinDirection.INPUT);
+                pin.setType(RestMcuPinType.DIGITAL);
                 pin.setValueMin(0f);
                 pin.setValueMax(1f);
 
                 pin.setName("pin5");
                 pin.setDescription("input digital pin");
-                pin.addNotify(new RmcuPinNotify(RmcuPinNotifyCondition.inf_or_equal, 0));
-                pin.addNotify(new RmcuPinNotify(RmcuPinNotifyCondition.inf_or_equal, 1));
+                pin.addNotify(new RestMcuPinNotify(RestMcuPinNotifyCondition.inf_or_equal, 0));
+                pin.addNotify(new RestMcuPinNotify(RestMcuPinNotifyCondition.inf_or_equal, 1));
                 //                pin.setValue(1f);
                 return pin;
             }
@@ -75,8 +75,8 @@ class DefaultTestDomainHelper {
         }
     }
 
-    public static RmcuBoard buildDefaultDevice() {
-        RmcuBoard device = new RmcuBoard();
+    public static RestMcuBoard buildDefaultDevice() {
+        RestMcuBoard device = new RestMcuBoard();
         device.setVersion("1.0");
         device.setSoftware("hcc");
         device.setNotifyUrl("http://localhost/4242");

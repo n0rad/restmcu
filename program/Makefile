@@ -67,7 +67,8 @@ CXX_APP = src/restmcu.cpp $(CONFIG) src/settings/settings.cpp \
 		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
 		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
 		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp \
-		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp
+		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp \
+		src/util/availableMemory.cpp
 
 CXX_APP += src/driver/hardware/board-mega.cpp src/driver/hardware/network-w5100.cpp
 
@@ -100,7 +101,8 @@ CDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
 CXXDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
 
 # Place -I options here
-CINCS = -I$(ARDUINO)  -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/SPI -I$(ARDUINO_LIB)/Ethernet -I$(ARDUINO_LIB)/Ethernet/utility
+CINCS = -I$(ARDUINO)  -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/SPI \
+	-I$(ARDUINO_LIB)/Ethernet -I$(ARDUINO_LIB)/Ethernet/utility -Isrc
 CXXINCS = $(CINCS)
 
 # Compiler flag to set the C Standard level.

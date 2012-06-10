@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "../config/config.h"
+#include <restmcu-config.h>
 #include "settings-board.h"
 
 extern uint8_t currentSetPinIdx;

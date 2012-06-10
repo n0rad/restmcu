@@ -1,5 +1,5 @@
 package net.awired.restmcu.api.domain.pin;
 
-public enum RmcuPinType {
+public enum RestMcuPinType {
     ANALOG, DIGITAL;
 }

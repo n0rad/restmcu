@@ -4,7 +4,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "board")
-public class RmcuBoard {
+public class RestMcuBoard {
 
     private String name; // updatable
     private String description; // updatable

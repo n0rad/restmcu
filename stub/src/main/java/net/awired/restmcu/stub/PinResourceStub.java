@@ -2,24 +2,24 @@ package net.awired.restmcu.stub;
 
 import net.awired.ajsl.core.lang.exception.NotFoundException;
 import net.awired.ajsl.core.lang.exception.UpdateException;
-import net.awired.restmcu.api.domain.pin.RmcuPin;
-import net.awired.restmcu.api.resource.client.RmcuPinResource;
+import net.awired.restmcu.api.domain.pin.RestMcuPin;
+import net.awired.restmcu.api.resource.client.RestMcuPinResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PinResourceStub implements RmcuPinResource {
+public class PinResourceStub implements RestMcuPinResource {
 
     @Autowired
     HccContext hccContext;
 
     @Override
-    public RmcuPin getPin(int pinId) throws NotFoundException {
+    public RestMcuPin getPin(int pinId) throws NotFoundException {
         return hccContext.getPin(pinId);
     }
 
     @Override
-    public void setPin(int pinId, RmcuPin pin) throws NotFoundException, UpdateException {
+    public void setPin(int pinId, RestMcuPin pin) throws NotFoundException, UpdateException {
         //        hccContext.updatePin(pinId, pin);
     }
 

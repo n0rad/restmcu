@@ -6,13 +6,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "pinNotification")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RmcuPinNotification {
+public class RestMcuPinNotification {
 
     private int pinId;
     private float oldValue;
     private float value;
     private String source;
-    private RmcuPinNotify notify;
+    private RestMcuPinNotify notify;
 
     public float getOldValue() {
         return oldValue;
@@ -30,11 +30,11 @@ public class RmcuPinNotification {
         this.value = value;
     }
 
-    public RmcuPinNotify getNotify() {
+    public RestMcuPinNotify getNotify() {
         return notify;
     }
 
-    public void setNotify(RmcuPinNotify notify) {
+    public void setNotify(RestMcuPinNotify notify) {
         this.notify = notify;
     }
 

@@ -6,7 +6,7 @@
 #include <avr/pgmspace.h>
 #include <avr/eeprom.h>
 
-#include "../config/config.h"
+#include <restmcu-config.h>
 #include "../restmcu.h"
 #include "../pin/pin-manager.h"
 #include "../util/mylibc.h"

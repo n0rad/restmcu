@@ -8,18 +8,18 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import net.awired.ajsl.core.lang.exception.NotFoundException;
 import net.awired.ajsl.core.lang.exception.UpdateException;
-import net.awired.restmcu.api.domain.pin.RmcuPin;
+import net.awired.restmcu.api.domain.pin.RestMcuPin;
 
 @Path("/pin/{pinId}")
 @Produces("application/json")
 @Consumes("application/json")
-public interface RmcuPinResource {
+public interface RestMcuPinResource {
 
     @GET
-    RmcuPin getPin(@PathParam("pinId") int pinId) throws NotFoundException;
+    RestMcuPin getPin(@PathParam("pinId") int pinId) throws NotFoundException;
 
     @PUT
-    void setPin(@PathParam("pinId") int pinId, RmcuPin pin) throws NotFoundException, UpdateException;
+    void setPin(@PathParam("pinId") int pinId, RestMcuPin pin) throws NotFoundException, UpdateException;
 
     @GET
     @Path("/value")

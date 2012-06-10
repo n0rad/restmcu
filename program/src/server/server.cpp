@@ -1,7 +1,7 @@
 #include "server.h"
 
 uint16_t startResponseHeader(char **buf, const prog_char *codeMsg) {
-    *buf = &((*buf)[TCP_CHECKSUM_L_P + 3]);
+//    *buf = &((*buf)[TCP_CHECKSUM_L_P + 3]);
     uint16_t plen;
     plen = addToBufferTCP_P(*buf, 0, HEADER_HTTP);
     plen = addToBufferTCP_P(*buf, plen, codeMsg);
@@ -95,13 +95,16 @@ uint16_t parseHeaders(char *buf, uint16_t dataPointer, uint16_t dataLen) {
 }
 
 uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen) {
+    DEBUG_PRINTLN(buf);
+    DEBUG_PRINTLN("#########");
+
     uint16_t plen = commonCheck(buf, dataPointer, dataLen);
     if (plen != 0) {
         return plen;
     }
 
     if (currentWebRequest.resource != 0) { // we were waiting for data packet
-        ResourceFunc currentFunc = (ResourceFunc) pgm_read_word(&currentWebRequest.resource->resourceFunc);
+    	ResourceFunc currentFunc = (ResourceFunc) pgm_read_word(&currentWebRequest.resource->resourceFunc);
         plen = currentFunc(buf, dataPointer, dataLen, &currentWebRequest);
         currentWebRequest.resource = 0;
         return plen;

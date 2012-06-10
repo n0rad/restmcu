@@ -1,4 +1,4 @@
-#include "src/config/config.h"
+#include <restmcu-config.h>
 
 float tempConversion(float value) {
     return value * 50 / 1023;
@@ -17,19 +17,19 @@ const t_boardDescription boardDescription PROGMEM = {
 
 // INPUT
 const t_pinInputDescription pinInputDescription[] PROGMEM = {
-        {1, DIGITAL, 0, "door1 open captor", {{OVER_EQ, 1},{UNDER_EQ, 0},{0,0},{0,0}}, noInputConversion, defaultPinRead, "magnetic captor in the upper part"},
+//        {1, DIGITAL, 0, "door1 open captor", {{OVER_EQ, 1},{UNDER_EQ, 0},{0,0},{0,0}}, noInputConversion, defaultPinRead, "magnetic captor in the upper part"},
         {2, DIGITAL, 0, "switch red", {{OVER_EQ, 1},{UNDER_EQ, 0},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
         {4, DIGITAL, 0, "switch black", {{OVER_EQ, 1},{UNDER_EQ, 0},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {6, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {7, DIGITAL, 0, "door1 outside temp", {{OVER_EQ, 0},{UNDER_EQ, 1},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {8, DIGITAL, 0, "door1 outside temp", {{OVER_EQ, 0},{UNDER_EQ, 1},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {9, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {14, ANALOG, 0, "door1 outside temp", {{0, 21.5},{0, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {15, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {16, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {17, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {18, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {19, DIGITAL, 0, "variator for light 1", {{0, 0},{0, 1},{0,0},{0,0}}, noInputConversion, defaultPinRead, "optocoupler isolated and triac / no zero detection"},
+//        {6, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
+//        {7, DIGITAL, 0, "door1 outside temp", {{OVER_EQ, 0},{UNDER_EQ, 1},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
+//        {8, DIGITAL, 0, "door1 outside temp", {{OVER_EQ, 0},{UNDER_EQ, 1},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
+//        {9, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
+//        {14, ANALOG, 0, "door1 outside temp", {{0, 21.5},{0, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
+//        {15, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
+//        {16, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
+//        {17, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
+//        {18, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
+//        {19, DIGITAL, 0, "variator for light 1", {{0, 0},{0, 1},{0,0},{0,0}}, noInputConversion, defaultPinRead, "optocoupler isolated and triac / no zero detection"},
         {-1}
 };
 

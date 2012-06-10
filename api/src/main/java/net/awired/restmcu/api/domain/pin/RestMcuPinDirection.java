@@ -1,5 +1,5 @@
 package net.awired.restmcu.api.domain.pin;
 
-public enum RmcuPinDirection {
+public enum RestMcuPinDirection {
     INPUT, OUTPUT;
 }

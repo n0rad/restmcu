@@ -6,15 +6,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "pinNotification")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RmcuBoardNotification {
+public class RestMcuBoardNotification {
 
-    private RmcuBoardNotificationType type;
+    private RestMcuBoardNotificationType type;
 
-    public void setType(RmcuBoardNotificationType type) {
+    public void setType(RestMcuBoardNotificationType type) {
         this.type = type;
     }
 
-    public RmcuBoardNotificationType getType() {
+    public RestMcuBoardNotificationType getType() {
         return type;
     }
 }

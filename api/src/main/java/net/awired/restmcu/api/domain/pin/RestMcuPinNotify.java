@@ -1,24 +1,24 @@
 package net.awired.restmcu.api.domain.pin;
 
 
-public class RmcuPinNotify {
+public class RestMcuPinNotify {
 
-    private RmcuPinNotifyCondition notifyCondition;
+    private RestMcuPinNotifyCondition notifyCondition;
     private float notifyValue;
 
-    public RmcuPinNotify() {
+    public RestMcuPinNotify() {
     }
 
-    public RmcuPinNotify(RmcuPinNotifyCondition notifyCondition, float notifyValue) {
+    public RestMcuPinNotify(RestMcuPinNotifyCondition notifyCondition, float notifyValue) {
         this.notifyCondition = notifyCondition;
         this.notifyValue = notifyValue;
     }
 
-    public RmcuPinNotifyCondition getNotifyCondition() {
+    public RestMcuPinNotifyCondition getNotifyCondition() {
         return notifyCondition;
     }
 
-    public void setNotifyCondition(RmcuPinNotifyCondition notifyCondition) {
+    public void setNotifyCondition(RestMcuPinNotifyCondition notifyCondition) {
         this.notifyCondition = notifyCondition;
     }
 
@@ -50,7 +50,7 @@ public class RmcuPinNotify {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        RmcuPinNotify other = (RmcuPinNotify) obj;
+        RestMcuPinNotify other = (RestMcuPinNotify) obj;
         if (notifyCondition != other.notifyCondition) {
             return false;
         }

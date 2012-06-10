@@ -1,19 +1,19 @@
 package net.awired.restmcu.stub;
 
 import net.awired.ajsl.core.lang.exception.UpdateException;
-import net.awired.restmcu.api.domain.board.RmcuBoard;
-import net.awired.restmcu.api.resource.client.RmcuBoardResource;
+import net.awired.restmcu.api.domain.board.RestMcuBoard;
+import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BoardResourceStub implements RmcuBoardResource {
+public class BoardResourceStub implements RestMcuBoardResource {
 
     @Autowired
     private HccContext context;
 
     @Override
-    public void setBoard(RmcuBoard board) throws UpdateException {
+    public void setBoard(RestMcuBoard board) throws UpdateException {
         // TODO Auto-generated method stub
 
     }
@@ -37,7 +37,7 @@ public class BoardResourceStub implements RmcuBoardResource {
     }
 
     @Override
-    public RmcuBoard getBoard() {
+    public RestMcuBoard getBoard() {
         // TODO Auto-generated method stub
         return null;
     }
