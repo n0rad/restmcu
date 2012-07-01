@@ -16,16 +16,16 @@ import net.awired.restmcu.api.domain.pin.RestMcuPin;
 public interface RestMcuPinResource {
 
     @GET
-    RestMcuPin getPin(@PathParam("pinId") int pinId) throws NotFoundException;
+    RestMcuPin getPin(@PathParam("pinId") Integer pinId) throws NotFoundException;
 
     @PUT
-    void setPin(@PathParam("pinId") int pinId, RestMcuPin pin) throws NotFoundException, UpdateException;
+    void setPin(@PathParam("pinId") Integer pinId, RestMcuPin pin) throws NotFoundException, UpdateException;
 
     @GET
     @Path("/value")
-    Float getPinValue(@PathParam("pinId") int pinId) throws NotFoundException;
+    Float getPinValue(@PathParam("pinId") Integer pinId) throws NotFoundException;
 
     @PUT
     @Path("/value")
-    void setPinValue(@PathParam("pinId") int pinId, Float value) throws NotFoundException, UpdateException;
+    void setPinValue(@PathParam("pinId") Integer pinId, Float value) throws NotFoundException, UpdateException;
 }

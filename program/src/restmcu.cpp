@@ -42,13 +42,13 @@ int main() {
         pinInit();
     }
 
-    clientBoardNotify(BOARD_NOTIFY_BOOT);
+//    clientBoardNotify(BOARD_NOTIFY_BOOT);
 
     while (1) {
         networkManage();
-        if (!definitionError) {
-            pinCheckChange();
-        }
+//        if (!definitionError) {
+//            pinCheckChange();
+//        }
     }
 
     return 0;

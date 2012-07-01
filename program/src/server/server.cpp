@@ -95,9 +95,6 @@ uint16_t parseHeaders(char *buf, uint16_t dataPointer, uint16_t dataLen) {
 }
 
 uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen) {
-    DEBUG_PRINTLN(buf);
-    DEBUG_PRINTLN("#########");
-
     uint16_t plen = commonCheck(buf, dataPointer, dataLen);
     if (plen != 0) {
         return plen;

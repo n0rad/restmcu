@@ -1,7 +1,19 @@
 #include <restmcu-config.h>
+#include <Arduino.h>
 
-float tempConversion(float value) {
-    return value * 50 / 1023;
+float tmp36Conversion(uint16_t value) {
+	float voltage = value * 5.0; // 5V as aref
+	voltage /= 1024.0;
+	return (voltage - 0.5) * 100;
+}
+
+
+uint16_t sepcdefaultPinRead(uint8_t pinId, uint8_t type) {
+	return analogRead(0);
+}
+
+uint16_t lumdefaultPinRead(uint8_t pinId, uint8_t type) {
+	return analogRead(1);
 }
 
 const t_boardDescription boardDescription PROGMEM = {
@@ -13,7 +25,7 @@ const t_boardDescription boardDescription PROGMEM = {
     "http://192.168.42.211:8080",                   // notify url
 };
 
-//48 - 4 + 3
+//48 - (4 + 3)
 
 // INPUT
 const t_pinInputDescription pinInputDescription[] PROGMEM = {
@@ -24,8 +36,8 @@ const t_pinInputDescription pinInputDescription[] PROGMEM = {
 //        {7, DIGITAL, 0, "door1 outside temp", {{OVER_EQ, 0},{UNDER_EQ, 1},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
 //        {8, DIGITAL, 0, "door1 outside temp", {{OVER_EQ, 0},{UNDER_EQ, 1},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
 //        {9, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-//        {14, ANALOG, 0, "door1 outside temp", {{0, 21.5},{0, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-//        {15, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
+        {14, ANALOG, 0, "tmp36 temp sensor", {{0, 21.5},{0, 4},{0,0},{0,0}}, tmp36Conversion, sepcdefaultPinRead, "lm35 temperature captor"},
+        {15, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, lumdefaultPinRead, "lm35 temperature captor"},
 //        {16, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
 //        {17, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},
 //        {18, ANALOG, 0, "door1 outside temp", {{OVER_EQ, 21.5},{UNDER_EQ, 4},{0,0},{0,0}}, noInputConversion, defaultPinRead, "lm35 temperature captor"},

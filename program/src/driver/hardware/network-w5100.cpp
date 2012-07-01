@@ -24,12 +24,12 @@ void networkSetup() {
 
 void networkManage() {
     EthernetClient client = server.available();
+    client.setTimeout(1);
     if (client) {
         while (client.connected()) {
             if (client.available()) {
                 int size = client.readBytes((char *)buf, BUFFER_SIZE);
                 buf[size] = 0;
-//                DEBUG_PRINTLN((char *)buf);
                 size = handleWebRequest((char *) buf, 0, size);
                 buf[size] = 0;
                 client.println((const char *)buf);
@@ -40,7 +40,6 @@ void networkManage() {
         client.stop();
     }
     if (needReboot) {
-        DEBUG_PRINTLN("REBOOT");
         resetFunc();
     }
 }

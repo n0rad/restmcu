@@ -82,35 +82,7 @@
 		</testResources>
 
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.11</version>
-				<configuration>
-					<systemProperties>
-						<property>
-							<name>board.host</name>
-							<value>${board.host}</value>
-						</property>
-						<property>
-							<name>board.port</name>
-							<value>${board.port}</value>
-						</property>
-						<property>
-							<name>board.path</name>
-							<value>${board.path}</value>
-						</property>
-					</systemProperties>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.11</version>
@@ -132,6 +104,38 @@
 			</properties>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>2.11</version>
+						<configuration>
+							<systemProperties>
+								<property>
+									<name>board.host</name>
+									<value>${board.host}</value>
+								</property>
+								<property>
+									<name>board.port</name>
+									<value>${board.port}</value>
+								</property>
+								<property>
+									<name>board.path</name>
+									<value>${board.path}</value>
+								</property>
+							</systemProperties>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+
+
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>exec-maven-plugin</artifactId>

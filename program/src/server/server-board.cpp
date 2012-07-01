@@ -88,7 +88,6 @@ uint16_t boardReset(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webR
 
 uint16_t boardReInit(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource) {
     settingsSave();
-    DEBUG_PRINTLN("NEED_REBOOT");
     needReboot = true;
     plen = startResponseHeader(&buf, HEADER_200);
     return plen;

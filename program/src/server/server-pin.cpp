@@ -58,8 +58,6 @@ uint16_t pinGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResou
     uint8_t type = pgm_read_byte(webResource->pinIdx < pinInputSize ?
             &pinInputDescription[webResource->pinIdx].type : &pinOutputDescription[webResource->pinIdx - pinInputSize].type);
     plen = addToBufferTCP_P(buf, plen, PSTR(",\"type\":\""));
-    DEBUG_PRINT("type");
-    DEBUG_PRINTLN(type);
     plen = addToBufferTCP_P(buf, plen, pinType[type - 1]);
 
     if (webResource->pinIdx < pinInputSize) {
