@@ -89,7 +89,7 @@ char *configCheck() {
         PinOutputConversion conversionFunc = (PinOutputConversion) pgm_read_word(&(pinOutputDescription[i].convertValue));
         if (type == DIGITAL) {
             if (!(conversionFunc(*((float*)&start)) == 0 || conversionFunc(*((float*)&start)) == 1)) {
-                DEBUG_PRINTLN((conversionFunc(*((float*)&start))));
+//                DEBUG_PRINTLN((conversionFunc(*((float*)&start))));
                 return buildGlobalError_P(PIN_START_INVALID, pinId);
             }
             if (conversionFunc(*((float*)&min)) != 0) {

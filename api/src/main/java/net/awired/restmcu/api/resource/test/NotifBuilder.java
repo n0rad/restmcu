@@ -14,7 +14,7 @@ public class NotifBuilder {
 
     public RestMcuPinNotification build() {
         RestMcuPinNotification pinNotif = new RestMcuPinNotification();
-        pinNotif.setPinId(pinId);
+        pinNotif.setId(pinId);
         pinNotif.setSource(source);
         pinNotif.setValue(value);
         pinNotif.setOldValue(oldValue);

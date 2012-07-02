@@ -3,16 +3,28 @@ package net.awired.restmcu.api.domain.pin;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import com.google.common.base.Objects;
 
 @XmlRootElement(name = "pinNotification")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RestMcuPinNotification {
 
-    private int pinId;
+    private int id;
     private float oldValue;
     private float value;
     private String source;
     private RestMcuPinNotify notify;
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this) //
+                .add("id", id) //
+                .add("oldValue", oldValue) //
+                .add("value", value) //
+                .add("source", source) //
+                .add("notify", notify) //
+                .toString();
+    }
 
     public float getOldValue() {
         return oldValue;
@@ -38,12 +50,12 @@ public class RestMcuPinNotification {
         this.notify = notify;
     }
 
-    public void setPinId(int pinId) {
-        this.pinId = pinId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getPinId() {
-        return pinId;
+    public int getId() {
+        return id;
     }
 
     public String getSource() {

@@ -7,11 +7,9 @@ import net.awired.restmcu.api.domain.board.RestMcuBoardNotification;
 import net.awired.restmcu.api.domain.pin.RestMcuPinNotification;
 import net.awired.restmcu.api.resource.server.RestMcuNotifyResource;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
-@Ignore
 public class NotifyResourceIT {
 
     @Rule
@@ -37,7 +35,7 @@ public class NotifyResourceIT {
     }
 
     @ClassRule
-    public static NotifyServerRule server = new NotifyServerRule(5879, testNotify.class);
+    public static NotifyServerRule server = new NotifyServerRule(5879, false, testNotify.class);
 
     @Test
     public void should_notify() throws Exception {
@@ -55,7 +53,6 @@ public class NotifyResourceIT {
     }
 
     @Test
-    @Ignore
     public void should_reset_data() throws Exception {
         // set notify url
         RestMcuBoard deviceInfo = hcc.getBoardResource().getBoard();

@@ -1,5 +1,6 @@
 package net.awired.restmcu.api.domain.pin;
 
+import com.google.common.base.Objects;
 
 public class RestMcuPinNotify {
 
@@ -12,6 +13,14 @@ public class RestMcuPinNotify {
     public RestMcuPinNotify(RestMcuPinNotifyCondition notifyCondition, float notifyValue) {
         this.notifyCondition = notifyCondition;
         this.notifyValue = notifyValue;
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this) //
+                .add("notifyCondition", notifyCondition) //
+                .add("oldValue", notifyValue) //
+                .toString();
     }
 
     public RestMcuPinNotifyCondition getNotifyCondition() {

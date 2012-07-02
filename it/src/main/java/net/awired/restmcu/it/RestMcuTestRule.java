@@ -26,6 +26,10 @@ public class RestMcuTestRule extends ExternalResource {
     private Map<Integer, RestMcuPin> pins = new HashMap<Integer, RestMcuPin>();
 
     public RestMcuTestRule() {
+        this(RestMcuContext.getUrl());
+    }
+
+    public RestMcuTestRule(String url) {
         JSONProvider jsonProvider = new JSONProvider();
         jsonProvider.setSupportUnwrapped(true);
         jsonProvider.setDropRootElement(true);
@@ -33,9 +37,9 @@ public class RestMcuTestRule extends ExternalResource {
         AjslResponseExceptionMapper exceptionMapper = new AjslResponseExceptionMapper(jsonProvider);
         ImmutableList<Object> providers = ImmutableList.of(exceptionMapper, jsonProvider);
 
-        pinResource = JAXRSClientFactory.create(RestMcuContext.getUrl(), RestMcuPinResource.class, providers);
-        boardResource = JAXRSClientFactory.create(RestMcuContext.getUrl(), RestMcuBoardResource.class, providers);
-        debugResource = JAXRSClientFactory.create(RestMcuContext.getUrl(), RestMcuDebugResource.class, providers);
+        pinResource = JAXRSClientFactory.create(url, RestMcuPinResource.class, providers);
+        boardResource = JAXRSClientFactory.create(url, RestMcuBoardResource.class, providers);
+        debugResource = JAXRSClientFactory.create(url, RestMcuDebugResource.class, providers);
     }
 
     @Override
