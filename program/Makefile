@@ -2,11 +2,15 @@
 
 TARGET = target/restmcu
 # Change this to match your arduino installation directory
-PORT = /dev/ttyUSB0
+PORT = /dev/ttyUSB2
+#UPLOAD_RATE = 115200
+#AVRDUDE_PROGRAMMER = stk500v2
+#MCU = atmega328p
+F_CPU = 16000000
+
+
 UPLOAD_RATE = 57600
 AVRDUDE_PROGRAMMER = stk500v1
-MCU = atmega1280
-F_CPU = 16000000
 
 ###################################################
 #ARDUINO
@@ -162,6 +166,17 @@ ALL_ASFLAGS = -x assembler-with-cpp $(ASFLAGS) -mmcu=$(MCU)
 ALL_LDFLAGS = $(LDFLAGS) -mmcu=$(MCU)
 
 
+RED	= \\033[0;31m
+GREEN	= \\033[0;32m
+YELLOW	= \\033[0;33m
+WHITE = \\033[m
+ECHO 	= printf
+
+ERROR = echo "[${RED} ERROR ${WHITE}]" && echo -n "${RED}" && cat temp.log && echo -n "${WHITE}"
+WARN = echo "[${YELLOW} WARNING ${WHITE}]" && echo -n "${YELLOW}" && cat temp.log && echo -n "${WHITE}"
+OK = echo "[${GREEN} OK ${WHITE}]"
+
+
 # Default target.
 all: target_files package
 
@@ -237,6 +252,7 @@ extcoff: $(TARGET).elf
 # Link: create ELF output file from library.
 #target/$(TARGET).elf: $(TARGET).pde target/core.a
 $(TARGET).elf: target/core.a
+	@echo "Linking   ${GREEN} $@ ${WHITE}"
 	$(LD) $(ALL_LDFLAGS) -o $@ -L. target/core.a /usr/lib/avr/lib/avr5/libc.a  target/core.a
 
 target/core.a: $(OBJ)
@@ -245,14 +261,19 @@ target/core.a: $(OBJ)
 #target/core.a: $(OBJ_MODULES)
 #	@for i in $(OBJ_MODULES); do echo $(AR) rcs target/core.a $$i; $(AR) rcs target/core.a $$i; done
 
-
-# Compile: create object files from C++ source files.
 .cpp.o:
-	$(CXX) -c $(ALL_CXXFLAGS) $< -o $@
+	$(CXX) -c $(ALL_CXXFLAGS) $< -o $@ 2> temp.log || touch temp.errors
+	@echo -n "compiling $<...    "
+	@if test -e temp.errors; then $(ERROR); elif test -s temp.log; then $(WARN); else $(OK) ; fi;
+	@if test -e temp.errors; then rm -f temp.errors temp.log; exit 42; fi;
+	@rm -f temp.errors temp.log	
 
-# Compile: create object files from C source files.
 .c.o:
-	$(CC) -c $(ALL_CFLAGS) $< -o $@
+	$(CC) -c $(ALL_CFLAGS) $< -o $@ 2> temp.log || touch temp.errors
+	@echo -n "compiling $<...    "
+	@if test -e temp.errors; then $(ERROR); elif test -s temp.log; then $(WARN); else $(OK) ; fi;
+	@if test -e temp.errors; then rm -f temp.errors temp.log; exit 42; fi;
+	@rm -f temp.errors temp.log	
 
 # Compile: create assembler files from C source files.
 .c.s:
