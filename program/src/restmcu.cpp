@@ -5,8 +5,6 @@
 #include "client/client.h"
 #include "config/config-manager.h"
 
-char *definitionError;
-char *criticalProblem_p;
 uint8_t needReboot = false;
 t_notification *notification = 0;
 
@@ -34,21 +32,16 @@ int main() {
 //    Serial.begin(9600);
 //#endif
 
-    definitionError = configCheck();
     settingsLoad();
     networkSetup();
 
-    if (!definitionError) {
-        pinInit();
-    }
+    pinInit();
 
     clientBoardNotify(BOARD_NOTIFY_BOOT);
 
     while (1) {
         networkManage();
-        if (!definitionError) {
-            pinCheckChange();
-        }
+        pinCheckChange();
     }
 
     return 0;

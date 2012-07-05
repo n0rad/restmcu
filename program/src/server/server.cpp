@@ -33,18 +33,6 @@ static uint16_t commonCheck(char *buf, uint16_t dataPointer, uint16_t dataLen) {
         plen = appendErrorMsg_P(buf, plen, PSTR("Too big"));
         return plen;
     }
-
-    if (criticalProblem_p) {
-        plen = startResponseHeader(&buf, HEADER_500);
-        plen = appendErrorMsg_P(buf, plen, criticalProblem_p);
-        return plen;
-    }
-    if (definitionError) {
-        plen = startResponseHeader(&buf, HEADER_500);
-        plen = appendErrorMsg(buf, plen, definitionError);
-        return plen;
-    }
-
     return 0;
 }
 

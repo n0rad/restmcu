@@ -60,8 +60,10 @@ uint16_t clientBuildNextQuery(char *buf) {
     } else {
         plen = addToBufferTCP_P(buf, plen, PSTR("/pin"));
     }
-    plen = addToBufferTCP_P(buf, plen, PSTR(" HTTP/1.0\r\nContent-Type: application/json\r\nKeep-Alive: 300\r\nConnection: keep-alive\r\n"));
-//    plen = addToBufferTCP_P2(buf, plen, PSTR("Host: 192.168.1.4\r\n"));
+//    Keep-Alive: 300\r\nConnection: keep-alive\r\n
+    plen = addToBufferTCP_P(buf, plen, PSTR(" HTTP/1.0\r\nContent-Type: application/json\r\n"));
+    //    plen = addToBufferTCP_P2(buf, plen, PSTR("Host: 192.168.1.4\r\n"));
+        plen = addToBufferTCP_P(buf, plen, PSTR("Connection: Close\r\n"));
 //    plen = addToBufferTCP_P2(buf, plen, PSTR("User-Agent: HouseCream Client\r\n"));
     plen = addToBufferTCP_P(buf, plen, PSTR("Content-Length:    \r\n\r\n"));
 

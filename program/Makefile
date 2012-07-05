@@ -2,7 +2,7 @@
 
 TARGET = target/restmcu
 # Change this to match your arduino installation directory
-PORT = /dev/ttyUSB2
+PORT = /dev/ttyUSB0
 #UPLOAD_RATE = 115200
 #AVRDUDE_PROGRAMMER = stk500v2
 #MCU = atmega328p
@@ -74,8 +74,9 @@ CXX_APP = src/restmcu.cpp $(CONFIG) src/settings/settings.cpp \
 		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp \
 		src/util/availableMemory.cpp
 
-CXX_APP += src/driver/hardware/board-mega.cpp src/driver/hardware/network-w5100.cpp
+CXX_APP +=  src/driver/hardware/network-w5100.cpp
 
+#src/driver/hardware/board-mega.cpp
 
 ##################################################
 

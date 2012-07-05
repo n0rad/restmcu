@@ -29,6 +29,18 @@ public class MainNotifyServer {
                     e.printStackTrace();
                 }
             }
+            if (pinNotification.getId() == 2) {
+                try {
+                    hcc.getPinResource().setPinValue(3, pinNotification.getValue());
+                } catch (NotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (UpdateException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
         }
 
         @Override
@@ -43,7 +55,7 @@ public class MainNotifyServer {
     }
 
     public MainNotifyServer(String[] args) throws Throwable {
-        NotifyServerRule notifyServer = new NotifyServerRule(8080, false, testNotify.class);
+        NotifyServerRule notifyServer = new NotifyServerRule(8080, true, testNotify.class);
         notifyServer.before();
         hcc = new RestMcuTestRule("http://192.168.42.244");
         hcc.before();
