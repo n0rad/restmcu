@@ -4,7 +4,7 @@
 typedef  char prog_char;
 
 #ifndef __ATTR_PROGMEM__
-#define __ATTR_PROGMEM__ __attribute__((__const__))
+#define __ATTR_PROGMEM__ __attribute__(())
 #endif
 
 #define PROGMEM __ATTR_PROGMEM__

@@ -6,7 +6,12 @@
 
 //#define DEBUG
 
+const long notifFailRetryWait = 60000; // 60s
+
+
 #include "debug.h"
+
+
 
 const prog_char PUT[] PROGMEM = "PUT ";
 const prog_char JSON_STR_END[] PROGMEM = "\"}";

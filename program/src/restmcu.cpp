@@ -27,10 +27,10 @@ void DEBUG_E(const char *eeprom) {
 int main() {
     init(); // load init of arduino
 
-//#ifdef DEBUG
-//    delay(3000);
-//    Serial.begin(9600);
-//#endif
+#ifdef DEBUG
+    delay(3000);
+    Serial.begin(9600);
+#endif
 
     settingsLoad();
     networkSetup();

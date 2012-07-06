@@ -20,12 +20,6 @@ const prog_char CANNOT_SET_MIN_VAL[] PROGMEM = "valueMin cannot be set";
 const prog_char CANNOT_SET_MAX_VAL[] PROGMEM = "valueMax cannot be set";
 const prog_char DESCRIPTION_CANNOT_BE_SET[] PROGMEM = "description cannot be set";
 const prog_char NAME_TOO_LONG[] PROGMEM = "name is too long";
-const prog_char NOTIFY_VAL_OVERFLOW[] PROGMEM = "notify val overflow on pin%d";
-const prog_char PIN_DEFINE_TWICE[] PROGMEM = "pin%d is define twice";
-const prog_char PIN_TYPE_INVALID[] PROGMEM = "invalid type on pin%d";
-const prog_char PIN_START_INVALID[] PROGMEM = "invalid start value for pin%d";
-const prog_char PIN_MIN_INVALID[] PROGMEM = "invalid min value for pin%d";
-const prog_char PIN_MAX_INVALID[] PROGMEM = "invalid max value for pin%d";
 
 void settingsLoad();
 void settingsReload();

@@ -45,7 +45,7 @@ LIB	=	 -L.
 
 CFLAGS	=	-I. -I../src -Isrc/stub $(CFLAGS2)
 
-CFLAGS2		=	-ansi -pedantic -O3 -W -Wall
+CFLAGS2		=	-ansi -pedantic -O3 -Wall
 
 CC	=	g++
 
