@@ -262,6 +262,11 @@ target/core.a: $(OBJ)
 #target/core.a: $(OBJ_MODULES)
 #	@for i in $(OBJ_MODULES); do echo $(AR) rcs target/core.a $$i; $(AR) rcs target/core.a $$i; done
 
+checkconf:
+	cd check; make clean all && ./restmcu-check 
+
+$(OBJ): checkconf
+
 .cpp.o:
 	$(CXX) -c $(ALL_CXXFLAGS) $< -o $@ 2> temp.log || touch temp.errors
 	@echo -n "compiling $<...    "

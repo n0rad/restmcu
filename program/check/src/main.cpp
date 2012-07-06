@@ -6,41 +6,45 @@
 char *definitionError;
 char *criticalProblem_p;
 
-const prog_char PIN_DEFINE_TWICE[] PROGMEM = "pin%d is define twice";
-const prog_char PIN_TYPE_INVALID[] PROGMEM = "invalid type on pin%d";
-const prog_char NOTIFY_VAL_OVERFLOW[] PROGMEM = "notify val overflow on pin%d";
-const prog_char PIN_START_INVALID[] PROGMEM = "invalid start value for pin%d";
-const prog_char PIN_MIN_INVALID[] PROGMEM = "invalid min value for pin%d";
-const prog_char PIN_MAX_INVALID[] PROGMEM = "invalid max value for pin%d";
+const prog_char PIN_DEFINE_TWICE[] PROGMEM = "Pin %d is define twice";
+const prog_char PIN_TYPE_INVALID[] PROGMEM = "Invalid type on pin %d";
+const prog_char NOTIFY_VAL_OVERFLOW[] PROGMEM = "Notify val overflow on pin %d";
+const prog_char PIN_START_INVALID[] PROGMEM = "Invalid start value for pin %d";
+const prog_char PIN_MIN_INVALID[] PROGMEM = "Invalid min value for pin %d";
+const prog_char PIN_MAX_INVALID[] PROGMEM = "Invalid max value for pin %d";
 
 const int8_t configGetInputPinIdx(uint8_t pinIdToFind) {
-    int8_t pinId;
-    for (uint8_t i = 0; -1 != (pinId = (int8_t) pinInputDescription[i].pinId); i++) {
-        if (pinId == pinIdToFind) {
-            return i;
-        }
-    }
-    return -1;
+	int8_t pinId;
+	for (uint8_t i = 0; -1 != (pinId = (int8_t) pinInputDescription[i].pinId);
+			i++) {
+		if (pinId == pinIdToFind) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 const int8_t configGetOutputPinIdx(uint8_t pinIdToFind) {
-    int8_t pinId;
-    for (uint8_t i = 0; -1 != (pinId = (int8_t) pinOutputDescription[i].pinId); i++) {
-        if (pinId == pinIdToFind) {
-            return i;
-        }
-    }
-    return -1;
+	int8_t pinId;
+	for (uint8_t i = 0; -1 != (pinId = (int8_t) pinOutputDescription[i].pinId);
+			i++) {
+		if (pinId == pinIdToFind) {
+			return i;
+		}
+	}
+	return -1;
 }
 
+int errors = 0;
 
-
-
-char *buildGlobalError_P(const prog_char *progmem_s, int pin) {
-	char *ptr = (char *) malloc(100 * sizeof(char));
-	memset(ptr, 0, 100 * sizeof(char));
-	sprintf(ptr, progmem_s, pin);
-	return ptr;
+void displayError(const prog_char *progmem_s, int pin) {
+	if (!errors) {
+		printf("\n");
+	}
+	errors = 1;
+	printf("\033[0;31m - ");
+	printf(progmem_s, pin);
+	printf("\n\033[0m");
 }
 
 char *configCheck() {
@@ -51,56 +55,54 @@ char *configCheck() {
 	ip[3] = boardDescription.ip[3];
 	if (ip[0] == 255 || ip[1] == 255 || ip[2] == 255 || ip[3] == 255 // cannot be 255
 	|| ip[0] == 0 || ip[3] == 0) { // cannot start or finish with 0
-		return buildGlobalError_P("invalid ip", 0);
+		displayError("Invalid server ip", 0);
 	}
 
 	int8_t pinId;
-	for (uint8_t i = 0; -1 != (pinId =
-			(int8_t) pinInputDescription[i].pinId); i++) {
+	for (uint8_t i = 0; -1 != (pinId = (int8_t) pinInputDescription[i].pinId);
+			i++) {
 		const int8_t inpos = configGetInputPinIdx(pinId);
 		const int8_t outpos = configGetOutputPinIdx(pinId);
 		if (outpos != -1 || inpos != i) {
-			return buildGlobalError_P(PIN_DEFINE_TWICE, pinId);
+			displayError(PIN_DEFINE_TWICE, pinId);
 		}
 		uint8_t type = pinInputDescription[i].type;
 		if (!(type == DIGITAL || type == ANALOG)) {
-			return buildGlobalError_P(PIN_TYPE_INVALID, pinId);
+			displayError(PIN_TYPE_INVALID, pinId);
 		}
 		for (uint8_t j = 0; j < 4; j++) {
-			uint8_t cond =
-					pinInputDescription[i].notifies[j].condition;
+			uint8_t cond = pinInputDescription[i].notifies[j].condition;
 			if (cond) {
-				uint32_t tmp =
-						(pinInputDescription[i].notifies[j].value);
+				uint32_t tmp = (pinInputDescription[i].notifies[j].value);
 				float value = tmp;
 				if (!(cond == OVER_EQ || cond == UNDER_EQ)) {
-					return buildGlobalError_P("invalid notify on pin%d", pinId);
+					displayError("Invalid notify on pin%d", pinId);
 				}
 				PinInputConversion conversionFunc =
 						(PinInputConversion) (pinInputDescription[i].convertValue);
 				if (type == DIGITAL) {
 					if (value > conversionFunc(1)
 							|| value < conversionFunc(0)) {
-						return buildGlobalError_P(NOTIFY_VAL_OVERFLOW, pinId);
+						displayError(NOTIFY_VAL_OVERFLOW, pinId);
 					}
 				} else if (value > conversionFunc(1023)
 						|| value < conversionFunc(0)) {
-					return buildGlobalError_P(NOTIFY_VAL_OVERFLOW, pinId);
+					displayError(NOTIFY_VAL_OVERFLOW, pinId);
 				}
 			}
 		}
 	}
 
-	for (uint8_t i = 0; -1 != (pinId =
-			(int8_t) pinOutputDescription[i].pinId); i++) {
+	for (uint8_t i = 0; -1 != (pinId = (int8_t) pinOutputDescription[i].pinId);
+			i++) {
 		const int8_t inpos = configGetInputPinIdx(pinId);
 		const int8_t outpos = configGetOutputPinIdx(pinId);
 		if (inpos != -1 || outpos != i) {
-			return buildGlobalError_P(PIN_DEFINE_TWICE, pinId);
+			displayError(PIN_DEFINE_TWICE, pinId);
 		}
 		uint8_t type = pinOutputDescription[i].type;
 		if (!(type == DIGITAL || type == ANALOG)) {
-			return buildGlobalError_P(PIN_TYPE_INVALID, pinId);
+			displayError(PIN_TYPE_INVALID, pinId);
 		}
 
 		uint32_t start = (pinOutputDescription[i].startValue);
@@ -109,43 +111,41 @@ char *configCheck() {
 		PinOutputConversion conversionFunc =
 				(PinOutputConversion) (pinOutputDescription[i].convertValue);
 		if (type == DIGITAL) {
-			if (!(conversionFunc(start) == 0
-					|| conversionFunc(start) == 1)) {
-				return buildGlobalError_P(PIN_START_INVALID, pinId);
+			if (!(conversionFunc(start) == 0 || conversionFunc(start) == 1)) {
+				displayError(PIN_START_INVALID, pinId);
 			}
 			if (conversionFunc(min) != 0) {
-				return buildGlobalError_P(PIN_MIN_INVALID, pinId);
+				displayError(PIN_MIN_INVALID, pinId);
 			}
 			if (conversionFunc(max) != 1) {
-				return buildGlobalError_P(PIN_MAX_INVALID, pinId);
+				displayError(PIN_MAX_INVALID, pinId);
 			}
 		} else {
-			if (conversionFunc(start) > 255
-					|| conversionFunc(start) < 0) {
-				return buildGlobalError_P(PIN_START_INVALID, pinId);
+			if (conversionFunc(start) > 255 || conversionFunc(start) < 0) {
+				displayError(PIN_START_INVALID, pinId);
 			}
 			if (conversionFunc(min) < 0) {
-				return buildGlobalError_P(PIN_MIN_INVALID, pinId);
+				displayError(PIN_MIN_INVALID, pinId);
 			}
 			if (conversionFunc(max) > 255) {
-				return buildGlobalError_P(PIN_MAX_INVALID, pinId);
+				displayError(PIN_MAX_INVALID, pinId);
 			}
 		}
 
 	}
 
-
 	return 0;
 }
 
 int main() {
-
-	char * definitionError = configCheck();
-	if (definitionError) {
-		printf("%s\n", definitionError);
+	printf("\033[0;32mChecking configuration...   \033[0m");
+	configCheck();
+	if (errors) {
 		exit(1);
+	} else {
+		printf("[ \033[0;32mOK\033[0m ]\n");
 	}
-
+	return 0;
 //	char *error = boardCheckConfig();
 //	if (error) {
 //		return error;
