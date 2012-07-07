@@ -303,6 +303,7 @@ clean:
 	$(REMOVE) $(TARGET).hex $(TARGET).eep $(TARGET).cof $(TARGET).elf \
 	$(TARGET).map $(TARGET).sym $(TARGET).o $(TARGET).lss target/core.a \
 	$(OBJ) $(LST) $(SRC:.c=.s) $(SRC:.c=.d) $(CXXSRC:.cpp=.s) $(CXXSRC:.cpp=.d)
+	cd check; make clean 	
 
 .PHONY:	all package elf hex eep lss sym program coff extcoff clean target_files sizebefore sizeafter
 
