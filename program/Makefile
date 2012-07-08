@@ -269,6 +269,7 @@ $(OBJ): checkconf
 
 .cpp.o:
 	$(CXX) -c $(ALL_CXXFLAGS) $< -o $@ 2> temp.log || touch temp.errors
+	@if [ -s temp.log ]; then grep -v "attention : seules les variables initialisées peuvent être placées dans la zone mémoire du programme" temp.log > temp2.log; mv temp2.log temp.log; fi;
 	@echo -n "compiling $<...    "
 	@if test -e temp.errors; then $(ERROR); elif test -s temp.log; then $(WARN); else $(OK) ; fi;
 	@if test -e temp.errors; then rm -f temp.errors temp.log; exit 42; fi;

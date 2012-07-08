@@ -95,7 +95,6 @@ void settingsLoad() {
 
     // allocate notifies in ram
     pinNotifies = (t_notify **) malloc(pinInputSize * sizeof(t_notify *));
-    int8_t pinId;
     for (uint8_t i = 0; i < pinInputSize; i++) {
         pinNotifies[i] = (t_notify *) malloc(4 * sizeof(t_notify));
     }
