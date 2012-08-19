@@ -12,8 +12,20 @@ public class RestMcuPinNotification {
     private int id;
     private float oldValue;
     private float value;
+    /** ex: 127.0.0.1:5879 */
     private String source;
     private RestMcuPinNotify notify;
+
+    public RestMcuPinNotification() {
+    }
+
+    public RestMcuPinNotification(int id, float oldValue, float value, String source, RestMcuPinNotify notify) {
+        this.id = id;
+        this.oldValue = oldValue;
+        this.value = value;
+        this.source = source;
+        this.notify = notify;
+    }
 
     @Override
     public String toString() {

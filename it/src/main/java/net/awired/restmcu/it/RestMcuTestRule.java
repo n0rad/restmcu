@@ -2,16 +2,12 @@ package net.awired.restmcu.it;
 
 import java.util.HashMap;
 import java.util.Map;
-import net.awired.ajsl.web.resource.mapper.AjslResponseExceptionMapper;
 import net.awired.restmcu.api.domain.board.RestMcuBoard;
 import net.awired.restmcu.api.domain.pin.RestMcuPin;
 import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
 import net.awired.restmcu.api.resource.client.RestMcuPinResource;
 import net.awired.restmcu.api.resource.test.RestMcuDebugResource;
-import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
-import org.apache.cxf.jaxrs.provider.JSONProvider;
 import org.junit.rules.ExternalResource;
-import com.google.common.collect.ImmutableList;
 
 public class RestMcuTestRule extends ExternalResource {
 
@@ -26,20 +22,15 @@ public class RestMcuTestRule extends ExternalResource {
     private Map<Integer, RestMcuPin> pins = new HashMap<Integer, RestMcuPin>();
 
     public RestMcuTestRule() {
-        this(RestMcuContext.getUrl());
+        this(RestMcuTestContext.getUrl());
     }
 
     public RestMcuTestRule(String url) {
-        JSONProvider jsonProvider = new JSONProvider();
-        jsonProvider.setSupportUnwrapped(true);
-        jsonProvider.setDropRootElement(true);
+        RestMcuTestContext context = new RestMcuTestContext();
 
-        AjslResponseExceptionMapper exceptionMapper = new AjslResponseExceptionMapper(jsonProvider);
-        ImmutableList<Object> providers = ImmutableList.of(exceptionMapper, jsonProvider);
-
-        pinResource = JAXRSClientFactory.create(url, RestMcuPinResource.class, providers);
-        boardResource = JAXRSClientFactory.create(url, RestMcuBoardResource.class, providers);
-        debugResource = JAXRSClientFactory.create(url, RestMcuDebugResource.class, providers);
+        pinResource = context.buildResourceProxy(RestMcuPinResource.class, url);
+        boardResource = context.buildResourceProxy(RestMcuBoardResource.class, url);
+        debugResource = context.buildResourceProxy(RestMcuDebugResource.class, url);
     }
 
     @Override

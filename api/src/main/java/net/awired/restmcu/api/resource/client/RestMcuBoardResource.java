@@ -24,11 +24,11 @@ public interface RestMcuBoardResource {
     public void resetBoard();
 
     @PUT
-    @Path("init")
+    @Path("/init")
     public void init();
 
     @PUT
-    @Path("notify")
+    @Path("/notify")
     public void runNotify();
 
 }
