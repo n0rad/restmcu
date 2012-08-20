@@ -14,7 +14,14 @@
 #.cpp.o:
 #	$(CC) $(CFLAGS) $< -o $@
 
-SRC	= src/main.cpp src/stub/all.cpp ../config.cpp
+CONFIG = config.cpp
+
+MCU_CONFIG = ../$(CONFIG)
+
+
+SRC	= src/main.cpp src/stub/all.cpp $(MCU_CONFIG)
+
+
 
 #############################################################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

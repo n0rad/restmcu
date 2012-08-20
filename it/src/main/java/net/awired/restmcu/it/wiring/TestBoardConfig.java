@@ -1,4 +1,4 @@
-package net.awired.restmcu.it;
+package net.awired.restmcu.it.wiring;
 
 import net.awired.restmcu.api.domain.board.RestMcuBoard;
 import net.awired.restmcu.api.domain.pin.RestMcuPin;

@@ -14,7 +14,8 @@
 	</parent>
 
 	<properties>
-		<board.host>localhost</board.host>
+<!--        <board.host>localhost</board.host> -->
+        <board.host.comma>willbereplaced</board.host.comma>
 		<board.port>8080</board.port>
 		<board.path>/restmcu</board.path>
 	</properties>
@@ -87,6 +88,12 @@
 				<directory>src/it/resources</directory>
 			</testResource>
 		</testResources>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>wiring</directory>
+			</resource>
+		</resources>
 
 		<plugins>
 
@@ -107,10 +114,41 @@
 		<profile>
 			<id>board</id>
 			<properties>
-				<config.file>../it/src/main/java/net/awired/restmcu/it/TestBoardConfig.cpp</config.file>
+				<!-- <config.file>../it/src/main/java/net/awired/restmcu/it/wiring/TestBoardConfig.cpp</config.file> -->
+				<config.file>../it/target/classes/TestBoardConfig.cpp</config.file>
 			</properties>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.codehaus.groovy.maven</groupId>
+						<artifactId>gmaven-plugin</artifactId>
+						<version>1.0</version>
+						<executions>
+                            <execution>
+                                <id>clean</id>
+                                <phase>pre-clean</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <source>project.properties['board.host.comma'] = (project.properties['board.host'] =~ /\./).replaceAll(',')</source>
+                                </configuration>
+                            </execution>
+							<execution>
+							     <id>build</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<source>project.properties['board.host.comma'] = (project.properties['board.host'] =~ /\./).replaceAll(',')</source>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+
+
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-failsafe-plugin</artifactId>
@@ -140,9 +178,6 @@
 							</execution>
 						</executions>
 					</plugin>
-
-
-
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>exec-maven-plugin</artifactId>
@@ -191,6 +226,7 @@
 									<arguments>
 										<argument>-C</argument>
 										<argument>../program</argument>
+                                        <argument>CONFIG=${config.file}</argument>
 										<argument>upload</argument>
 									</arguments>
 								</configuration>

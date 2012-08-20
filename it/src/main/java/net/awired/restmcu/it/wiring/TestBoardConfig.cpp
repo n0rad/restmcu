@@ -6,7 +6,7 @@ float tempConversion(float value) {
 
 const t_boardDescription boardDescription PROGMEM = {
     {0x54, 0x55, 0x58, 0x10, 0x00, 0xF5},           // mac
-    {192, 168, 42, 244},                            // ip
+    {${board.host.comma}},                            // ip
     80,                                             // port
     "window1 controller",                           // name
     "window in front of the house not powered from POE but only by a transfo",   // description
