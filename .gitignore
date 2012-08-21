@@ -11,3 +11,5 @@ target/
 .settings
 .pmd
 .checkstyle
+program/check/tmpconfig.cpp
+program/check/restmcu-check

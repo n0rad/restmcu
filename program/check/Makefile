@@ -19,7 +19,7 @@ CONFIG = config.cpp
 MCU_CONFIG = ../$(CONFIG)
 
 
-SRC	= src/main.cpp src/stub/all.cpp $(MCU_CONFIG)
+SRC	= src/main.cpp src/stub/all.cpp tmpconfig.cpp
 
 
 
@@ -64,7 +64,10 @@ RM	=	rm -f
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #############################################################################
 
-$(NAME) :	$(OBJ)
+getconf :
+		cp -f $(MCU_CONFIG) tmpconfig.cpp
+
+$(NAME) : getconf $(OBJ)
 		$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIB)
 
 all :		$(NAME)
