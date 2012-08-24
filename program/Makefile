@@ -135,6 +135,7 @@ LDFLAGS = -O$(OPT) -lm -Wl,--gc-sections
 AVRDUDE_CONF = /etc/avrdude.conf
 AVRDUDE_PORT = $(PORT)
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
+AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
 AVRDUDE_FLAGS = -V -F -C $(AVRDUDE_CONF) -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) -b $(UPLOAD_RATE) -D
 
@@ -190,7 +191,7 @@ testMCU:
 		exit 42; \
 	fi
 
-package: testMCU elf hex sizeafter
+package: testMCU elf eep hex sizeafter
 
 #$(TARGET).o: $(OBJ_APP)
 #	test -d target || mkdir target
@@ -202,9 +203,12 @@ eep: $(TARGET).eep
 lss: $(TARGET).lss
 sym: $(TARGET).sym
 
-# Program the device.
+
 upload: testMCU $(TARGET).hex
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
+	
+upload: testMCU $(TARGET).hex $(TARGET).eep
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
 # Display size of file.
 HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
@@ -238,8 +242,7 @@ extcoff: $(TARGET).elf
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom $< $@
 
 .elf.eep:
-	$(OBJCOPY) -O $(FORMAT) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
-	--no-change-warnings \
+	$(OBJCOPY) -O $(FORMAT) -j .eeprom --set-section-flags=.eeprom="alloc,load" --no-change-warnings \
 	--change-section-lma .eeprom=0 $< $@
 
 # Create extended listing file from ELF output file.
