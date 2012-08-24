@@ -17,6 +17,7 @@ public class RestMcuBoard {
     private String ip;
     private Integer port;
     private List<Integer> pinIds;
+    private Integer freeMemory;
 
     ////////////////////////////////////////////////////////
 
@@ -98,6 +99,14 @@ public class RestMcuBoard {
 
     public List<Integer> getPinIds() {
         return pinIds;
+    }
+
+    public Integer getFreeMemory() {
+        return freeMemory;
+    }
+
+    public void setFreeMemory(Integer freeMemory) {
+        this.freeMemory = freeMemory;
     }
 
 }

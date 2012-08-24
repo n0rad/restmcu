@@ -14,8 +14,8 @@
 	</parent>
 
 	<properties>
-<!--        <board.host>localhost</board.host> -->
-        <board.host.comma>willbereplaced</board.host.comma>
+		<!-- <board.host>localhost</board.host> -->
+		<board.host.comma>willbereplaced</board.host.comma>
 		<board.port>8080</board.port>
 		<board.path>/restmcu</board.path>
 	</properties>
@@ -32,6 +32,11 @@
 			<version>0.5-SNAPSHOT</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.awired.aclm</groupId>
+			<artifactId>aclm</artifactId>
+			<version>0.2.1-SNAPSHOT</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -124,24 +129,26 @@
 						<artifactId>gmaven-plugin</artifactId>
 						<version>1.0</version>
 						<executions>
-                            <execution>
-                                <id>clean</id>
-                                <phase>pre-clean</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <source>project.properties['board.host.comma'] = (project.properties['board.host'] =~ /\./).replaceAll(',')</source>
-                                </configuration>
-                            </execution>
 							<execution>
-							     <id>build</id>
+								<id>clean</id>
+								<phase>pre-clean</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<source>project.properties['board.host.comma'] =
+										(project.properties['board.host'] =~ /\./).replaceAll(',')</source>
+								</configuration>
+							</execution>
+							<execution>
+								<id>build</id>
 								<phase>initialize</phase>
 								<goals>
 									<goal>execute</goal>
 								</goals>
 								<configuration>
-									<source>project.properties['board.host.comma'] = (project.properties['board.host'] =~ /\./).replaceAll(',')</source>
+									<source>project.properties['board.host.comma'] =
+										(project.properties['board.host'] =~ /\./).replaceAll(',')</source>
 								</configuration>
 							</execution>
 						</executions>
@@ -226,7 +233,7 @@
 									<arguments>
 										<argument>-C</argument>
 										<argument>../program</argument>
-                                        <argument>CONFIG=${config.file}</argument>
+										<argument>CONFIG=${config.file}</argument>
 										<argument>upload</argument>
 									</arguments>
 								</configuration>

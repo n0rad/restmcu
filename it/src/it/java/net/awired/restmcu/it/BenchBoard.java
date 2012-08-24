@@ -12,7 +12,6 @@ import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
 import net.awired.restmcu.api.resource.server.RestMcuNotifyResource;
 import org.junit.ClassRule;
 import org.junit.Rule;
-import org.junit.Test;
 
 public class BenchBoard {
 
@@ -55,14 +54,7 @@ public class BenchBoard {
     @ClassRule
     public static NotifyServerRule server = new NotifyServerRule(8080, false, testNotify.class);
 
-    @Test
-    public void should_bench_send() throws Exception {
-        while (true) {
-            Thread.sleep(1000);
-        }
-    }
-
-    @Test
+    //    @Test
     public void should_toggle_green_led2() throws Exception {
         RestMcuBoardResource boardResource = hcc.getBoardResource();
         for (int i = 0; i < 100; i++) {
@@ -81,7 +73,7 @@ public class BenchBoard {
         System.out.println(System.currentTimeMillis() - currentTimeMillis);
     }
 
-    @Test
+    //    @Test
     public void should_toggle_green_led5() throws Exception {
         RestMcuBoardResource boardResource = hcc.getBoardResource();
         for (int i = 0; i < 100; i++) {
@@ -100,7 +92,7 @@ public class BenchBoard {
         System.out.println(System.currentTimeMillis() - currentTimeMillis);
     }
 
-    @Test
+    //    @Test
     public void test() throws Exception {
 
         URL url = new URL("http://192.168.42.244");

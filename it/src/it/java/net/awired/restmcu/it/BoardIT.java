@@ -156,7 +156,7 @@ public class BoardIT {
     @Test(expected = UpdateException.class)
     public void should_not_set_description_to_null() throws Exception {
         RestMcuBoard deviceInfo = hcc.getBoardResource().getBoard();
-        deviceInfo.setDescription("new desc");
+        deviceInfo.setDescription("desc");
         hcc.getBoardResource().setBoard(deviceInfo);
     }
 
