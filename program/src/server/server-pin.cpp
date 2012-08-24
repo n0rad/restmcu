@@ -25,26 +25,54 @@ uint16_t pinGetValue(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *web
 
 ////////////////////////////////////////////
 
-uint16_t pinPut(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource) {
-    currentSetPinIdx = webResource->pinIdx;
-    const prog_char *error = jsonParse(&buf[dat_p], &pinPutObj);
-    if (error) {
-        plen = startResponseHeader(&buf, HEADER_400);
-        plen = appendErrorMsg_P(buf, plen, error);
-    } else {
-        plen = startResponseHeader(&buf, HEADER_200);
-    }
+uint16_t pinPutSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource) {
+//    currentSetPinIdx = webResource->pinIdx;
+//    const prog_char *error = jsonParse(&buf[dat_p], &pinPutObj);
+//    if (error) {
+//        plen = startResponseHeader(&buf, HEADER_400);
+//        plen = appendErrorMsg_P(buf, plen, error);
+//    } else {
+//        plen = startResponseHeader(&buf, HEADER_200);
+//    }
+//    return plen;
     return plen;
 }
 
+uint16_t pinGetSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource) {
+    plen = startResponseHeader(&buf, HEADER_200);
+
+    plen = addToBufferTCP_P(buf, plen, PSTR("{\"name\":\""));
+    plen = addToBufferTCP_E(buf, plen, settingsPinGetName_E(webResource->pinIdx));
+    plen = addToBufferTCP(buf, plen, '"');
+
+    if (webResource->pinIdx < pinInputSize) {
+        plen = addToBufferTCP_P(buf, plen, PSTR(",\"notifies\":["));
+        for (uint8_t i = 0; i < PIN_NUMBER_OF_NOTIFY; i++) {
+            t_notify *notify = settingsPinGetNotify(webResource->pinIdx, i);
+            if (notify->condition > 0) {
+                if (i) {
+                    plen = addToBufferTCP(buf, plen, ',');
+                }
+                plen = addToBufferTCP_P(buf, plen, PSTR("{\"notifyCondition\":\""));
+                plen = addToBufferTCP_P(buf, plen, pinNotification[notify->condition - 1]);
+
+                plen = addToBufferTCP_P(buf, plen, PSTR("\",\"notifyValue\":"));
+                plen = addToBufferTCP(buf, plen, notify->value);
+                plen = addToBufferTCP(buf, plen, '}');
+            }
+        }
+        plen = addToBufferTCP(buf, plen, ']');
+    }
+
+
+    plen = addToBufferTCP(buf, plen, '}');
+    return plen;
+}
 uint16_t pinGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource) {
     plen = startResponseHeader(&buf, HEADER_200);
 
     plen = addToBufferTCP_P(buf, plen, PSTR("{\"direction\":\""));
     plen = addToBufferTCP_P(buf, plen, webResource->pinIdx < pinInputSize ? STR_INPUT : STR_OUTPUT);
-
-    plen = addToBufferTCP_P(buf, plen, JSON_NAME);
-    plen = addToBufferTCP_E(buf, plen, settingsPinGetName_E(webResource->pinIdx));
 
     plen = addToBufferTCP_P(buf, plen, JSON_DESCRIPTION);
     plen = addToBufferTCP_P(buf, plen, (const prog_char *) (webResource->pinIdx < pinInputSize ?
@@ -72,22 +100,6 @@ uint16_t pinGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResou
         plen = addToBufferTCP_P(buf, plen, PSTR(",\"pullup\":"));
         plen = addToBufferTCP(buf, plen, (uint16_t) pgm_read_byte(&pinInputDescription[webResource->pinIdx].pullup));
 
-        plen = addToBufferTCP_P(buf, plen, PSTR(",\"notifies\":["));
-        for (uint8_t i = 0; i < PIN_NUMBER_OF_NOTIFY; i++) {
-            t_notify *notify = settingsPinGetNotify(webResource->pinIdx, i);
-            if (notify->condition > 0) {
-                if (i) {
-                    plen = addToBufferTCP(buf, plen, ',');
-                }
-                plen = addToBufferTCP_P(buf, plen, PSTR("{\"notifyCondition\":\""));
-                plen = addToBufferTCP_P(buf, plen, pinNotification[notify->condition - 1]);
-
-                plen = addToBufferTCP_P(buf, plen, PSTR("\",\"notifyValue\":"));
-                plen = addToBufferTCP(buf, plen, notify->value);
-                plen = addToBufferTCP(buf, plen, '}');
-            }
-        }
-        plen = addToBufferTCP(buf, plen, ']');
     } else {
         float minValue;
         memcpy_P(&minValue, &pinOutputDescription[webResource->pinIdx - pinInputSize].valueMin, sizeof(float));

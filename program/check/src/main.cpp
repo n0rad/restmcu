@@ -49,10 +49,10 @@ void displayError(const prog_char *progmem_s, int pin) {
 
 char *configCheck() {
 	uint8_t ip[4];
-	ip[0] = boardDescription.ip[0];
-	ip[1] = boardDescription.ip[1];
-	ip[2] = boardDescription.ip[2];
-	ip[3] = boardDescription.ip[3];
+	ip[0] = boardSettings.ip[0];
+	ip[1] = boardSettings.ip[1];
+	ip[2] = boardSettings.ip[2];
+	ip[3] = boardSettings.ip[3];
 	if (ip[0] == 255 || ip[1] == 255 || ip[2] == 255 || ip[3] == 255 // cannot be 255
 	|| ip[0] == 0 || ip[3] == 0) { // cannot start or finish with 0
 		displayError("Invalid server ip", 0);
@@ -71,9 +71,9 @@ char *configCheck() {
 			displayError(PIN_TYPE_INVALID, pinId);
 		}
 		for (uint8_t j = 0; j < 4; j++) {
-			uint8_t cond = pinInputDescription[i].notifies[j].condition;
+			uint8_t cond = pinInputSettings[i].notifies[j].condition;
 			if (cond) {
-				uint32_t tmp = (pinInputDescription[i].notifies[j].value);
+				uint32_t tmp = (pinInputSettings[i].notifies[j].value);
 				float value = tmp;
 				if (!(cond == OVER_EQ || cond == UNDER_EQ)) {
 					displayError("Invalid notify on pin%d", pinId);
@@ -105,7 +105,7 @@ char *configCheck() {
 			displayError(PIN_TYPE_INVALID, pinId);
 		}
 
-		uint32_t start = (pinOutputDescription[i].startValue);
+		uint32_t start = (pinOutputSettings[i].lastValue);
 		uint32_t min = (pinOutputDescription[i].valueMin);
 		uint32_t max = (pinOutputDescription[i].valueMax);
 		PinOutputConversion conversionFunc =

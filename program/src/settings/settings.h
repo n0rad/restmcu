@@ -1,6 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <avr/pgmspace.h>
@@ -44,36 +45,6 @@ extern uint8_t NotifyDstIp[4];
 extern uint16_t notifyDstPort;
 extern char notifyUrlPrefix[36];
 extern t_notify **pinNotifies;
-
-
-/////////////////////////////////////////////////////////////
-// EEPROM structure
-/////////////////////////////////////////////////////////////
-typedef struct s_boardSettings {
-    uint8_t ip[CONFIG_BOARD_IP_SIZE];
-    uint16_t port;
-    char name[CONFIG_BOARD_NAME_SIZE];
-    char notifyUrl[CONFIG_BOARD_NOTIFY_SIZE];
-} t_boardSettings;
-
-typedef struct s_pinInputSettings {
-    prog_char name[CONFIG_PIN_NAME_SIZE];
-    t_notify notifies[PIN_NUMBER_OF_NOTIFY];
-} t_pinInputSettings;
-
-typedef struct s_pinOutputSettings {
-    char name[CONFIG_PIN_NAME_SIZE];
-    float lastValue;
-} t_pinOutputSettings;
-
-#ifdef DOC_ONLY // eeprom structure that is not real because input and output size are dynamic
-typedef struct s_settings {
-    t_boardSettings boardSettings;
-    t_pinInputSettings inputSettings[]; // array of size of pinInputDescription determined at runtime
-    t_pinOutputSettings outputSettings[]; // array of size of pinOutputDescription determined at runtime
-    char version[4];
-} t_settings;
-#endif
 
 
 #endif

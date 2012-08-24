@@ -15,9 +15,6 @@ float settingsPinOutputGetValue(uint8_t outputIdx) {
 
 t_notify *settingsPinGetNotify(uint8_t pinIdx, uint8_t notifyId) {
     return &pinNotifies[pinIdx][notifyId];
-//    uint16_t eepromPos = sizeof(t_boardSettings) + (sizeof(t_pinInputSettings) * pinIdx);
-//    eepromPos += offsetof(t_pinInputSettings, notifies) + (sizeof(t_notify) * notifyId);
-//    eeprom_read_block((void *)notify, (char *)eepromPos, sizeof(t_notify));
 }
 
 uint8_t *settingsPinGetName_E(uint8_t pinIdx) {
@@ -32,9 +29,6 @@ uint8_t *settingsPinGetName_E(uint8_t pinIdx) {
 
 /////////////////
 
-const prog_char *settingsPinSetId(char *buf, uint16_t len, uint8_t index) {
-    return configBoardSetPinIds(buf, len, currentSetPinIdx);
-}
 const prog_char *settingsPinSetName(char *buf, uint16_t len, uint8_t index) {
     if (len >  CONFIG_PIN_NAME_SIZE - 1) {
         return NAME_TOO_LONG;
@@ -47,62 +41,6 @@ const prog_char *settingsPinSetName(char *buf, uint16_t len, uint8_t index) {
     }
     eeprom_write_block(buf, (uint8_t *)(pinPos + offsetof(t_pinInputSettings, name)), len);
     eeprom_write_byte((uint8_t *) (pinPos + offsetof(t_pinInputSettings, name) + len), 0);
-    return 0;
-}
-const prog_char *settingsPinSetDescription(char *buf, uint16_t len, uint8_t index) {
-    const char *desc = currentSetPinIdx < pinInputSize ? pinInputDescription[currentSetPinIdx].description :
-            pinOutputDescription[currentSetPinIdx - pinInputSize].description;
-    if (!strncmp_P(buf, desc, len)) {
-        return 0;
-    }
-    return DESCRIPTION_CANNOT_BE_SET;
-}
-const prog_char *settingsPinSetDirection(char *buf, uint16_t len, uint8_t index) {
-    if (!strncmp_P(buf, currentSetPinIdx < pinInputSize ? STR_INPUT : STR_OUTPUT, len)) {
-        return 0;
-    }
-    return PSTR("cannot set direction");
-}
-const prog_char *settingsPinSetType(char *buf, uint16_t len, uint8_t index) {
-    uint8_t type = pgm_read_byte(currentSetPinIdx < pinInputSize ? &pinInputDescription[currentSetPinIdx].type :
-            &pinOutputDescription[currentSetPinIdx - pinInputSize].type);
-    if (!strncmp_P(buf, (const prog_char *)pgm_read_byte(&pinType[type - 1]), len)) {
-        return 0;
-    }
-    return PSTR("cannot set type");
-}
-
-const prog_char *settingsPinSetValueMin(char *buf, uint16_t len, uint8_t index) {
-    float value = atof(buf);
-    if (currentSetPinIdx < pinInputSize) {
-        PinInputConversion conversion = (PinInputConversion) pgm_read_word(&(pinInputDescription[currentSetPinIdx].convertValue));
-        if (floatRelativeDiff(value, conversion(0)) >= 0.001) {
-            return CANNOT_SET_MIN_VAL;
-        }
-    } else {
-        float minValue;
-        memcpy_P(&minValue, &pinOutputDescription[currentSetPinIdx - pinInputSize].valueMin, sizeof(float));
-        if (floatRelativeDiff(value, minValue) >= 0.001) {
-            return CANNOT_SET_MIN_VAL;
-        }
-    }
-    return 0;
-}
-const prog_char *settingsPinSetValueMax(char *buf, uint16_t len, uint8_t index) {
-    float value = atof(buf);
-    if (currentSetPinIdx < pinInputSize) {
-        uint8_t type = pgm_read_byte(&pinInputDescription[currentSetPinIdx].type);
-        PinInputConversion conversion = (PinInputConversion) pgm_read_word(&(pinInputDescription[currentSetPinIdx].convertValue));
-        if (floatRelativeDiff(value, conversion(type == ANALOG ? 1023 : 1)) >= 0.001) {
-            return CANNOT_SET_MAX_VAL;
-        }
-    } else {
-        float maxValue;
-        memcpy_P(&maxValue, &pinOutputDescription[currentSetPinIdx - pinInputSize].valueMax, sizeof(float));
-        if (floatRelativeDiff(value, maxValue) >= 0.001) {
-            return CANNOT_SET_MAX_VAL;
-        }
-    }
     return 0;
 }
 

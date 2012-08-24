@@ -12,8 +12,9 @@
 
 const prog_char DOUBLE_ENDL[] PROGMEM = "\r\n\r\n";
 const prog_char RESOURCE_PIN[] PROGMEM = "/pin/";
-const prog_char RESOURCE_PIN_SUFFIX[] PROGMEM = "/value";
+const prog_char RESOURCE_PIN_SUFFIX[] PROGMEM = "/value ";
 const prog_char RESOURCE_BOARD[] PROGMEM = "/ ";
+const prog_char RESOURCE_SETTINGS[] PROGMEM = "/settings ";
 const prog_char RESOURCE_RESET[] PROGMEM = "/reset ";
 const prog_char RESOURCE_INIT[] PROGMEM = "/init ";
 const prog_char RESOURCE_NOTIFY[] PROGMEM = "/notify ";
@@ -60,11 +61,12 @@ struct s_resource {
   {PUT, RESOURCE_PIN, RESOURCE_PIN_SUFFIX, pinPutValue, 0},
   {GET, RESOURCE_PIN, RESOURCE_PIN_SUFFIX, pinGetValue, 0},
   {GET, RESOURCE_PIN, 0, pinGet, 0},
-  {PUT, RESOURCE_PIN,  0, pinPut, 0},
+  {GET, RESOURCE_PIN, RESOURCE_SETTINGS, pinGetSettings, 0},
+  {PUT, RESOURCE_PIN,  RESOURCE_SETTINGS, pinPutSettings, 0},
   {GET, RESOURCE_BOARD, 0, boardGet, 0},
-  {PUT, RESOURCE_BOARD, 0, boardPut, 0},
+  {GET, RESOURCE_SETTINGS, 0, boardGetSettings, 0},
+  {PUT, RESOURCE_SETTINGS, 0, boardPutSettings, 0},
   {PUT, RESOURCE_RESET, 0, boardReset, 1},
-  {PUT, RESOURCE_INIT, 0, boardReInit, 1},
   {PUT, RESOURCE_NOTIFY, 0, boardNotify, 1},
   {0, 0, 0, 0, 0}
 };

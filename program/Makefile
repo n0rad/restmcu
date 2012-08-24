@@ -211,7 +211,7 @@ upload: testMCU $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
 # Display size of file.
-HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
+HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex $(TARGET).eep
 ELFSIZE = $(SIZE)  $(TARGET).elf
 sizebefore:
 	@if [ -f $(TARGET).elf ]; then echo; echo $(MSG_SIZE_BEFORE); $(HEXSIZE); echo; fi

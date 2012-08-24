@@ -1,8 +1,11 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
+#include <avr/eeprom.h>
 #include <avr/pgmspace.h>
 #include "pin/pin-manager.h"
+
+typedef char eeprom_char;
 
 ///////////////////////////////////////////////////////////////
 // BOARD
@@ -16,12 +19,15 @@
 
 typedef struct s_boardDescription {
     uint8_t mac[CONFIG_BOARD_MAC_SIZE];
+    prog_char description[CONFIG_BOARD_DESCRIPTION_SIZE];
+} t_boardDescription;
+typedef struct s_boardSettings {
     uint8_t ip[CONFIG_BOARD_IP_SIZE];
     uint16_t port;
-    prog_char name[CONFIG_BOARD_NAME_SIZE];
-    prog_char description[CONFIG_BOARD_DESCRIPTION_SIZE];
-    prog_char notifyurl[CONFIG_BOARD_NOTIFY_SIZE];
-} t_boardDescription;
+    eeprom_char name[CONFIG_BOARD_NAME_SIZE];
+    eeprom_char notifyUrl[CONFIG_BOARD_NOTIFY_SIZE];
+} t_boardSettings;
+
 
 ////////////////////////////////////////////////////////////
 // PIN
@@ -46,29 +52,35 @@ typedef struct s_pinInputDescription {
     int8_t pinId;           // unique pin id on board
     int8_t type;            // ANALOG, DIGITAL
     uint8_t pullup;         // enable internal pullup resistor
-    prog_char name[CONFIG_PIN_NAME_SIZE];
-    t_notify notifies[PIN_NUMBER_OF_NOTIFY];
     PinInputConversion convertValue; // convert the 0-1023 to a display value (ex: float for temperature)
     PinRead read;           // function to read value
     prog_char description[CONFIG_PIN_DESCRIPTION_SIZE];
 } t_pinInputDescription;
-
+typedef struct s_pinInputSettings {
+	eeprom_char name[CONFIG_PIN_NAME_SIZE];
+    t_notify notifies[PIN_NUMBER_OF_NOTIFY];
+} t_pinInputSettings;
 
 typedef struct s_pinOutputDescription {
     int8_t pinId;         // unique pin id on board
     int8_t type;          // ANALOG, DIGITAL
-    prog_char name[CONFIG_PIN_NAME_SIZE];
     float valueMin;       // for output pin : min value as input for transform function that will not result under 0 (display value)
     float valueMax;       // for output pin : max value as input for transform function that will not result over 255 (display value)
-    float startValue;     // output start value the first time the board run (use saved state in eeprom in later boot)
     PinOutputConversion convertValue; // convert the display value to a 0-255 value
     PinWrite write;       // function to write value
     prog_char description[CONFIG_PIN_DESCRIPTION_SIZE];
 } t_pinOutputDescription;
-
+typedef struct s_pinOutputSettings {
+	eeprom_char name[CONFIG_PIN_NAME_SIZE];
+    float lastValue;
+} t_pinOutputSettings;
 
 extern const t_pinInputDescription pinInputDescription[];
 extern const t_pinOutputDescription pinOutputDescription[];
 extern const t_boardDescription boardDescription;
+
+extern t_pinInputSettings pinInputSettings[];
+extern t_pinOutputSettings pinOutputSettings[];
+extern t_boardSettings boardSettings;
 
 #endif
