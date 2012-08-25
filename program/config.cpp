@@ -35,8 +35,8 @@ const t_pinInputDescription pinInputDescription[] PROGMEM = {
         {-1}
 };
 t_pinInputSettings pinInputSettings[] EEMEM = {
-	{"PIR", {{OVER_EQ, 1},{UNDER_EQ, 0},{0,0},{0,0}}},
-	{"Push button", {{OVER_EQ, 1},{UNDER_EQ, 0},{0,0},{0,0}}}
+	{"PIR", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
+	{"Push button", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}}
 };
 
 

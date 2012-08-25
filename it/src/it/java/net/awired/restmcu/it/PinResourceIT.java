@@ -1,10 +1,11 @@
 package net.awired.restmcu.it;
 
-import static net.awired.restmcu.api.domain.pin.RestMcuPinNotifyCondition.inf_or_equal;
-import static net.awired.restmcu.api.domain.pin.RestMcuPinNotifyCondition.sup_or_equal;
 import static org.junit.Assert.assertEquals;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import net.awired.restmcu.api.domain.pin.RestMcuPinNotify;
+import net.awired.restmcu.api.domain.pin.RestMcuPinNotifyCondition;
 import net.awired.restmcu.api.domain.pin.RestMcuPinSettings;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,12 +28,65 @@ public class PinResourceIT {
     @Test
     public void should_update_notify() throws Exception {
         RestMcuPinSettings value = new RestMcuPinSettings();
-        value.setNotifies(Arrays.asList(new RestMcuPinNotify(inf_or_equal, 0f),
-                new RestMcuPinNotify(sup_or_equal, 1f)));
+        List<RestMcuPinNotify> asList = Arrays.asList(
+                new RestMcuPinNotify(RestMcuPinNotifyCondition.INF_OR_EQUAL, 1f), new RestMcuPinNotify(
+                        RestMcuPinNotifyCondition.SUP_OR_EQUAL, 1f));
+        value.setNotifies(asList);
 
         restmcu.getPinResource().setPinSettings(8, value);
 
-        assertEquals("myname", restmcu.getPinResource().getPinSettings(6).getName());
+        List<RestMcuPinNotify> notifies = restmcu.getPinResource().getPinSettings(8).getNotifies();
+        assertEquals(2, notifies.size());
+        assertEquals(asList.get(0), notifies.get(0));
+        assertEquals(asList.get(1), notifies.get(1));
+    }
+
+    @Test
+    public void should_update_notify2() throws Exception {
+        RestMcuPinSettings value = new RestMcuPinSettings();
+        List<RestMcuPinNotify> asList = Arrays.asList(
+                new RestMcuPinNotify(RestMcuPinNotifyCondition.INF_OR_EQUAL, 0f), new RestMcuPinNotify(
+                        RestMcuPinNotifyCondition.SUP_OR_EQUAL, 0f));
+        value.setNotifies(asList);
+
+        restmcu.getPinResource().setPinSettings(8, value);
+
+        List<RestMcuPinNotify> notifies = restmcu.getPinResource().getPinSettings(8).getNotifies();
+        assertEquals(2, notifies.size());
+        assertEquals(asList.get(0), notifies.get(0));
+        assertEquals(asList.get(1), notifies.get(1));
+    }
+
+    @Test
+    public void should_update_notify3() throws Exception {
+        RestMcuPinSettings value = new RestMcuPinSettings();
+        // its duplicated but should not be a problem for the controller as it will notify only once
+        List<RestMcuPinNotify> asList = Arrays.asList(
+                new RestMcuPinNotify(RestMcuPinNotifyCondition.INF_OR_EQUAL, 0f), //
+                new RestMcuPinNotify(RestMcuPinNotifyCondition.SUP_OR_EQUAL, 0f), // 
+                new RestMcuPinNotify(RestMcuPinNotifyCondition.INF_OR_EQUAL, 0f), // 
+                new RestMcuPinNotify(RestMcuPinNotifyCondition.SUP_OR_EQUAL, 0f));
+        value.setNotifies(asList);
+
+        restmcu.getPinResource().setPinSettings(8, value);
+
+        List<RestMcuPinNotify> notifies = restmcu.getPinResource().getPinSettings(8).getNotifies();
+        assertEquals(4, notifies.size());
+        assertEquals(asList.get(0), notifies.get(0));
+        assertEquals(asList.get(1), notifies.get(1));
+        assertEquals(asList.get(2), notifies.get(2));
+        assertEquals(asList.get(3), notifies.get(3));
+    }
+
+    @Test
+    public void should_flush_notifies() throws Exception {
+        RestMcuPinSettings value = new RestMcuPinSettings();
+        value.setNotifies(new ArrayList<RestMcuPinNotify>());
+
+        restmcu.getPinResource().setPinSettings(8, value);
+
+        List<RestMcuPinNotify> notifies = restmcu.getPinResource().getPinSettings(8).getNotifies();
+        assertEquals(0, notifies.size());
     }
 
 }

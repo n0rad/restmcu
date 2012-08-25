@@ -81,6 +81,9 @@ static const prog_char *jsonParseArray(char **buffer, const t_json *currentStruc
     uint8_t count = 0;
     do {
         buf = skipSpaces(&buf[1]); // skip '[' and then ',' on each loop
+        if (buf[0] == ']') {
+        	break;
+        }
         const prog_char *res = jsonParseValue(&buf, currentStructure, count);
         if (res) {
             return res;
