@@ -86,7 +86,7 @@ void networkManage() {
 			client.println((const char *) buf);
 		}
 
-		delay(1);
+//		delay(1);
 		client.stop();
 	}
 	if (needReboot) {
