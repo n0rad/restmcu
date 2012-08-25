@@ -56,19 +56,18 @@ struct s_resource {
   const prog_char *query;
   const prog_char *suffix;
   ResourceFunc resourceFunc;
-  const uint8_t putDataNotNeeded;
 } const resources[] PROGMEM = {
-  {PUT, RESOURCE_PIN, RESOURCE_PIN_SUFFIX, pinPutValue, 0},
-  {GET, RESOURCE_PIN, RESOURCE_PIN_SUFFIX, pinGetValue, 0},
-  {GET, RESOURCE_PIN, 0, pinGet, 0},
-  {GET, RESOURCE_PIN, RESOURCE_SETTINGS, pinGetSettings, 0},
-  {PUT, RESOURCE_PIN,  RESOURCE_SETTINGS, pinPutSettings, 0},
-  {GET, RESOURCE_BOARD, 0, boardGet, 0},
-  {GET, RESOURCE_SETTINGS, 0, boardGetSettings, 0},
-  {PUT, RESOURCE_SETTINGS, 0, boardPutSettings, 0},
-  {PUT, RESOURCE_RESET, 0, boardReset, 1},
-  {PUT, RESOURCE_NOTIFY, 0, boardNotify, 1},
-  {0, 0, 0, 0, 0}
+  {PUT, RESOURCE_PIN, RESOURCE_PIN_SUFFIX, pinPutValue},
+  {GET, RESOURCE_PIN, RESOURCE_PIN_SUFFIX, pinGetValue},
+  {GET, RESOURCE_PIN, 0, pinGet},
+  {GET, RESOURCE_PIN, RESOURCE_SETTINGS, pinGetSettings},
+  {PUT, RESOURCE_PIN,  RESOURCE_SETTINGS, pinPutSettings},
+  {GET, RESOURCE_BOARD, 0, boardGet},
+  {GET, RESOURCE_SETTINGS, 0, boardGetSettings},
+  {PUT, RESOURCE_SETTINGS, 0, boardPutSettings},
+  {PUT, RESOURCE_RESET, 0, boardReset},
+  {PUT, RESOURCE_NOTIFY, 0, boardNotify},
+  {0, 0, 0, 0}
 };
 
 #endif

@@ -86,23 +86,6 @@ uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen) {
         return plen;
     }
 
-//    DEBUG_PRINT(">");
-//    DEBUG_PRINTDEC(dataLen);
-//    DEBUG_PRINT(">>");
-//    DEBUG_PRINTDEC(dataPointer);
-//    DEBUG_PRINT(">>");
-//	DEBUG_WRITE((const uint8_t *)buf, dataLen);
-//	DEBUG_PRINTLN();
-
-
-//    if (currentWebRequest.resource != 0) { // we were waiting for data packet
-//    	DEBUG_PRINTLN("waiting for data");
-//    	ResourceFunc currentFunc = (ResourceFunc) pgm_read_word(&currentWebRequest.resource->resourceFunc);
-//        plen = currentFunc(buf, dataPointer, dataLen, &currentWebRequest);
-//        currentWebRequest.resource = 0;
-//        return plen;
-//    }
-
     plen = parseHeaders(buf, dataPointer, dataLen);
     if (plen != 0) {
         return plen;
@@ -122,14 +105,9 @@ uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen) {
                 plen = appendErrorMsg_P(buf, plen, PSTR("Double endl not found"));
             } else {
                 uint16_t dataStartPos = dataPointer + endPos + 4;
-                if (dataStartPos == dataLen && !pgm_read_byte(&currentWebRequest.resource->putDataNotNeeded)) { // NO DATA IN THIS PACKET
-                    return 0;
-                } else {
-                    plen = currentFunc((char *)buf, dataStartPos, dataLen, &currentWebRequest);
-                }
+				plen = currentFunc((char *)buf, dataStartPos, dataLen, &currentWebRequest);
             }
         }
     }
-    currentWebRequest.resource = 0;
     return plen;
 }
