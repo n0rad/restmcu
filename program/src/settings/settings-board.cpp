@@ -16,7 +16,6 @@ uint8_t *settingsBoardGetNotifyUrl_E() {
     return (uint8_t *) &boardSettings.notifyUrl;
 }
 
-
 const prog_char *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t index) {
     if (len >  CONFIG_BOARD_NOTIFY_SIZE - 1) {
         return PSTR("notifyUrl is too long");
@@ -27,7 +26,7 @@ const prog_char *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t inde
 
     uint8_t newIp[4];
     if (readIP(&buf[7], strspn_P(&buf[7], IP_CHARACTERS), newIp)) {
-        return PSTR("invalid Ip in notifyUrl");
+        return PSTR("invalid ip in notifyUrl");
     }
     eeprom_write_block(buf, &boardSettings.notifyUrl, len);
     eeprom_write_byte((uint8_t *)&boardSettings.notifyUrl + len, 0);
@@ -35,8 +34,6 @@ const prog_char *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t inde
     return 0;
 }
 const prog_char *settingsBoardSetName(char *buf, uint16_t len, uint8_t index) {
-	DEBUG_PRINTLN("Setting name");
-	DEBUG_PRINTLN();
 	if (len >  CONFIG_BOARD_NAME_SIZE - 1) {
         return NAME_TOO_LONG;
     }

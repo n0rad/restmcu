@@ -10,16 +10,11 @@ uint16_t startResponseHeader(char **buf, const prog_char *codeMsg) {
     return plen;
 }
 
-uint16_t appendErrorMsg_P(char *buf, uint16_t plen, const prog_char *msg) {
-    plen = addToBufferTCP_P(buf, plen, ERROR_MSG_START);
+uint16_t appendErrorMsg_P(char *buf, uint16_t plen, const prog_char *type, const prog_char *msg) {
+    plen = addToBufferTCP_P(buf, plen, PSTR("{\"errorClass\":\"net.awired.ajsl.core.lang.exception."));
+    plen = addToBufferTCP_P(buf, plen, type);
+    plen = addToBufferTCP_P(buf, plen, PSTR("\",\"message\":\""));
     plen = addToBufferTCP_P(buf, plen, msg);
-    plen = addToBufferTCP_P(buf, plen, JSON_STR_END);
-    return plen;
-}
-
-uint16_t appendErrorMsg(char *buf, uint16_t plen, char *msg) {
-    plen = addToBufferTCP_P(buf, plen, ERROR_MSG_START);
-    plen = addToBufferTCP(buf, plen, msg);
     plen = addToBufferTCP_P(buf, plen, JSON_STR_END);
     return plen;
 }
@@ -30,7 +25,7 @@ static uint16_t commonCheck(char *buf, uint16_t dataPointer, uint16_t dataLen) {
     uint16_t plen;
     if (dataLen >= 999) {
         plen = startResponseHeader(&buf, HEADER_413);
-        plen = appendErrorMsg_P(buf, plen, PSTR("Too big"));
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_UPDATE, PSTR("Too big"));
         return plen;
     }
     return 0;
@@ -59,7 +54,7 @@ uint16_t parseHeaders(char *buf, uint16_t dataPointer, uint16_t dataLen) {
                     idx = configGetOutputPinIdx(currentPinId);
                     if (idx == -1) {
                         plen = startResponseHeader(&buf, HEADER_400);
-                        plen = appendErrorMsg_P(buf, plen, PSTR("Pin not found"));
+                        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_NOT_FOUND, PSTR("Pin not found"));
                         return plen;
                     }
                     currentWebRequest.pinIdx = pinInputSize + idx;
@@ -93,7 +88,7 @@ uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen) {
 
     if (!currentWebRequest.resource) {
         plen = startResponseHeader(&buf, HEADER_404);
-        plen = appendErrorMsg_P(buf, plen, PSTR("No resource for this method & url"));
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_NOT_FOUND, PSTR("No resource for this method & url"));
     } else {
         ResourceFunc currentFunc = (ResourceFunc) pgm_read_word(&currentWebRequest.resource->resourceFunc);
         if ((prog_char *)pgm_read_word(&currentWebRequest.resource->method) == GET) { // GET do not need data, calling func directly
@@ -102,7 +97,7 @@ uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen) {
             uint16_t endPos = strstrpos_P(&buf[dataPointer], DOUBLE_ENDL);
             if (endPos == -1) {
                 plen = startResponseHeader(&buf, HEADER_400);
-                plen = appendErrorMsg_P(buf, plen, PSTR("Double endl not found"));
+                plen = appendErrorMsg_P(buf, plen, ERROR_MSG_NOT_FOUND, PSTR("Double endl not found"));
             } else {
                 uint16_t dataStartPos = dataPointer + endPos + 4;
 				plen = currentFunc((char *)buf, dataStartPos, dataLen, &currentWebRequest);

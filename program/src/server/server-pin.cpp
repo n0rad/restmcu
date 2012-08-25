@@ -3,14 +3,14 @@
 uint16_t pinPutValue(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource) {
     if (webResource->pinIdx < pinInputSize) {
         plen = startResponseHeader(&buf, HEADER_400);
-        plen = appendErrorMsg_P(buf, plen, PSTR("Cannot set value on INPUT pin"));
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_UPDATE, PSTR("Cannot set value on INPUT pin"));
         return plen;
     }
     float value = atof(&buf[dat_p]);
     const prog_char *res = setPinValue(webResource->pinIdx - pinInputSize, value);
     if (res) {
         plen = startResponseHeader(&buf, HEADER_400);
-        plen = appendErrorMsg_P(buf, plen, res);
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_UPDATE, res);
     } else {
         plen = startResponseHeader(&buf, HEADER_200);
     }
@@ -30,7 +30,7 @@ uint16_t pinPutSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *
     const prog_char *error = jsonParse(&buf[dat_p], &pinPutSettingsObj);
     if (error) {
         plen = startResponseHeader(&buf, HEADER_400);
-        plen = appendErrorMsg_P(buf, plen, error);
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_UPDATE, error);
     } else {
         plen = startResponseHeader(&buf, HEADER_200);
     }

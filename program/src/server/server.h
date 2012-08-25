@@ -23,23 +23,19 @@ const prog_char GET[] PROGMEM = "GET ";
 const prog_char HEADER_HTTP[] PROGMEM = "HTTP/1.0 ";
 const prog_char HEADER_CONTENT[] PROGMEM = "\r\nContent-Type: application/json";
 const prog_char HEADER_200[] PROGMEM = "200 OK";
-const prog_char HEADER_500[] PROGMEM = "500 Internal Server Error";
 const prog_char HEADER_404[] PROGMEM = "404 Not Found";
 const prog_char HEADER_400[] PROGMEM = "400 Bad Request";
 const prog_char HEADER_413[] PROGMEM = "413 Request Entity Too Large";
 
 
 const prog_char JSON_DESCRIPTION[] PROGMEM = "\",\"description\":\"";
-const prog_char JSON_NAME[] PROGMEM = "\",\"name\":\"";
-const prog_char ERROR_MSG_START[] PROGMEM = "{\"errorClass\":\"net.awired.ajsl.core.lang.exception.UpdateException\",\"message\":\"";
+const prog_char ERROR_MSG_UPDATE[] PROGMEM = "UpdateException";
+const prog_char ERROR_MSG_NOT_FOUND[] PROGMEM = "NotFoundException";
 
 const prog_char PARAM_NAME[] PROGMEM = "name";
-const prog_char PARAM_DESCRIPTION[] PROGMEM = "description";
 
 uint16_t startResponseHeader(char **buf, const prog_char *codeMsg);
-uint16_t appendErrorMsg_P(char *buf, uint16_t plen, const prog_char *msg);
-uint16_t appendErrorMsg(char *buf, uint16_t plen, char *msg);
-uint16_t appendJsonKey(char *buf, uint16_t plen, const prog_char *key);
+uint16_t appendErrorMsg_P(char *buf, uint16_t plen, const prog_char *type, const prog_char *msg);
 
 
 #include "server-board.h"

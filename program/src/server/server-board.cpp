@@ -67,7 +67,7 @@ uint16_t boardGetSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest
     plen = addToBufferTCP(buf, plen, '.');
     plen = addToBufferTCP(buf, plen, (uint16_t) ip[3]);
 
-	plen = addToBufferTCP_P(buf, plen, JSON_NAME);
+	plen = addToBufferTCP_P(buf, plen, PSTR("\",\"name\":\""));
 	plen = addToBufferTCP_E(buf, plen, settingsBoardGetName_E());
 
     plen = addToBufferTCP_P(buf, plen, PSTR("\",\"port\":"));
@@ -82,7 +82,7 @@ uint16_t boardPutSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest
 	const prog_char *error = jsonParse(&buf[dat_p], &boardPutSettingsObj);
     if (error) {
         plen = startResponseHeader(&buf, HEADER_400);
-        plen = appendErrorMsg_P(buf, plen, error);
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_UPDATE, error);
     } else {
         plen = startResponseHeader(&buf, HEADER_200);
     }

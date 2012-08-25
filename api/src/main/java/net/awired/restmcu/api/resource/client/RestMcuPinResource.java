@@ -21,11 +21,11 @@ public interface RestMcuPinResource {
 
     @GET
     @Path("/settings")
-    RestMcuPinSettings setPinSettings(@PathParam("pinId") Integer pinId) throws NotFoundException, UpdateException;
+    RestMcuPinSettings getPinSettings(@PathParam("pinId") Integer pinId) throws NotFoundException, UpdateException;
 
     @PUT
     @Path("/settings")
-    void getPinSettings(@PathParam("pinId") Integer pinId, RestMcuPinSettings pinSettings) throws NotFoundException,
+    void setPinSettings(@PathParam("pinId") Integer pinId, RestMcuPinSettings pinSettings) throws NotFoundException,
             UpdateException;
 
     @GET
