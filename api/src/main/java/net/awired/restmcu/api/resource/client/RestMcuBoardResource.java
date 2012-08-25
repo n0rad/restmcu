@@ -7,6 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import net.awired.ajsl.core.lang.exception.UpdateException;
 import net.awired.restmcu.api.domain.board.RestMcuBoard;
+import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
 
 @Path("/")
 @Produces("application/json")
@@ -17,7 +18,12 @@ public interface RestMcuBoardResource {
     public RestMcuBoard getBoard();
 
     @PUT
-    public void setBoard(RestMcuBoard board) throws UpdateException;
+    @Path("/settings")
+    public void setBoardSettings(RestMcuBoardSettings boardSettings) throws UpdateException;
+
+    @GET
+    @Path("/settings")
+    public RestMcuBoardSettings getBoardSettings();
 
     @PUT
     @Path("/reset")

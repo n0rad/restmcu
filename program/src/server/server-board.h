@@ -29,4 +29,6 @@ const t_json boardPutSettingsElements[] PROGMEM = {
         {0, 0, 0, 0}
 };
 
+const t_json boardPutSettingsObj PROGMEM = {0, 0, (t_json *)boardPutSettingsElements, 0};
+
 #endif

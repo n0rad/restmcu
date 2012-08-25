@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import net.awired.ajsl.core.lang.exception.NotFoundException;
 import net.awired.ajsl.core.lang.exception.UpdateException;
 import net.awired.restmcu.api.domain.pin.RestMcuPin;
+import net.awired.restmcu.api.domain.pin.RestMcuPinSettings;
 
 @Path("/pin/{pinId}")
 @Produces("application/json")
@@ -18,8 +19,14 @@ public interface RestMcuPinResource {
     @GET
     RestMcuPin getPin(@PathParam("pinId") Integer pinId) throws NotFoundException;
 
+    @GET
+    @Path("/settings")
+    RestMcuPinSettings setPinSettings(@PathParam("pinId") Integer pinId) throws NotFoundException, UpdateException;
+
     @PUT
-    void setPin(@PathParam("pinId") Integer pinId, RestMcuPin pin) throws NotFoundException, UpdateException;
+    @Path("/settings")
+    void getPinSettings(@PathParam("pinId") Integer pinId, RestMcuPinSettings pinSettings) throws NotFoundException,
+            UpdateException;
 
     @GET
     @Path("/value")

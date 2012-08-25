@@ -1,7 +1,9 @@
 package net.awired.restmcu.it;
 
-import net.awired.ajsl.core.lang.exception.UpdateException;
-import net.awired.restmcu.api.domain.board.RestMcuBoard;
+import static org.junit.Assert.assertEquals;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -153,11 +155,19 @@ public class BoardIT {
     //        hcc.getBoardResource().setBoard(deviceInfo);
     //    }
 
-    @Test(expected = UpdateException.class)
-    public void should_not_set_description_to_null() throws Exception {
-        RestMcuBoard deviceInfo = hcc.getBoardResource().getBoard();
-        deviceInfo.setDescription("desc");
-        hcc.getBoardResource().setBoard(deviceInfo);
+    @Test
+    public void should_update_settings_with_same() throws Exception {
+        RestMcuBoardSettings boardSettings = hcc.getBoardResource().getBoardSettings();
+        hcc.getBoardResource().setBoardSettings(boardSettings);
+        hcc.getBoardResource().getBoardSettings();
     }
 
+    @Test
+    public void should_update_name() throws Exception {
+        String name = new BigInteger(30, new SecureRandom()).toString(5);
+        RestMcuBoardSettings boardSettings = new RestMcuBoardSettings();
+        boardSettings.setName(name);
+        hcc.getBoardResource().setBoardSettings(boardSettings);
+        assertEquals(name, hcc.getBoardResource().getBoardSettings().getName());
+    }
 }

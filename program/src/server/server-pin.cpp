@@ -26,15 +26,14 @@ uint16_t pinGetValue(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *web
 ////////////////////////////////////////////
 
 uint16_t pinPutSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource) {
-//    currentSetPinIdx = webResource->pinIdx;
-//    const prog_char *error = jsonParse(&buf[dat_p], &pinPutObj);
-//    if (error) {
-//        plen = startResponseHeader(&buf, HEADER_400);
-//        plen = appendErrorMsg_P(buf, plen, error);
-//    } else {
-//        plen = startResponseHeader(&buf, HEADER_200);
-//    }
-//    return plen;
+    currentSetPinIdx = webResource->pinIdx;
+    const prog_char *error = jsonParse(&buf[dat_p], &pinPutSettingsObj);
+    if (error) {
+        plen = startResponseHeader(&buf, HEADER_400);
+        plen = appendErrorMsg_P(buf, plen, error);
+    } else {
+        plen = startResponseHeader(&buf, HEADER_200);
+    }
     return plen;
 }
 

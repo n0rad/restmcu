@@ -35,11 +35,14 @@ const prog_char *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t inde
     return 0;
 }
 const prog_char *settingsBoardSetName(char *buf, uint16_t len, uint8_t index) {
-    if (len >  CONFIG_BOARD_NAME_SIZE - 1) {
+	DEBUG_PRINTLN("Setting name");
+	DEBUG_PRINTLN();
+	if (len >  CONFIG_BOARD_NAME_SIZE - 1) {
         return NAME_TOO_LONG;
     }
     eeprom_write_block(buf, &boardSettings.name, len);
     eeprom_write_byte((uint8_t *) &boardSettings.name + len, 0);
+
     return 0;
 }
 

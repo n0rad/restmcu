@@ -1,25 +1,21 @@
 package net.awired.restmcu.api.domain.board;
 
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "board")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RestMcuBoard {
 
-    private String name; // updatable
-    private String description; // updatable
-    private String notifyUrl; // updatable
-
+    private String description;
     private String software;
     private String version;
     private String hardware;
     private String mac;
-    private String ip;
-    private Integer port;
     private List<Integer> pinIds;
     private Integer freeMemory;
-
-    ////////////////////////////////////////////////////////
 
     public String getSoftware() {
         return software;
@@ -51,38 +47,6 @@ public class RestMcuBoard {
 
     public void setMac(String mac) {
         this.mac = mac;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
-    }
-
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    public void setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setHardware(String hardware) {

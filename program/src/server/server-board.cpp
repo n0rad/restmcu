@@ -79,14 +79,14 @@ uint16_t boardGetSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest
 
 
 uint16_t boardPutSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource) {
-//    const prog_char *error = jsonParse(&buf[dat_p], &boardPutObj);
-//    if (error) {
-//        plen = startResponseHeader(&buf, HEADER_400);
-//        plen = appendErrorMsg_P(buf, plen, error);
-//    } else {
-//        plen = startResponseHeader(&buf, HEADER_200);
-//    }
-//    return plen;
+	const prog_char *error = jsonParse(&buf[dat_p], &boardPutSettingsObj);
+    if (error) {
+        plen = startResponseHeader(&buf, HEADER_400);
+        plen = appendErrorMsg_P(buf, plen, error);
+    } else {
+        plen = startResponseHeader(&buf, HEADER_200);
+    }
+    return plen;
 }
 
 uint16_t boardReset(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource) {

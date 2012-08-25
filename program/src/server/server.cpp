@@ -55,7 +55,6 @@ uint16_t parseHeaders(char *buf, uint16_t dataPointer, uint16_t dataLen) {
                 int8_t idx = configGetInputPinIdx(currentPinId);
                 if (idx != -1) {
                     currentWebRequest.pinIdx = idx;
-//                    current.pinDirection = PIN_INPUT;
                 } else {
                     idx = configGetOutputPinIdx(currentPinId);
                     if (idx == -1) {
@@ -64,7 +63,6 @@ uint16_t parseHeaders(char *buf, uint16_t dataPointer, uint16_t dataLen) {
                         return plen;
                     }
                     currentWebRequest.pinIdx = pinInputSize + idx;
-//                    current.pinDirection = PIN_OUTPUT;
                 }
 
                 uint8_t j = dataPointer + 4 + querylen;
@@ -88,12 +86,22 @@ uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen) {
         return plen;
     }
 
-    if (currentWebRequest.resource != 0) { // we were waiting for data packet
-    	ResourceFunc currentFunc = (ResourceFunc) pgm_read_word(&currentWebRequest.resource->resourceFunc);
-        plen = currentFunc(buf, dataPointer, dataLen, &currentWebRequest);
-        currentWebRequest.resource = 0;
-        return plen;
-    }
+//    DEBUG_PRINT(">");
+//    DEBUG_PRINTDEC(dataLen);
+//    DEBUG_PRINT(">>");
+//    DEBUG_PRINTDEC(dataPointer);
+//    DEBUG_PRINT(">>");
+//	DEBUG_WRITE((const uint8_t *)buf, dataLen);
+//	DEBUG_PRINTLN();
+
+
+//    if (currentWebRequest.resource != 0) { // we were waiting for data packet
+//    	DEBUG_PRINTLN("waiting for data");
+//    	ResourceFunc currentFunc = (ResourceFunc) pgm_read_word(&currentWebRequest.resource->resourceFunc);
+//        plen = currentFunc(buf, dataPointer, dataLen, &currentWebRequest);
+//        currentWebRequest.resource = 0;
+//        return plen;
+//    }
 
     plen = parseHeaders(buf, dataPointer, dataLen);
     if (plen != 0) {

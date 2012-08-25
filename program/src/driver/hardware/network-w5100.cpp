@@ -30,6 +30,28 @@ unsigned long lastFailTime = 0;
 
 EthernetClient sendClient;
 
+uint16_t readRequest(EthernetClient client) {
+	uint16_t size = 0;
+
+//	while (client.connected()) {
+	if (client.available()) {
+		size = client.read((uint8_t *) buf, BUFFER_SIZE);
+		buf[size] = 0;
+
+		char *found = strstr_P((char *) buf, PSTR("Content-Length: "));
+		if (found == 0) {
+			return size; // no length so we stop here
+		}
+		int contentLength = atoi(&found[16]);
+		int currentContentLength = strlen(&strstr_P(found, DOUBLE_ENDL)[4]);
+		if (currentContentLength < contentLength) {
+			size += client.read((uint8_t *) &buf[size], contentLength - currentContentLength);
+		}
+	}
+//	}
+	return size;
+}
+
 void networkManage() {
 
 	if (sendClient.available()) {
@@ -55,17 +77,16 @@ void networkManage() {
 
 	EthernetClient client = server.available();
 	if (client) {
-//		while (client.connected()) {
-		if (client.available()) {
-			int size = client.read((uint8_t *) buf, BUFFER_SIZE);
+		uint16_t size = readRequest(client);
+
+		if (size > 0) {
 			buf[size] = 0;
 			size = handleWebRequest((char *) buf, 0, size);
 			buf[size] = 0;
 			client.println((const char *) buf);
-//				break;
 		}
-//		}
-//		delay(1);
+
+		delay(1);
 		client.stop();
 	}
 	if (needReboot) {

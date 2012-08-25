@@ -36,6 +36,6 @@ const t_json pinPutSettingsElements[] PROGMEM = {
         {0, 0}
 };
 
-const t_json pinPutObj PROGMEM = {0, 0, (t_json *)pinPutSettingsElements, 0};
+const t_json pinPutSettingsObj PROGMEM = {0, 0, (t_json *)pinPutSettingsElements, 0};
 
 #endif
