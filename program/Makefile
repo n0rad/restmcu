@@ -204,9 +204,6 @@ lss: $(TARGET).lss
 sym: $(TARGET).sym
 
 
-upload: testMCU $(TARGET).hex
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
-	
 upload: testMCU $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 

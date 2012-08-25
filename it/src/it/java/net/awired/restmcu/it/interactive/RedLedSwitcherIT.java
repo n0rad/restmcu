@@ -10,11 +10,11 @@ import org.junit.Test;
 public class RedLedSwitcherIT {
 
     @Rule
-    public RestMcuTestRule hcc = new RestMcuTestRule();
+    public RestMcuTestRule restmcu = new RestMcuTestRule();
 
     @Test
     public void should_toggle_red_led() throws Exception {
-        RestMcuPinResource pinResource = hcc.getPinResource();
+        RestMcuPinResource pinResource = restmcu.getPinResource();
         for (int i = 0; i < 100; i++) {
             pinResource.setPinValue(7, 1f);
             pinResource.setPinValue(7, 0f);

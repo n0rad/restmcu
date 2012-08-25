@@ -10,11 +10,11 @@ import org.junit.Test;
 public class PushButtonIT {
 
     @Rule
-    public RestMcuTestRule hcc = new RestMcuTestRule();
+    public RestMcuTestRule restmcu = new RestMcuTestRule();
 
     @Test
     public void should_push_the_button() throws Exception {
-        RestMcuPinResource pinResource = hcc.getPinResource();
+        RestMcuPinResource pinResource = restmcu.getPinResource();
 
         while (true) {
             Thread.sleep(500);
