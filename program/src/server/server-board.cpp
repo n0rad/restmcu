@@ -31,20 +31,18 @@ uint16_t boardGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webRes
     }
     plen = addToBufferTCP(buf, plen, ']');
 
-    uint8_t mac[6];
-    configBoardGetMac(mac);
     plen = addToBufferTCP_P(buf, plen, PSTR(",\"mac\":\""));
-    plen = addToBufferTCPHex(buf, plen, mac[0]);
+    plen = addToBufferTCPHex(buf, plen, srvMac[0]);
     plen = addToBufferTCP(buf, plen, ':');
-    plen = addToBufferTCPHex(buf, plen, mac[1]);
+    plen = addToBufferTCPHex(buf, plen, srvMac[1]);
     plen = addToBufferTCP(buf, plen, ':');
-    plen = addToBufferTCPHex(buf, plen, mac[2]);
+    plen = addToBufferTCPHex(buf, plen, srvMac[2]);
     plen = addToBufferTCP(buf, plen, ':');
-    plen = addToBufferTCPHex(buf, plen, mac[3]);
+    plen = addToBufferTCPHex(buf, plen, srvMac[3]);
     plen = addToBufferTCP(buf, plen, ':');
-    plen = addToBufferTCPHex(buf, plen, mac[4]);
+    plen = addToBufferTCPHex(buf, plen, srvMac[4]);
     plen = addToBufferTCP(buf, plen, ':');
-    plen = addToBufferTCPHex(buf, plen, mac[5]);
+    plen = addToBufferTCPHex(buf, plen, srvMac[5]);
 
     plen = addToBufferTCP_P(buf, plen, JSON_STR_END);
     return plen;
@@ -56,22 +54,20 @@ uint16_t boardGetSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest
 	plen = addToBufferTCP_P(buf, plen, PSTR("{\"notifyUrl\":\""));
 	plen = addToBufferTCP_E(buf, plen, settingsBoardGetNotifyUrl_E());
 
-    uint8_t ip[4];
-    settingsBoardGetIP(ip);
     plen = addToBufferTCP_P(buf, plen, PSTR("\",\"ip\":\""));
-    plen = addToBufferTCP(buf, plen, (uint16_t) ip[0]);
+    plen = addToBufferTCP(buf, plen, (uint16_t) srvIp[0]);
     plen = addToBufferTCP(buf, plen, '.');
-    plen = addToBufferTCP(buf, plen, (uint16_t) ip[1]);
+    plen = addToBufferTCP(buf, plen, (uint16_t) srvIp[1]);
     plen = addToBufferTCP(buf, plen, '.');
-    plen = addToBufferTCP(buf, plen, (uint16_t) ip[2]);
+    plen = addToBufferTCP(buf, plen, (uint16_t) srvIp[2]);
     plen = addToBufferTCP(buf, plen, '.');
-    plen = addToBufferTCP(buf, plen, (uint16_t) ip[3]);
+    plen = addToBufferTCP(buf, plen, (uint16_t) srvIp[3]);
 
 	plen = addToBufferTCP_P(buf, plen, PSTR("\",\"name\":\""));
 	plen = addToBufferTCP_E(buf, plen, settingsBoardGetName_E());
 
     plen = addToBufferTCP_P(buf, plen, PSTR("\",\"port\":"));
-    plen = addToBufferTCP(buf, plen, settingsBoardGetPort());
+    plen = addToBufferTCP(buf, plen, srvPort);
 
     plen = addToBufferTCP(buf, plen, '}');
     return plen;

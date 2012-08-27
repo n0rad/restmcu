@@ -79,8 +79,18 @@ uint16_t clientBuildNextQuery(char *buf) {
         plen = addToBufferTCP(buf, plen, notification->oldValue);
         plen = addToBufferTCP_P(buf, plen, PSTR(",\"value\":"));
         plen = addToBufferTCP(buf, plen, notification->value);
+        plen = addToBufferTCP_P(buf, plen, PSTR(",\"source\":\""));
+        plen = addToBufferTCP(buf, plen, (uint16_t) srvIp[0]);
+        plen = addToBufferTCP(buf, plen, '.');
+        plen = addToBufferTCP(buf, plen, (uint16_t) srvIp[1]);
+        plen = addToBufferTCP(buf, plen, '.');
+        plen = addToBufferTCP(buf, plen, (uint16_t) srvIp[2]);
+        plen = addToBufferTCP(buf, plen, '.');
+        plen = addToBufferTCP(buf, plen, (uint16_t) srvIp[3]);
+        plen = addToBufferTCP(buf, plen, ':');
+        plen = addToBufferTCP(buf, plen, srvPort);
 
-        plen = addToBufferTCP_P(buf, plen, PSTR(",\"notify\":{\"notifyCondition\":\""));
+        plen = addToBufferTCP_P(buf, plen, PSTR("\",\"notify\":{\"notifyCondition\":\""));
         plen = addToBufferTCP_P(buf, plen, pinNotification[notification->notify.condition - 1]);
         plen = addToBufferTCP_P(buf, plen, PSTR("\",\"notifyValue\":"));
         plen = addToBufferTCP(buf, plen, notification->notify.value);

@@ -7,6 +7,7 @@ import net.awired.ajsl.test.RestServerRule;
 import net.awired.restmcu.api.domain.board.RestMcuBoardNotification;
 import net.awired.restmcu.api.domain.board.RestMcuBoardNotificationType;
 import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -31,6 +32,12 @@ public class BoardNotifyIT {
         assertEquals(1, awaitBoard.size());
 
         assertEquals(RestMcuBoardNotificationType.TEST, awaitBoard.get(0).getType());
+    }
+
+    @Before
+    public void before() throws Exception {
+        Thread.sleep(60 * 1000);
+        notifyRule.getResource(NotifyResource.class).resetLatch();
     }
 
 }

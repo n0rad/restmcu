@@ -37,7 +37,7 @@ public class RestMcuTestContext {
         responseExceptionMapper = new AjslResponseExceptionMapper(jacksonJaxbJsonProvider);
     }
 
-    private static final String BOARD_HOST_DEFAULT = "192.168.32.30";
+    private static final String BOARD_HOST_DEFAULT = "192.168.42.30";
     private static final String BOARD_HOST_PROPERTY_NAME = "board.host";
 
     private static final String BOARD_PORT_DEFAULT = "80";

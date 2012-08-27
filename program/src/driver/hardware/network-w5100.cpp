@@ -13,15 +13,9 @@ uint8_t buf[BUFFER_SIZE + 1];
 
 uint8_t buf2[BUFFER_SIZE + 1];
 
-void networkSetup() {
-	uint8_t myip[4];
-	settingsBoardGetIP(myip);
-	IPAddress ip((const uint8_t *) myip);
-
-	uint8_t mac[6];
-	configBoardGetMac(mac);
-
-	Ethernet.begin(mac, ip);
+void networkSetup(uint8_t *srvMac, uint8_t *srvIp) {
+	IPAddress ip(srvIp);
+	Ethernet.begin(srvMac, ip);
 	server.begin();
 	delay(1000);
 }

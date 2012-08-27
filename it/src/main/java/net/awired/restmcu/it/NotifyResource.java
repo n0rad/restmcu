@@ -32,9 +32,11 @@ public class NotifyResource implements RestMcuNotifyResource {
         return pinNotifications;
     }
 
-    public void resetBoardLatch() {
+    public void resetLatch() {
         boardLatch = new CountDownLatch(1);
         pinLatch = new CountDownLatch(1);
+        boardNotifications = new ArrayList<RestMcuBoardNotification>();
+        pinNotifications = new ArrayList<RestMcuPinNotification>();
     }
 
     @Override

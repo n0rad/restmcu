@@ -19,7 +19,7 @@ const t_boardDescription boardDescription PROGMEM = {
     "window in front of the house not powered from POE but only by a transfo"   // description
 };
 t_boardSettings boardSettings EEMEM = {
-	{192, 168, 32, 30},          // ip
+	{192, 168, 42, 30},          // ip
 	80,                           // port
 	"window1 controller",         // name
 	"http://192.168.42.210:8080"  // notify url

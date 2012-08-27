@@ -26,6 +26,11 @@ extern char *criticalProblem_p;
 extern char *definitionError;
 extern uint8_t needReboot;
 
+extern uint8_t srvIp[4];
+extern uint8_t srvMac[6];
+extern uint16_t srvPort;
+
+
 int getFreeMemory();
 
 #endif

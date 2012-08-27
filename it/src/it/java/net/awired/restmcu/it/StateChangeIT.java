@@ -10,6 +10,7 @@ import net.awired.restmcu.api.domain.pin.RestMcuPinNotify;
 import net.awired.restmcu.api.domain.pin.RestMcuPinNotifyCondition;
 import net.awired.restmcu.api.domain.pin.RestMcuPinSettings;
 import net.awired.restmcu.api.resource.client.RestMcuPinResource;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -23,6 +24,7 @@ public class StateChangeIT {
 
     @Test
     public void should_notify_on_state_change() throws Exception {
+
         RestMcuBoardSettings boardSettings = new RestMcuBoardSettings();
         boardSettings.setNotifyUrl("http://" + NetworkUtils.getFirstNonWifiIp() + ":5879/");
         restmcu.getBoardResource().setBoardSettings(boardSettings);
@@ -41,6 +43,13 @@ public class StateChangeIT {
                 restMcuPinNotification.getNotify());
         assertEquals(0f, restMcuPinNotification.getOldValue(), 0);
         assertEquals(1f, restMcuPinNotification.getValue(), 0);
-        assertEquals(RestMcuTestContext.getUrl(), restMcuPinNotification.getSource());
+        assertEquals(RestMcuTestContext.getUrl().substring(7, RestMcuTestContext.getUrl().length() - 1),
+                restMcuPinNotification.getSource());
+    }
+
+    @Before
+    public void before() throws Exception {
+        Thread.sleep(60 * 1000);
+        notifyRule.getResource(NotifyResource.class).resetLatch();
     }
 }

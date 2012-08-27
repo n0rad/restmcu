@@ -9,13 +9,10 @@ EtherShield es = EtherShield();
 uint16_t port;
 
 
-void networkSetup() {
-
-    uint8_t mac[6];
-    configBoardGetMac(mac);
+void networkSetup(uint8_t *srvMac, uint8_t *srvIp) {
 
     /*initialize enc28j60*/
-    es.ES_enc28j60Init((uint8_t *) mac);
+    es.ES_enc28j60Init(srvMac);
     es.ES_enc28j60clkout(2); // change clkout from 6.25MHz to 12.5MHz
     delay(10);
     /* Magjack leds configuration, see enc28j60 datasheet, page 11 */
@@ -42,11 +39,8 @@ void networkSetup() {
     es.ES_enc28j60PhyWrite(PHLCON, 0x476);
     delay(100);
 
-    uint8_t ip[4];
-    settingsBoardGetIP(ip);
-    port = settingsBoardGetPort();
     //init the ethernet/ip layer:
-    es.ES_init_ip_arp_udp_tcp((uint8_t *) mac, (uint8_t *) ip, port);
+    es.ES_init_ip_arp_udp_tcp(srvMac, srvIp, srvPort);
 }
 
 static uint16_t srcPort = 1200;

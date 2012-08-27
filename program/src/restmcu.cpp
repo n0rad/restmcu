@@ -7,6 +7,9 @@
 
 uint8_t needReboot = false;
 t_notification *notification = 0;
+uint8_t srvIp[4];
+uint8_t srvMac[6];
+uint16_t srvPort;
 
 void DEBUG_P(const prog_char *progmem) {
     char c;
@@ -33,7 +36,12 @@ int main() {
 #endif
 
     settingsLoad();
-    networkSetup();
+
+	settingsBoardGetIP(srvIp);
+	configBoardGetMac(srvMac);
+	srvPort = settingsBoardGetPort();
+
+    networkSetup(srvMac, srvIp);
 
     pinInit();
 
