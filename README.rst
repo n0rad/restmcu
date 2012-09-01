@@ -15,12 +15,14 @@ Build dependencies
 ==================
 
 To build the JAVA part you will need maven 3
+
 To build the C part : # sudo apt-get install avr-libc binutils-avr gcc-avr avrdude
 
 Use the program on your board
 =================
 
 Go to 'program' folder
+
 Create a new configuration file based on config.cpp file
 
 # make MCU=atmega1280 CONFIG=YOUR_BOARD_CONFIGURATION_FILE.cpp clean upload
@@ -43,6 +45,7 @@ Resources
 =========
 
 on board:
+
 - GET /                      : read static board configuration
 - GET /settings              : read dynamic board settings 
 - PUT /settings              : update dynamic board settings
@@ -51,6 +54,7 @@ on board:
 - PUT /pin/{pinId}/          : update dynamic pin settings
 
 on server:
+
 - GET /time                  : get posix timestamp from server (used in hmac-sha256)
 - PUT /board                 : notification of board (boot and test)
 - PUT /pin                   : notification of pin change based on pin settings
