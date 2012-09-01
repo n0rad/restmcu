@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 import net.awired.restmcu.api.domain.board.RestMcuBoardNotification;
 import net.awired.restmcu.api.domain.pin.RestMcuPinNotification;
 import net.awired.restmcu.api.resource.server.RestMcuNotifyResource;
@@ -17,6 +19,9 @@ public class NotifyResource implements RestMcuNotifyResource {
 
     private CountDownLatch boardLatch = new CountDownLatch(1);
     private CountDownLatch pinLatch = new CountDownLatch(1);
+
+    @Context
+    HttpServletRequest request;
 
     public List<RestMcuBoardNotification> awaitBoard() throws InterruptedException {
         if (!boardLatch.await(10, TimeUnit.SECONDS)) {
@@ -49,6 +54,11 @@ public class NotifyResource implements RestMcuNotifyResource {
     public void boardNotification(RestMcuBoardNotification boardNotification) {
         boardNotifications.add(boardNotification);
         boardLatch.countDown();
+    }
+
+    @Override
+    public long getTime() {
+        return System.currentTimeMillis();
     }
 
 }

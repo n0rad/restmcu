@@ -1,9 +1,12 @@
 package net.awired.restmcu.it;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import net.awired.ajsl.test.RestContext;
 import net.awired.restmcu.api.domain.board.RestMcuBoard;
 import net.awired.restmcu.api.domain.pin.RestMcuPin;
+import net.awired.restmcu.api.filter.RestMcuSecurityFilter;
 import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
 import net.awired.restmcu.api.resource.client.RestMcuPinResource;
 import net.awired.restmcu.api.resource.test.RestMcuDebugResource;
@@ -26,11 +29,12 @@ public class RestMcuTestRule extends ExternalResource {
     }
 
     public RestMcuTestRule(String url) {
-        RestMcuTestContext context = new RestMcuTestContext();
 
-        pinResource = context.buildResourceProxy(RestMcuPinResource.class, url);
-        boardResource = context.buildResourceProxy(RestMcuBoardResource.class, url);
-        debugResource = context.buildResourceProxy(RestMcuDebugResource.class, url);
+        RestContext context = new RestContext(Arrays.asList(new RestMcuSecurityFilter(new RestMcuTestSecurityKey())));
+
+        pinResource = context.prepareClient(RestMcuPinResource.class, url, null, true);
+        boardResource = context.prepareClient(RestMcuBoardResource.class, url, null, true);
+        debugResource = context.prepareClient(RestMcuDebugResource.class, url, null, true);
     }
 
     @Override

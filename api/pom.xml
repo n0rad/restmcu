@@ -14,6 +14,13 @@
 	</parent>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1-b01</version>
+		</dependency>
+
 		<dependency>
 			<groupId>net.awired.ajsl</groupId>
 			<artifactId>ajsl-core</artifactId>
@@ -29,5 +36,23 @@
 			<artifactId>guava</artifactId>
 			<version>r09</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>2.5.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-web</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
 	</dependencies>
 </project>

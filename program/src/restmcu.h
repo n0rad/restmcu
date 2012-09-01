@@ -1,18 +1,21 @@
 #ifndef HCC_H
 #define HCC_H
 
+#include <stdint.h>
+
 #define HARDWARE "Arduino Duemilanove / Nuelectronics enc28j60 Ethernet Shield V1.1"
 
 
-//#define DEBUG
+#define DEBUG
+#define HMAC
 
 const long notifFailRetryWait = 60000; // 60s
 
 
 #include "debug.h"
+#include "restmcu-config.h"
 
-
-
+const prog_char GET[] PROGMEM = "GET ";
 const prog_char PUT[] PROGMEM = "PUT ";
 const prog_char JSON_STR_END[] PROGMEM = "\"}";
 

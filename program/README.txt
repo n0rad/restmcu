@@ -7,3 +7,7 @@ avrdude -C /etc/avrdude.conf -c stk500v1 -p atmega328p -P /dev/ttyUSB0 -b 57600 
 
 http://www.protostack.com/blog/2011/01/reading-and-writing-atmega168-eeprom/
 
+upload bootloader
+=================
+
+avrdude -V -F -C /etc/avrdude.conf -p atmega328p -P /dev/ttyUSB0 -c stk500v2 -b 115200 -D -U flash:w:lib/arduino/hardware/arduino/bootloaders/atmega/ATmegaBOOT_168_atmega328.hex

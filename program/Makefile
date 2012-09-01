@@ -59,6 +59,7 @@ $(ARDUINO_LIB)/Ethernet/EthernetUdp.cpp \
 $(ARDUINO_LIB)/Ethernet/Dns.cpp \
 $(ARDUINO_LIB)/Ethernet/utility/socket.cpp \
 $(ARDUINO_LIB)/Ethernet/utility/w5100.cpp \
+lib/crypto/sha256.cpp
 
 ##################################################
 # RESTMCU
@@ -67,11 +68,11 @@ $(ARDUINO_LIB)/Ethernet/utility/w5100.cpp \
 CONFIG = config.cpp
 
 C_APP = 
-CXX_APP = src/restmcu.cpp $(CONFIG) src/settings/settings.cpp \
+CXX_APP = src/restmcu.cpp $(CONFIG) src/debug.cpp src/time.cpp src/settings/settings.cpp \
 		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
 		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
-		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp \
-		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp \
+		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp src/client/client-notify.cpp \
+		src/client/client-time.cpp src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp \
 		src/util/availableMemory.cpp
 
 CXX_APP +=  src/driver/hardware/network-w5100.cpp
@@ -107,7 +108,7 @@ CXXDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
 
 # Place -I options here
 CINCS = -I$(ARDUINO)  -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/SPI \
-	-I$(ARDUINO_LIB)/Ethernet -I$(ARDUINO_LIB)/Ethernet/utility -Isrc
+	-I$(ARDUINO_LIB)/Ethernet -I$(ARDUINO_LIB)/Ethernet/utility -Isrc -Ilib/crypto
 CXXINCS = $(CINCS)
 
 # Compiler flag to set the C Standard level.
@@ -253,7 +254,7 @@ extcoff: $(TARGET).elf
 # Link: create ELF output file from library.
 #target/$(TARGET).elf: $(TARGET).pde target/core.a
 $(TARGET).elf: target/core.a
-	cd check; make clean all && ./restmcu-check # TODO should move somewhere else without breaking upload (no compile)
+	#cd check; make clean all && ./restmcu-check # TODO should move somewhere else without breaking upload (no compile)
 	@echo "Linking   ${GREEN} $@ ${WHITE}"
 	$(LD) $(ALL_LDFLAGS) -o $@ -L. target/core.a /usr/lib/avr/lib/avr5/libc.a  target/core.a
 

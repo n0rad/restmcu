@@ -6,7 +6,7 @@
 #include "../restmcu.h"
 #include "../settings/settings-board.h"
 #include "../util/buffer.h"
-#include "../client/client.h"
+#include "../client/client-notify.h"
 
 uint16_t boardGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource);
 uint16_t boardGetSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource);

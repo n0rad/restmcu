@@ -1,6 +1,7 @@
 package net.awired.restmcu.api.resource.server;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,5 +19,9 @@ public interface RestMcuNotifyResource {
     @PUT
     @Path("/board")
     public void boardNotification(RestMcuBoardNotification boardNotification);
+
+    @GET
+    @Path("/time")
+    public long getTime();
 
 }

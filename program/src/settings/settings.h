@@ -34,7 +34,6 @@ const prog_char PIN_TYPE_DIGITAL[] PROGMEM = "DIGITAL";
 const prog_char PIN_NOTIFICATION_SUP[] PROGMEM = "SUP_OR_EQUAL";
 const prog_char PIN_NOTIFICATION_INF[] PROGMEM = "INF_OR_EQUAL";
 
-
 extern uint8_t pinInputSize;
 extern uint8_t pinOutputSize;
 extern const char *pinDirection[];

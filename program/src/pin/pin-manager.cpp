@@ -1,5 +1,5 @@
 #include "pin-manager.h"
-#include "../client/client.h"
+#include "../client/client-notify.h"
 #include "../restmcu.h"
 #include "../settings/settings-pin.h"
 #include "../driver/pin.h"

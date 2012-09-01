@@ -14,6 +14,7 @@ const prog_char sprintfpDEC[] PROGMEM = "%d";
 
 uint16_t addToBufferTCP(char *buf, uint16_t pos, float val);
 uint16_t addToBufferTCPHex(char *buf, uint16_t pos, uint16_t val);
+uint16_t addToBufferTCPHex32(char *buf, uint16_t pos, uint8_t *hash);
 uint16_t addToBufferTCP(char *buf, uint16_t pos, uint16_t val);
 uint16_t addToBufferTCP(char *buf, uint16_t pos, char val);
 uint16_t addToBufferTCP(char *buf, uint16_t pos, char *mem_s);

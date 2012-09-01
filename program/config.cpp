@@ -1,5 +1,6 @@
 #include <restmcu-config.h>
 #include <Arduino.h>
+#include <string.h>
 
 float tmp36Conversion(uint16_t value) {
 	float voltage = value * 5.0; // 5V as aref
@@ -13,16 +14,21 @@ uint16_t lumdefaultPinRead(uint8_t pinId, uint8_t type) {
 	return analogRead(1);
 }
 
+void fillHmacMessage() {
+	Sha256.print("MESSAGE");
+}
+
 
 const t_boardDescription boardDescription PROGMEM = {
     {0x54, 0x55, 0x58, 0x10, 0x00, 0xF5},           // mac
-    "window in front of the house not powered from POE but only by a transfo"   // description
+    "window in front of the house not powered from POE but only by a transfo",   // description
+    "TOTO42" // Hmac key
 };
 t_boardSettings boardSettings EEMEM = {
 	{192, 168, 42, 30},          // ip
 	80,                           // port
 	"window1 controller",         // name
-	"http://192.168.42.210:8080"  // notify url
+	"http://192.168.42.213:5879"  // notify url
 };
 
 

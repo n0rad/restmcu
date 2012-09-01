@@ -24,7 +24,7 @@ unsigned long lastFailTime = 0;
 
 EthernetClient sendClient;
 
-uint16_t readRequest(EthernetClient client) {
+uint16_t readHttpFrame(EthernetClient client, uint16_t *contentPos) {
 	uint16_t size = 0;
 
 //	while (client.connected()) {
@@ -37,9 +37,9 @@ uint16_t readRequest(EthernetClient client) {
 			return size; // no length so we stop here
 		}
 		int contentLength = atoi(&found[16]);
-		int currentContentLength = strlen(&strstr_P(found, DOUBLE_ENDL)[4]);
-		if (currentContentLength < contentLength) {
-			size += client.read((uint8_t *) &buf[size], contentLength - currentContentLength);
+		*contentPos = strlen(&strstr_P(found, DOUBLE_ENDL)[4]);
+		if (*contentPos < contentLength) {
+			size += client.read((uint8_t *) &buf[size], contentLength - *contentPos);
 		}
 	}
 //	}
@@ -71,7 +71,8 @@ void networkManage() {
 
 	EthernetClient client = server.available();
 	if (client) {
-		uint16_t size = readRequest(client);
+		uint16_t contentPos;
+		uint16_t size = readHttpFrame(client, &contentPos);
 
 		if (size > 0) {
 			buf[size] = 0;

@@ -1,17 +1,21 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
+typedef char eeprom_char;
+
 #include <avr/eeprom.h>
 #include <avr/pgmspace.h>
+#include <sha256.h>
 #include "pin/pin-manager.h"
 
-typedef char eeprom_char;
+void fillHmacMessage();
 
 ///////////////////////////////////////////////////////////////
 // BOARD
 ///////////////////////////////////////////////////////////////
 #define CONFIG_BOARD_MAC_SIZE           6
 #define CONFIG_BOARD_DESCRIPTION_SIZE   101
+#define CONFIG_BOARD_KEY_SIZE			 64
 #define CONFIG_BOARD_IP_SIZE            4
 #define CONFIG_BOARD_PORT_SIZE          sizeof(uint16_t)
 #define CONFIG_BOARD_NOTIFY_SIZE        51
@@ -20,6 +24,7 @@ typedef char eeprom_char;
 typedef struct s_boardDescription {
     uint8_t mac[CONFIG_BOARD_MAC_SIZE];
     prog_char description[CONFIG_BOARD_DESCRIPTION_SIZE];
+    prog_char hmacKey[CONFIG_BOARD_KEY_SIZE];
 } t_boardDescription;
 typedef struct s_boardSettings {
     uint8_t ip[CONFIG_BOARD_IP_SIZE];

@@ -18,7 +18,6 @@ const prog_char RESOURCE_SETTINGS[] PROGMEM = "/settings ";
 const prog_char RESOURCE_RESET[] PROGMEM = "/reset ";
 const prog_char RESOURCE_INIT[] PROGMEM = "/init ";
 const prog_char RESOURCE_NOTIFY[] PROGMEM = "/notify ";
-const prog_char GET[] PROGMEM = "GET ";
 
 const prog_char HEADER_HTTP[] PROGMEM = "HTTP/1.0 ";
 const prog_char HEADER_CONTENT[] PROGMEM = "\r\nContent-Type: application/json";
