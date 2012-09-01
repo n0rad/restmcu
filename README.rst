@@ -1,14 +1,15 @@
 
 RestMcu is a generic program for micro-controllers (arduino only for the moment) with a network interface.
-It provide through a restfull interface :
+It provide through a restfull (json only) interface :
 
-- read board configuration
-- update board configuration
-- get pin configuration
-- update pin configuration
+- static board configuration (description, list of pins, ...)
+- dynamic board configuration (ip, port, pin notify url)
+- static pin configuration (based on electronic pin wiring) : analog/digital, input,output, ...
+- dynamic pin name and notification conditions 
+- notify a server of pin change based on condition set on pins
+- support of hmac-sha256 security between board and server
 
 The electronic wiring configuration is provided by a simple C file used during compilation
-
 
 Build dependencies
 ==================
@@ -16,12 +17,13 @@ Build dependencies
 To build the JAVA part you will need maven 3
 To build the C part : # sudo apt-get install avr-libc binutils-avr gcc-avr avrdude
 
-
-Build the project
+Use the program on your board
 =================
 
-#
+Go to 'program' folder
+Create a new configuration file based on config.cpp file
 
+# make MCU=atmega1280 CONFIG=YOUR_BOARD_CONFIGURATION_FILE.cpp clean upload
 
 Code verification with board
 ============================
@@ -37,3 +39,27 @@ to test it yourself :
 - follow the interactive instructions to test the program
 
 
+Resources 
+=========
+
+on board:
+- GET /                      : read static board configuration
+- GET /settings              : read dynamic board settings 
+- PUT /settings              : update dynamic board settings
+- GET /pin/{pinId}           : get static pin configuration
+- GET /pin/{pinId}/settings  : get dynamic pin settings
+- PUT /pin/{pinId}/          : update dynamic pin settings
+
+on server:
+- GET /time                  : get posix timestamp from server (used in hmac-sha256)
+- PUT /board                 : notification of board (boot and test)
+- PUT /pin                   : notification of pin change based on pin settings
+
+
+TODO
+====
+- keep-alive
+- support of encj28j60 (currently half-implemented)
+- dhcp
+- dns ?
+- fit in 328p

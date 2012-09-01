@@ -24,7 +24,7 @@ import com.google.common.base.Preconditions;
 @Provider
 public class RestMcuSecurityFilter implements RequestHandler, ResponseHandler {
 
-    private long maxValidWindowSecondOneSide = 120; // window of 2x2min
+    private long maxValidWindowSecondOneSide = 60; // window of 2x1min
     private RestMcuSecurityKey key;
     private SecretKey signingKey;
 
