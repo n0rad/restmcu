@@ -6,6 +6,6 @@ public interface RestMcuSecurityKey {
 
     String getKey();
 
-    String buildMessage(Message message);
+    String buildMessage(long posixTimestamp, Message message);
 
 }

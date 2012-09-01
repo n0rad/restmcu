@@ -6,6 +6,7 @@
 #include <restmcu-config.h>
 #include "../util/buffer.h"
 #include "../settings/settings.h"
+#include "../time.h"
 #include <sha256.h>
 
 

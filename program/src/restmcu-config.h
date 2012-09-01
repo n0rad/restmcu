@@ -8,7 +8,7 @@ typedef char eeprom_char;
 #include <sha256.h>
 #include "pin/pin-manager.h"
 
-void fillHmacMessage();
+void fillHmacMessage(unsigned long posixTime);
 
 ///////////////////////////////////////////////////////////////
 // BOARD

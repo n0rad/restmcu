@@ -24,7 +24,7 @@ import com.google.common.base.Preconditions;
 @Provider
 public class RestMcuSecurityFilter implements RequestHandler, ResponseHandler {
 
-    private long maxValidWindowMilliSecondOneSide = 1000 * 120; // window of 2x2min
+    private long maxValidWindowSecondOneSide = 120; // window of 2x2min
     private RestMcuSecurityKey key;
     private SecretKey signingKey;
 
@@ -34,16 +34,17 @@ public class RestMcuSecurityFilter implements RequestHandler, ResponseHandler {
         this.key = key;
     }
 
-    public RestMcuSecurityFilter(RestMcuSecurityKey key, long maxValidWindowMilliSecond) {
+    public RestMcuSecurityFilter(RestMcuSecurityKey key, long maxValidWindowSecond) {
         this(key);
-        this.maxValidWindowMilliSecondOneSide = maxValidWindowMilliSecond / 2;
+        this.maxValidWindowSecondOneSide = maxValidWindowSecond / 2;
     }
 
     @Override
     public Response handleResponse(Message message, OperationResourceInfo opResourceInfo, Response response) {
         try {
-            response.getMetadata().add("Hmac-Time", System.currentTimeMillis());
-            response.getMetadata().add("Hmac-Hash", buildHash(message));
+            long time = System.currentTimeMillis() / 1000L;
+            response.getMetadata().add("Hmac-Time", time);
+            response.getMetadata().add("Hmac-Hash", buildHash(time, message));
         } catch (Exception e) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -61,24 +62,25 @@ public class RestMcuSecurityFilter implements RequestHandler, ResponseHandler {
         TreeMap<String, ArrayList<String>> headers = (TreeMap<String, ArrayList<String>>) message
                 .get(Message.PROTOCOL_HEADERS);
 
-        if (isInvalidWindow(extractTime(headers))) {
+        long extractTime = extractTime(headers);
+        if (!isValidWindow(extractTime)) {
             System.out.println("overflow");
             RuntimeException exception = new RuntimeException("time overflow");
             return JAXRSUtils.convertFaultToResponse(exception, message);
         }
 
-        String generatedHash = buildHash(message);
+        String generatedHash = buildHash(extractTime, message);
         if (!generatedHash.toUpperCase().equals(extractHash(headers).toUpperCase())) {
             throw new SecurityException("Hmac-Hash does not match");
         }
         return null;
     }
 
-    private String buildHash(Message message) {
+    private String buildHash(long time, Message message) {
         try {
             Mac mac = Mac.getInstance("HMACSHA256");
             mac.init(signingKey);
-            byte[] digest = mac.doFinal("MESSAGE".getBytes("ASCII"));
+            byte[] digest = mac.doFinal(key.buildMessage(time, message).getBytes("ASCII"));
             StringBuilder sb = new StringBuilder();
             for (byte b : digest) {
                 sb.append(String.format("%02x", b));
@@ -101,14 +103,13 @@ public class RestMcuSecurityFilter implements RequestHandler, ResponseHandler {
         return hash.get(0);
     }
 
-    private int extractTime(TreeMap<String, ArrayList<String>> headers) {
-        ArrayList<String> times = headers.get("Hmac-Time");
-        if (times == null) {
+    private long extractTime(TreeMap<String, ArrayList<String>> headers) {
+        ArrayList<String> posixTimes = headers.get("Hmac-Time");
+        if (posixTimes == null) {
             throw new SecurityException("no Hmac-Time header");
         }
         try {
-            int time = Integer.parseInt(times.get(0));
-            return time;
+            return Long.parseLong(posixTimes.get(0));
         } catch (Exception e) {
             throw new SecurityException("bad Hmac-Time header");
         }
@@ -127,9 +128,9 @@ public class RestMcuSecurityFilter implements RequestHandler, ResponseHandler {
         return true;
     }
 
-    private boolean isInvalidWindow(int time) {
-        long currentTimeMillis = System.currentTimeMillis();
-        return time + maxValidWindowMilliSecondOneSide > currentTimeMillis
-                || time - maxValidWindowMilliSecondOneSide < currentTimeMillis;
+    private boolean isValidWindow(long posixTime) {
+        long currentTimeMillis = System.currentTimeMillis() / 1000L;
+        return posixTime > currentTimeMillis - maxValidWindowSecondOneSide
+                && posixTime < currentTimeMillis + maxValidWindowSecondOneSide;
     }
 }

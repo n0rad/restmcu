@@ -24,7 +24,7 @@ unsigned long lastFailTime = 0;
 
 EthernetClient sendClient;
 
-uint16_t readHttpFrame(EthernetClient client, uint16_t *contentPos) {
+uint16_t readHttpFrame(EthernetClient client) {
 	uint16_t size = 0;
 
 //	while (client.connected()) {
@@ -37,9 +37,9 @@ uint16_t readHttpFrame(EthernetClient client, uint16_t *contentPos) {
 			return size; // no length so we stop here
 		}
 		int contentLength = atoi(&found[16]);
-		*contentPos = strlen(&strstr_P(found, DOUBLE_ENDL)[4]);
-		if (*contentPos < contentLength) {
-			size += client.read((uint8_t *) &buf[size], contentLength - *contentPos);
+		size_t contentPos = strlen(&strstr_P(found, DOUBLE_ENDL)[4]);
+		if (contentPos < contentLength) {
+			size += client.read((uint8_t *) &buf[size], contentLength - contentPos);
 		}
 	}
 //	}
@@ -47,9 +47,25 @@ uint16_t readHttpFrame(EthernetClient client, uint16_t *contentPos) {
 }
 
 void networkManage() {
+	uint16_t size;
 
 	if (sendClient.available()) {
-		int size = sendClient.read((uint8_t *) buf2, BUFFER_SIZE);
+//		int size = sendClient.read((uint8_t *) buf2, BUFFER_SIZE);
+		size = readHttpFrame(sendClient);
+		if (!isTimeReady()) {
+			uint16_t endPos = strstrpos_P((char *) buf, DOUBLE_ENDL);
+			receiveTime((char *) &buf[endPos + 4]);
+		}
+	}
+
+	if (!isTimeReady() && sendClient.status() == SnSR::CLOSED && (lastFailTime == 0 || millis() - lastFailTime > dateFailRetryWait)) {
+		if (sendClient.connect(NotifyDstIp, notifyDstPort)) {
+			int len = clientBuildTimeQuery((char *) buf);
+			sendClient.write(buf, len);
+		} else {
+			lastFailTime = millis();
+			sendClient.stop();
+		}
 	}
 
 	if (!sendClient.connected()) {
@@ -71,8 +87,7 @@ void networkManage() {
 
 	EthernetClient client = server.available();
 	if (client) {
-		uint16_t contentPos;
-		uint16_t size = readHttpFrame(client, &contentPos);
+		size = readHttpFrame(client);
 
 		if (size > 0) {
 			buf[size] = 0;

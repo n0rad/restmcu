@@ -1,26 +1,20 @@
 #include "time.h"
+#include "restmcu.h"
 
-
-long receiveBootTime = 0;
-long receiveTimestamp = 0;
+unsigned long receiveBootTime = 0;
+unsigned long receiveTimestamp = 0;
 
 uint16_t receiveTime(char *time) {
-	receiveBootTime = millis();
-	atol(time);
+	receiveBootTime = millis() / 1000;
+	receiveTimestamp = atol(time);
 }
 
 boolean isTimeReady() {
-	return receiveBootTime != 0; // TODO handle overflow //TODO Handle time before fill
+	return receiveTimestamp != 0; // TODO handle overflow //TODO Handle time before fill
 }
 
-uint16_t fillWithTimestamp(char *buf) {
-	long currentBoot = millis();
-	long currentTimestamp = currentBoot + receiveTimestamp - receiveBootTime;
-	char* newPos = ltoa(currentTimestamp, buf, 10);
-	uint16_t size = 0;
-	while (buf != newPos) {
-		size++;
-		buf = &buf[1];
-	}
-	return size;
+unsigned long getCurrentPosixTimestamp() {
+	long currentBoot = millis() / 1000;
+	return currentBoot + receiveTimestamp - receiveBootTime;
+
 }

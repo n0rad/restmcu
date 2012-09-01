@@ -40,9 +40,6 @@ const prog_char *settingsPinSetName(char *buf, uint16_t len, uint8_t index) {
 }
 
 const prog_char *settingsPinHandlePinNotifyArray(uint8_t index) {
-	DEBUG_PRINT("handle end of ");
-	DEBUG_PRINTDEC(index);
-	DEBUG_PRINTLN();
     for (uint8_t i = index; i < 4; i++) {
         eeprom_write_byte((uint8_t *) &pinInputSettings[currentSetPinIdx].notifies[i].condition, 0);
     }

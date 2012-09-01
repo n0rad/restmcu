@@ -6,4 +6,6 @@
 #include "client.h"
 #include "../settings/settings.h"
 
+uint16_t clientBuildTimeQuery(char *buf);
+
 #endif

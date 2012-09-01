@@ -57,8 +57,8 @@ public class NotifyResource implements RestMcuNotifyResource {
     }
 
     @Override
-    public long getTime() {
-        return System.currentTimeMillis();
+    public long getPosixTime() {
+        return System.currentTimeMillis() / 1000L;
     }
 
 }

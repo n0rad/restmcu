@@ -20,8 +20,11 @@ public interface RestMcuNotifyResource {
     @Path("/board")
     public void boardNotification(RestMcuBoardNotification boardNotification);
 
+    /**
+     * System.currentTimeMillis() / 1000L;
+     */
     @GET
     @Path("/time")
-    public long getTime();
+    public long getPosixTime();
 
 }

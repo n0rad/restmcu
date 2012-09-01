@@ -13,8 +13,8 @@ public class RestMcuTestSecurityKey implements RestMcuSecurityKey {
     }
 
     @Override
-    public String buildMessage(Message message) {
-        return "MESSAGE";
+    public String buildMessage(long posixTimestamp, Message message) {
+        return posixTimestamp + "MESSAGE";
     }
 
 }

@@ -41,7 +41,6 @@ void clientPinNotify(int pinId, float oldValue, float value, t_notify *notify) {
 }
 
 uint16_t clientBuildNextQuery(char *buf) {
-//	DEBUG_PRINTLN("YOPLA");
     uint16_t plen;
     plen = startRequestHeader(&buf, PUT);
     uint16_t start = plen;
@@ -53,10 +52,12 @@ uint16_t clientBuildNextQuery(char *buf) {
     }
     plen = addToBufferTCP_P(buf, plen, PSTR(" HTTP/1.0\r\nContent-Type: application/json\r\n"));
 //    Keep-Alive: 300\r\nConnection: keep-alive\r\n
-#ifdef HMAC
 
+#ifdef HMAC
     plen = addToBufferTCP_P(buf, plen, PSTR("Hmac-Time: "));
-//    plen += fillWithTimestamp(&buf[plen]);
+    unsigned long time = getCurrentPosixTimestamp();
+	ltoa(time, &buf[plen], 10);
+	plen += strlen(&buf[plen]);
     plen = addToBufferTCP_P(buf, plen, PSTR("\r\n"));
 
     plen = addToBufferTCP_P(buf, plen, PSTR("Hmac-Hash: "));
@@ -64,10 +65,9 @@ uint16_t clientBuildNextQuery(char *buf) {
     uint8_t key[CONFIG_BOARD_KEY_SIZE];
     uint8_t hmacKeySize = addToBufferTCP_P((char *)key, 0, boardDescription.hmacKey);
     Sha256.initHmac(key, hmacKeySize);
-    fillHmacMessage();
+    fillHmacMessage(time);
     plen = addToBufferTCPHex32(buf, plen, Sha256.resultHmac());
     plen = addToBufferTCP_P(buf, plen, PSTR("\r\n"));
-
 #endif
 
     plen = addToBufferTCP_P(buf, plen, PSTR("Connection: Close\r\n"));
@@ -114,6 +114,5 @@ uint16_t clientBuildNextQuery(char *buf) {
     t_notification *next = notification->next;
     free(notification);
     notification = next;
-
     return plen;
 }

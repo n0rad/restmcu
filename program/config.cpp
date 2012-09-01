@@ -14,7 +14,8 @@ uint16_t lumdefaultPinRead(uint8_t pinId, uint8_t type) {
 	return analogRead(1);
 }
 
-void fillHmacMessage() {
+void fillHmacMessage(unsigned long time) {
+	Sha256.print(time);
 	Sha256.print("MESSAGE");
 }
 
