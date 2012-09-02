@@ -58,7 +58,6 @@ uint16_t clientBuildNextQuery(char *buf) {
 #endif
 
     plen = addToBufferTCP_P(buf, plen, PSTR("Connection: Close\r\nContent-Length:    \r\n\r\n{\""));
-
     uint16_t datapos = plen;
     if (notification->isBoardNotif) {
         plen = addToBufferTCP_P(buf, plen, PSTR("type\":\""));
@@ -88,7 +87,7 @@ uint16_t clientBuildNextQuery(char *buf) {
         plen = addToBufferTCP(buf, plen, notification->notify.value);
         plen = addToBufferTCP_P(buf, plen, PSTR("}}"));
     }
-    itoa(plen - datapos, &buf[datapos - 9], 10);
+    itoa(plen - datapos + 2, &buf[datapos - 9], 10);
     buf[datapos - 9 + strlen(&buf[datapos - 9])] = ' '; // replace \0 by ' ' if len size is 2 digits
     buf[datapos - 9 + 3] = '\r'; // put back \r if len is 3 digits
 
