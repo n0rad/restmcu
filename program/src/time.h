@@ -13,5 +13,8 @@ uint16_t receiveTime(char *time);
 
 uint16_t addSecurityToBuffer(char *buf, uint16_t plen);
 
+extern uint8_t hmacKey[CONFIG_BOARD_KEY_SIZE];
+extern uint8_t hmacKeySize;
+
 
 #endif

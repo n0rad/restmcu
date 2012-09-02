@@ -32,10 +32,37 @@ static uint16_t commonCheck(char *buf, uint16_t dataPointer, uint16_t dataLen) {
         plen = appendErrorMsg_P(buf, plen, ERROR_MSG_UPDATE, PSTR("Too big"));
         return plen;
     }
+
+#ifdef HMAC
+    size_t timepos = strstrpos_P(&buf[dataPointer], HMAC_TIME);
+    if (timepos == -1) {
+        plen = startResponseHeader(&buf, HEADER_403);
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_SECURITY, PSTR("Hmac-Time: not found"));
+        return plen;
+    }
+    size_t hashpos = strstrpos_P(&buf[dataPointer], HMAC_HASH);
+    if (hashpos == -1) {
+        plen = startResponseHeader(&buf, HEADER_403);
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_SECURITY, PSTR("Hmac-Hash: not found"));
+        return plen;
+    }
+
+    Sha1.initHmac(hmacKey, hmacKeySize);
+    fillHmacMessage(atol(&buf[dataPointer + timepos + 11]));
+    uint8_t *calculatedHash = Sha1.resultHmac();
+    char tmpBuf[40];
+    addToBufferTCPHex32((char *)tmpBuf, 0, calculatedHash);
+    if (strncmp((char *)tmpBuf, &buf[dataPointer + hashpos + 11], 40)) {
+        plen = startResponseHeader(&buf, HEADER_403);
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_SECURITY, PSTR("Hmac-Hash does not match"));
+        return plen;
+    }
+#endif
+
     return 0;
 }
 
-uint16_t parseHeaders(char *buf, uint16_t dataPointer, uint16_t dataLen) {
+uint16_t parseResource(char *buf, uint16_t dataPointer, uint16_t dataLen) {
     uint16_t plen;
 
     prog_char *methodPos;
@@ -85,18 +112,18 @@ uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen) {
         return plen;
     }
 
-    plen = parseHeaders(buf, dataPointer, dataLen);
+    plen = parseResource(buf, dataPointer, dataLen);
     if (plen != 0) {
         return plen;
     }
 
     if (!currentWebRequest.resource) {
         plen = startResponseHeader(&buf, HEADER_404);
-        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_NOT_FOUND, PSTR("No resource for this method & url"));
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_NOT_FOUND, PSTR("No resource for this url"));
     } else {
         ResourceFunc currentFunc = (ResourceFunc) pgm_read_word(&currentWebRequest.resource->resourceFunc);
         if ((prog_char *)pgm_read_word(&currentWebRequest.resource->method) == GET) { // GET do not need data, calling func directly
-            plen = currentFunc((char*)buf, 0, dataLen, &currentWebRequest);
+            plen = currentFunc(buf, 0, dataLen, &currentWebRequest);
         } else {
             uint16_t endPos = strstrpos_P(&buf[dataPointer], DOUBLE_ENDL);
             if (endPos == -1) {
@@ -104,7 +131,7 @@ uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen) {
                 plen = appendErrorMsg_P(buf, plen, ERROR_MSG_NOT_FOUND, PSTR("Double endl not found"));
             } else {
                 uint16_t dataStartPos = dataPointer + endPos + 4;
-				plen = currentFunc((char *)buf, dataStartPos, dataLen, &currentWebRequest);
+				plen = currentFunc(buf, dataStartPos, dataLen, &currentWebRequest);
             }
         }
     }

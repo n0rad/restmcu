@@ -25,10 +25,11 @@ const prog_char HEADER_200[] PROGMEM = "200 OK";
 const prog_char HEADER_404[] PROGMEM = "404 Not Found";
 const prog_char HEADER_400[] PROGMEM = "400 Bad Request";
 const prog_char HEADER_413[] PROGMEM = "413 Request Entity Too Large";
-
+const prog_char HEADER_403[] PROGMEM = "403 Forbidden";
 
 const prog_char JSON_DESCRIPTION[] PROGMEM = "\",\"description\":\"";
 const prog_char ERROR_MSG_UPDATE[] PROGMEM = "UpdateException";
+const prog_char ERROR_MSG_SECURITY[] PROGMEM = "SecurityException";
 const prog_char ERROR_MSG_NOT_FOUND[] PROGMEM = "NotFoundException";
 
 const prog_char PARAM_NAME[] PROGMEM = "name";

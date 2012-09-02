@@ -12,6 +12,7 @@ public class RedLedSwitcherSecuredIT {
 
     // sha256      : 30s
     // sha1        : 18s
+    // sha1 both   : 24s
     // no security : 10s
     @Test
     public void should_toggle_red_led_fastest() throws Exception {

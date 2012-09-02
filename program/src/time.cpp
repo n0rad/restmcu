@@ -4,6 +4,9 @@
 unsigned long receiveBootTime = 0;
 unsigned long receiveTimestamp = 0;
 
+uint8_t hmacKey[CONFIG_BOARD_KEY_SIZE];
+uint8_t hmacKeySize = addToBufferTCP_P((char *)hmacKey, 0, boardDescription.hmacKey);
+
 uint16_t receiveTime(char *time) {
 	receiveBootTime = millis() / 1000;
 	receiveTimestamp = atol(time);
@@ -28,9 +31,7 @@ uint16_t addSecurityToBuffer(char *buf, uint16_t plen) {
 
     plen = addToBufferTCP_P(buf, plen, HMAC_HASH);
 
-    uint8_t key[CONFIG_BOARD_KEY_SIZE];
-    uint8_t hmacKeySize = addToBufferTCP_P((char *)key, 0, boardDescription.hmacKey);
-    Sha1.initHmac(key, hmacKeySize);
+    Sha1.initHmac(hmacKey, hmacKeySize);
     fillHmacMessage(time);
     plen = addToBufferTCPHex32(buf, plen, Sha1.resultHmac());
     plen = addToBufferTCP_P(buf, plen, PSTR("\r\n"));
