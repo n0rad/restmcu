@@ -4,12 +4,13 @@ static char value_to_add[16] =
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static char hexArray[] = "0123456789abcdef";
 
-uint16_t addToBufferTCPHex(char *buf, uint16_t pos, uint8_t *hash, uint8_t len) {
-       for (int i = 0; i < len; i++) {
-                buf[pos++] = hexArray[hash[i] >> 4];
-                buf[pos++] = hexArray[hash[i] & 0xf];
-        }
-        return pos;
+uint16_t addToBufferTCPHex(char *buf, uint16_t pos, uint8_t *hash,
+		uint8_t len) {
+	for (int i = 0; i < len; i++) {
+		buf[pos++] = hexArray[hash[i] >> 4];
+		buf[pos++] = hexArray[hash[i] & 0xf];
+	}
+	return pos;
 }
 
 uint16_t addToBufferTCP(char *buf, uint16_t pos, float number) {
@@ -55,13 +56,8 @@ uint16_t addToBufferTCP(char *buf, uint16_t pos, char val) {
 }
 
 uint16_t addToBufferTCP(char *buf, uint16_t pos, uint16_t val) {
-	int j = 0;
-	sprintf_P(value_to_add, sprintfpDEC, val);
-	while (value_to_add[j]) {
-		buf[pos] = value_to_add[j++];
-		pos++;
-	}
-	return pos;
+	itoa(val, buf, 10);
+	return strlen(buf) + pos;
 }
 
 uint16_t addToBufferTCP(char *buf, uint16_t pos, char *mem_s) {
@@ -71,6 +67,10 @@ uint16_t addToBufferTCP(char *buf, uint16_t pos, char *mem_s) {
 		pos++;
 	}
 	return pos;
+	// !!! uses more memory
+	// size_t len = strlen(mem_s);
+	// memcpy(buf, mem_s, len);
+	//return pos + len;
 }
 
 uint16_t addToBufferTCP_P(char *buf, uint16_t pos, const prog_char *progmem) {
