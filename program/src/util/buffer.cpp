@@ -1,7 +1,5 @@
 #include "buffer.h"
 
-static char value_to_add[16] =
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static char hexArray[] = "0123456789abcdef";
 
 uint16_t addToBufferTCPHex(char *buf, uint16_t pos, uint8_t *hash,
@@ -68,9 +66,9 @@ uint16_t addToBufferTCP(char *buf, uint16_t pos, char *mem_s) {
 	}
 	return pos;
 	// !!! uses more memory
-	// size_t len = strlen(mem_s);
-	// memcpy(buf, mem_s, len);
-	//return pos + len;
+	//	 size_t len = strlen(mem_s);
+	//	 memcpy(buf, mem_s, len);
+	//	 return pos + len;
 }
 
 uint16_t addToBufferTCP_P(char *buf, uint16_t pos, const prog_char *progmem) {
@@ -82,9 +80,9 @@ uint16_t addToBufferTCP_P(char *buf, uint16_t pos, const prog_char *progmem) {
 	return pos;
 }
 
-uint16_t addToBufferTCP_E(char *buf, uint16_t pos, uint8_t *eeprom_s) {
+uint16_t addToBufferTCP_E(char *buf, uint16_t pos, eeprom_char *eeprom_s) {
 	char c;
-	while ((c = eeprom_read_byte(eeprom_s++))) {
+	while ((c = eeprom_read_byte((uint8_t *) eeprom_s++))) {
 		buf[pos] = c;
 		pos++;
 	}

@@ -22,8 +22,8 @@ void configBoardGetMac(uint8_t ip[6]);
 
 void settingsBoardGetIP(uint8_t ip[4]);
 uint16_t settingsBoardGetPort();
-uint8_t *settingsBoardGetName_E();
-uint8_t *settingsBoardGetNotifyUrl_E();
+eeprom_char *settingsBoardGetName_E();
+eeprom_char *settingsBoardGetNotifyUrl_E();
 
 const prog_char *settingsBoardSetName(char *buf, uint16_t len, uint8_t index);
 const prog_char *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t index);

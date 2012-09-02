@@ -15,11 +15,11 @@ t_notify *settingsPinGetNotify(uint8_t pinIdx, uint8_t notifyId) {
     return &pinNotifies[pinIdx][notifyId];
 }
 
-uint8_t *settingsPinGetName_E(uint8_t pinIdx) {
+eeprom_char *settingsPinGetName_E(uint8_t pinIdx) {
     if (pinIdx < pinInputSize) {
-    	return (uint8_t *) &pinInputSettings[pinIdx].name;
+    	return (eeprom_char *) &pinInputSettings[pinIdx].name;
     }
-	return (uint8_t *) &pinOutputSettings[pinIdx - pinInputSize].name;
+	return (eeprom_char *) &pinOutputSettings[pinIdx - pinInputSize].name;
 }
 
 /////////////////

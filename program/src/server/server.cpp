@@ -1,5 +1,7 @@
 #include "server.h"
 
+#define TCP_CHECKSUM_L_P    0x33 // TODO move to driver
+
 uint16_t startResponseHeader(char **buf, const prog_char *codeMsg) {
 //    *buf = &((*buf)[TCP_CHECKSUM_L_P + 3]);
     uint16_t plen;

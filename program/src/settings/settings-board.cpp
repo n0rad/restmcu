@@ -9,11 +9,11 @@ void settingsBoardGetIP(uint8_t ip[4]) {
 uint16_t settingsBoardGetPort() {
    return eeprom_read_word(&boardSettings.port);
 }
-uint8_t *settingsBoardGetName_E() {
-    return (uint8_t *) &boardSettings.name;
+eeprom_char *settingsBoardGetName_E() {
+    return (eeprom_char *) &boardSettings.name;
 }
-uint8_t *settingsBoardGetNotifyUrl_E() {
-    return (uint8_t *) &boardSettings.notifyUrl;
+eeprom_char *settingsBoardGetNotifyUrl_E() {
+    return (eeprom_char *) &boardSettings.notifyUrl;
 }
 
 const prog_char *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t index) {
