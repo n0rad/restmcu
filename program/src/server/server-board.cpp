@@ -32,17 +32,17 @@ uint16_t boardGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webRes
     plen = addToBufferTCP(buf, plen, ']');
 
     plen = addToBufferTCP_P(buf, plen, PSTR(",\"mac\":\""));
-    plen = addToBufferTCPHex(buf, plen, srvMac[0]);
+    plen = addToBufferTCPHex(buf, plen, &srvMac[0], 1);
     plen = addToBufferTCP(buf, plen, ':');
-    plen = addToBufferTCPHex(buf, plen, srvMac[1]);
+    plen = addToBufferTCPHex(buf, plen, &srvMac[1], 1);
     plen = addToBufferTCP(buf, plen, ':');
-    plen = addToBufferTCPHex(buf, plen, srvMac[2]);
+    plen = addToBufferTCPHex(buf, plen, &srvMac[2], 1);
     plen = addToBufferTCP(buf, plen, ':');
-    plen = addToBufferTCPHex(buf, plen, srvMac[3]);
+    plen = addToBufferTCPHex(buf, plen, &srvMac[3], 1);
     plen = addToBufferTCP(buf, plen, ':');
-    plen = addToBufferTCPHex(buf, plen, srvMac[4]);
+    plen = addToBufferTCPHex(buf, plen, &srvMac[4], 1);
     plen = addToBufferTCP(buf, plen, ':');
-    plen = addToBufferTCPHex(buf, plen, srvMac[5]);
+    plen = addToBufferTCPHex(buf, plen, &srvMac[5], 1);
 
     plen = addToBufferTCP_P(buf, plen, JSON_STR_END);
     return plen;

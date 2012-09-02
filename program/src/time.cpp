@@ -33,6 +33,6 @@ uint16_t addSecurityToBuffer(char *buf, uint16_t plen) {
 
     Sha1.initHmac(hmacKey, hmacKeySize);
     fillHmacMessage(time);
-    plen = addToBufferTCPHex32(buf, plen, Sha1.resultHmac());
+    plen = addToBufferTCPHex(buf, plen, Sha1.resultHmac(), 20);
     plen = addToBufferTCP_P(buf, plen, PSTR("\r\n"));
 }

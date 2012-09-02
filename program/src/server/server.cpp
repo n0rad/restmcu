@@ -51,7 +51,7 @@ static uint16_t commonCheck(char *buf, uint16_t dataPointer, uint16_t dataLen) {
     fillHmacMessage(atol(&buf[dataPointer + timepos + 11]));
     uint8_t *calculatedHash = Sha1.resultHmac();
     char tmpBuf[40];
-    addToBufferTCPHex32((char *)tmpBuf, 0, calculatedHash);
+    addToBufferTCPHex((char *)tmpBuf, 0, calculatedHash, 20);
     if (strncmp((char *)tmpBuf, &buf[dataPointer + hashpos + 11], 40)) {
         plen = startResponseHeader(&buf, HEADER_403);
         plen = appendErrorMsg_P(buf, plen, ERROR_MSG_SECURITY, PSTR("Hmac-Hash does not match"));

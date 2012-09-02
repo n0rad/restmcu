@@ -4,23 +4,12 @@ static char value_to_add[16] =
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static char hexArray[] = "0123456789abcdef";
 
-uint16_t addToBufferTCPHex32(char *buf, uint16_t pos, uint8_t *hash) {
-	for (int i = 0; i < 20; i++) { // TODO extract from here
-		buf[pos++] = hexArray[hash[i] >> 4];
-		buf[pos++] = hexArray[hash[i] & 0xf];
-	}
-	return pos;
-}
-
-uint16_t addToBufferTCPHex(char *buf, uint16_t pos, uint16_t val) {
-	int j = 0;
-
-	sprintf_P(value_to_add, sprintfpHEX, val);
-	while (value_to_add[j]) {
-		buf[pos] = value_to_add[j++];
-		pos++;
-	}
-	return pos;
+uint16_t addToBufferTCPHex(char *buf, uint16_t pos, uint8_t *hash, uint8_t len) {
+       for (int i = 0; i < len; i++) {
+                buf[pos++] = hexArray[hash[i] >> 4];
+                buf[pos++] = hexArray[hash[i] & 0xf];
+        }
+        return pos;
 }
 
 uint16_t addToBufferTCP(char *buf, uint16_t pos, float number) {
