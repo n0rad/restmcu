@@ -7,7 +7,7 @@
 
 
 //#define DEBUG
-#define HMAC
+//#define HMAC
 
 const long notifFailRetryWait = 60000; // 60s
 const long dateFailRetryWait = 1000; // 1s

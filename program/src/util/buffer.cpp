@@ -56,7 +56,7 @@ uint16_t addToBufferTCP(char *buf, uint16_t pos, char val) {
 }
 
 uint16_t addToBufferTCP(char *buf, uint16_t pos, uint16_t val) {
-	itoa(val, buf, 10);
+	itoa(val, &buf[pos], 10);
 	return strlen(buf) + pos;
 }
 
