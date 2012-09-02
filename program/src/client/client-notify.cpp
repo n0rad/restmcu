@@ -57,16 +57,15 @@ uint16_t clientBuildNextQuery(char *buf) {
     plen = addSecurityToBuffer(buf, plen);
 #endif
 
-    plen = addToBufferTCP_P(buf, plen, PSTR("Connection: Close\r\n"));
-    plen = addToBufferTCP_P(buf, plen, PSTR("Content-Length:    \r\n\r\n"));
+    plen = addToBufferTCP_P(buf, plen, PSTR("Connection: Close\r\nContent-Length:    \r\n\r\n{\""));
 
     uint16_t datapos = plen;
     if (notification->isBoardNotif) {
-        plen = addToBufferTCP_P(buf, plen, PSTR("{\"type\":\""));
+        plen = addToBufferTCP_P(buf, plen, PSTR("type\":\""));
         plen = addToBufferTCP_P(buf, plen, notification->boardNotifType == BOARD_NOTIFY_BOOT ? PSTR("BOOT") : PSTR("TEST"));
         plen = addToBufferTCP_P(buf, plen, JSON_STR_END);
     } else {
-        plen = addToBufferTCP_P(buf, plen, PSTR("{\"id\":"));
+        plen = addToBufferTCP_P(buf, plen, PSTR("id\":"));
         plen = addToBufferTCP(buf, plen, (uint16_t) notification->pinId);
         plen = addToBufferTCP_P(buf, plen, PSTR(",\"oldValue\":"));
         plen = addToBufferTCP(buf, plen, notification->oldValue);
@@ -89,9 +88,9 @@ uint16_t clientBuildNextQuery(char *buf) {
         plen = addToBufferTCP(buf, plen, notification->notify.value);
         plen = addToBufferTCP_P(buf, plen, PSTR("}}"));
     }
-    itoa(plen - datapos, &buf[datapos - 7], 10);
-    buf[datapos - 7 + strlen(&buf[datapos - 7])] = ' '; // replace \0 by ' ' if len size is 2 digits
-    buf[datapos - 7 + 3] = '\r'; // put back \r if len is 3 digits
+    itoa(plen - datapos, &buf[datapos - 9], 10);
+    buf[datapos - 9 + strlen(&buf[datapos - 9])] = ' '; // replace \0 by ' ' if len size is 2 digits
+    buf[datapos - 9 + 3] = '\r'; // put back \r if len is 3 digits
 
     // free this notification
     t_notification *next = notification->next;
