@@ -5,7 +5,7 @@ typedef char eeprom_char;
 
 #include <avr/eeprom.h>
 #include <avr/pgmspace.h>
-#include <sha256.h>
+#include <sha1.h>
 #include "pin/pin-manager.h"
 
 void fillHmacMessage(unsigned long posixTime);

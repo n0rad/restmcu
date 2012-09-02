@@ -5,6 +5,10 @@ uint16_t startResponseHeader(char **buf, const prog_char *codeMsg) {
     uint16_t plen;
     plen = addToBufferTCP_P(*buf, 0, HEADER_HTTP);
     plen = addToBufferTCP_P(*buf, plen, codeMsg);
+    plen = addToBufferTCP_P(*buf, plen, PSTR("\r\n"));
+#ifdef HMAC
+    plen = addSecurityToBuffer(*buf, plen);
+#endif
     plen = addToBufferTCP_P(*buf, plen, HEADER_CONTENT);
     plen = addToBufferTCP_P(*buf, plen, DOUBLE_ENDL);
     return plen;

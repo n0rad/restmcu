@@ -54,20 +54,7 @@ uint16_t clientBuildNextQuery(char *buf) {
 //    Keep-Alive: 300\r\nConnection: keep-alive\r\n
 
 #ifdef HMAC
-    plen = addToBufferTCP_P(buf, plen, PSTR("Hmac-Time: "));
-    unsigned long time = getCurrentPosixTimestamp();
-	ltoa(time, &buf[plen], 10);
-	plen += strlen(&buf[plen]);
-    plen = addToBufferTCP_P(buf, plen, PSTR("\r\n"));
-
-    plen = addToBufferTCP_P(buf, plen, PSTR("Hmac-Hash: "));
-
-    uint8_t key[CONFIG_BOARD_KEY_SIZE];
-    uint8_t hmacKeySize = addToBufferTCP_P((char *)key, 0, boardDescription.hmacKey);
-    Sha256.initHmac(key, hmacKeySize);
-    fillHmacMessage(time);
-    plen = addToBufferTCPHex32(buf, plen, Sha256.resultHmac());
-    plen = addToBufferTCP_P(buf, plen, PSTR("\r\n"));
+    plen = addSecurityToBuffer(buf, plen);
 #endif
 
     plen = addToBufferTCP_P(buf, plen, PSTR("Connection: Close\r\n"));
@@ -103,12 +90,8 @@ uint16_t clientBuildNextQuery(char *buf) {
         plen = addToBufferTCP_P(buf, plen, PSTR("}}"));
     }
     itoa(plen - datapos, &buf[datapos - 7], 10);
-    uint8_t pos = 0;
-    while (buf[datapos - 7 + pos] >= '0' && buf[datapos - 7 + pos] <= '9') {
-    	pos++;
-    }
-    buf[datapos - 7 + pos] = ' ';
-    buf[datapos - 7 + 3] = '\r';
+    buf[datapos - 7 + strlen(&buf[datapos - 7])] = ' '; // replace \0 by ' ' if len size is 2 digits
+    buf[datapos - 7 + 3] = '\r'; // put back \r if len is 3 digits
 
     // free this notification
     t_notification *next = notification->next;

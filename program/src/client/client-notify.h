@@ -7,7 +7,7 @@
 #include "../util/buffer.h"
 #include "../settings/settings.h"
 #include "../time.h"
-#include <sha256.h>
+#include <sha1.h>
 
 
 #define BOARD_NOTIFY_BOOT 0

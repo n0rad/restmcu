@@ -20,7 +20,7 @@ const prog_char RESOURCE_INIT[] PROGMEM = "/init ";
 const prog_char RESOURCE_NOTIFY[] PROGMEM = "/notify ";
 
 const prog_char HEADER_HTTP[] PROGMEM = "HTTP/1.0 ";
-const prog_char HEADER_CONTENT[] PROGMEM = "\r\nContent-Type: application/json";
+const prog_char HEADER_CONTENT[] PROGMEM = "Content-Type: application/json";
 const prog_char HEADER_200[] PROGMEM = "200 OK";
 const prog_char HEADER_404[] PROGMEM = "404 Not Found";
 const prog_char HEADER_400[] PROGMEM = "400 Bad Request";

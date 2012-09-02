@@ -8,6 +8,7 @@ It provide through a restfull (json only) interface :
 - dynamic pin name and notification conditions 
 - notify a server of pin change based on condition set on pins
 - support of hmac-sha256 security between board and server
+- keep states of pins in eeprom is case of power failure
 
 The electronic wiring configuration is provided by a simple C file used during compilation
 
@@ -51,7 +52,7 @@ on board:
 - PUT /settings              : update dynamic board settings
 - GET /pin/{pinId}           : get static pin configuration
 - GET /pin/{pinId}/settings  : get dynamic pin settings
-- PUT /pin/{pinId}/          : update dynamic pin settings
+- PUT /pin/{pinId}/settings  : update dynamic pin settings
 
 on server:
 

@@ -18,3 +18,20 @@ unsigned long getCurrentPosixTimestamp() {
 	return currentBoot + receiveTimestamp - receiveBootTime;
 
 }
+
+uint16_t addSecurityToBuffer(char *buf, uint16_t plen) {
+    plen = addToBufferTCP_P(buf, plen, HMAC_TIME);
+    unsigned long time = getCurrentPosixTimestamp();
+	ltoa(time, &buf[plen], 10);
+	plen += strlen(&buf[plen]);
+    plen = addToBufferTCP_P(buf, plen, PSTR("\r\n"));
+
+    plen = addToBufferTCP_P(buf, plen, HMAC_HASH);
+
+    uint8_t key[CONFIG_BOARD_KEY_SIZE];
+    uint8_t hmacKeySize = addToBufferTCP_P((char *)key, 0, boardDescription.hmacKey);
+    Sha1.initHmac(key, hmacKeySize);
+    fillHmacMessage(time);
+    plen = addToBufferTCPHex32(buf, plen, Sha1.resultHmac());
+    plen = addToBufferTCP_P(buf, plen, PSTR("\r\n"));
+}

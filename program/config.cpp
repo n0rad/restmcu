@@ -15,8 +15,8 @@ uint16_t lumdefaultPinRead(uint8_t pinId, uint8_t type) {
 }
 
 void fillHmacMessage(unsigned long time) {
-	Sha256.print(time);
-	Sha256.print("MESSAGE");
+	Sha1.print(time);
+	Sha1.print("MESSAGE");
 }
 
 

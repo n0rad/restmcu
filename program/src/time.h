@@ -3,12 +3,15 @@
 
 #include <stdint.h>
 #include <Arduino.h>
+#include "util/buffer.h"
 
 
 unsigned long getCurrentPosixTimestamp();
 //uint16_t fillWithTimestamp(char *buf);
 boolean isTimeReady();
 uint16_t receiveTime(char *time);
+
+uint16_t addSecurityToBuffer(char *buf, uint16_t plen);
 
 
 #endif

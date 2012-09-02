@@ -59,7 +59,7 @@ $(ARDUINO_LIB)/Ethernet/EthernetUdp.cpp \
 $(ARDUINO_LIB)/Ethernet/Dns.cpp \
 $(ARDUINO_LIB)/Ethernet/utility/socket.cpp \
 $(ARDUINO_LIB)/Ethernet/utility/w5100.cpp \
-lib/crypto/sha256.cpp
+lib/crypto/sha1.cpp
 
 ##################################################
 # RESTMCU

@@ -5,9 +5,7 @@ static char value_to_add[16] =
 static char hexArray[] = "0123456789abcdef";
 
 uint16_t addToBufferTCPHex32(char *buf, uint16_t pos, uint8_t *hash) {
-	for (int i = 0; i < 32; i++) {
-//	buf[pos++] = "0123456789abcdef"[hash[i]>>4];
-//	buf[pos++] = "0123456789abcdef"[hash[i]&0xf];
+	for (int i = 0; i < 20; i++) { // TODO extract from here
 		buf[pos++] = hexArray[hash[i] >> 4];
 		buf[pos++] = hexArray[hash[i] & 0xf];
 	}
