@@ -1,4 +1,3 @@
-
 RestMcu is a generic program for micro-controllers (arduino only for the moment) with a network interface.
 It provide through a restfull (json only) interface :
 
@@ -31,16 +30,14 @@ Create a new configuration file based on config.cpp file
 Code verification with board
 ============================
 
-The IT project can interactively test the program directly on a board
-The wiring of the board can be found in the 'it/wiring/' folder
+The IT project can test the program directly on a board. The wiring of the board can be found in the 'it/wiring/' folder
+
 to test it yourself :
 
 - wire a board like the schema 'it/wiring/TestBoardWiring.fzz' (open it with http://fritzing.org/) 
 - plug the board to the network (for tests) and the usb (to program the board)
-- run the command and replace the it with a free in your network and type of board :
-  # MCU=atmega1280 mvn -Dboard.host=192.168.42.244 -Dboard.port=80 -Dboard.path=/ -Pboard clean verify
-- follow the interactive instructions to test the program
-
+- run the command and replace the type of board AND the ip address with a free one in your network :
+   # MCU=atmega1280 mvn -Dboard.host=192.168.42.244 -Dboard.port=80 -Dboard.path=/ -Pboard clean verify
 
 Resources 
 =========
@@ -67,4 +64,4 @@ TODO
 - support of encj28j60 (currently half-implemented)
 - dhcp
 - dns ?
-- fit in 328p
+- fit in 328p (almost done)
