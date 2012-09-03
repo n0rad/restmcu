@@ -5,11 +5,12 @@
 #include <Arduino.h>
 #include "util/buffer.h"
 
+const long maxValidWindowSecondOneSide = 60; // 60s
 
 unsigned long getCurrentPosixTimestamp();
-//uint16_t fillWithTimestamp(char *buf);
 boolean isTimeReady();
 uint16_t receiveTime(char *time);
+boolean isValidWindow(unsigned long time);
 
 uint16_t addSecurityToBuffer(char *buf, uint16_t plen);
 

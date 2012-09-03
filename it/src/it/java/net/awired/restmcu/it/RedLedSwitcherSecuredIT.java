@@ -28,8 +28,8 @@ public class RedLedSwitcherSecuredIT {
     @Test
     public void should_toggle_red_led_fastest2() throws Exception {
         RestMcuPinResource pinResource = restmcu.getPinResource();
-        pinResource.getPinSettings(7);
-        //        pinResource.setPinValue(7, 1f);
+        //        pinResource.getPinSettings(7);
+        pinResource.setPinValue(7, 1f);
         //            assertEquals(1f, pinResource.getPinValue(7), 0);
         //        pinResource.setPinValue(7, 0f);
         //            assertEquals(0f, pinResource.getPinValue(7), 0);

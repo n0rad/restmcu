@@ -49,8 +49,15 @@ static uint16_t commonCheck(char *buf, uint16_t dataPointer, uint16_t dataLen) {
         return plen;
     }
 
+    unsigned long time = atol(&buf[dataPointer + timepos + 11]);
+    if (!isValidWindow(time)) {
+        plen = startResponseHeader(&buf, HEADER_403);
+        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_SECURITY, PSTR("Hmac-Time overflow"));
+        return plen;
+    }
+
     Sha1.initHmac(hmacKey, hmacKeySize);
-    fillHmacMessage(atol(&buf[dataPointer + timepos + 11]));
+    fillHmacMessage(time);
     uint8_t *calculatedHash = Sha1.resultHmac();
     char tmpBuf[40];
     addToBufferTCPHex((char *)tmpBuf, 0, calculatedHash, 20);

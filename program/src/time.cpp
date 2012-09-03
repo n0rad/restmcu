@@ -19,7 +19,12 @@ boolean isTimeReady() {
 unsigned long getCurrentPosixTimestamp() {
 	long currentBoot = millis() / 1000;
 	return currentBoot + receiveTimestamp - receiveBootTime;
+}
 
+boolean isValidWindow(unsigned long time) {
+	unsigned long currentTime = getCurrentPosixTimestamp();
+	return time > currentTime - maxValidWindowSecondOneSide
+			&& time < currentTime + maxValidWindowSecondOneSide;
 }
 
 uint16_t addSecurityToBuffer(char *buf, uint16_t plen) {
