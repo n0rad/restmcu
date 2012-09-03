@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
-import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
+import net.awired.restmcu.api.resource.server.RestMcuNotifyResource;
 import org.apache.cxf.jaxrs.ext.RequestHandler;
 import org.apache.cxf.jaxrs.ext.ResponseHandler;
 import org.apache.cxf.jaxrs.model.ClassResourceInfo;
@@ -35,7 +35,7 @@ public class RestMcuSecurityServerFilter implements RequestHandler, ResponseHand
 
     private boolean isSecurityNeeded(Message message) {
         Method method = (Method) message.get("org.apache.cxf.resource.method");
-        if (method == null || !RestMcuBoardResource.class.isAssignableFrom(method.getDeclaringClass())) {
+        if (method == null || !RestMcuNotifyResource.class.isAssignableFrom(method.getDeclaringClass())) {
             return false;
         }
         boolean isTimeCall = message.get("org.apache.cxf.message.Message.PATH_INFO").equals("/time");
