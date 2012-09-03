@@ -1,7 +1,6 @@
 package net.awired.restmcu.it;
 
 import net.awired.ajsl.test.RestContext;
-import net.awired.housecream.server.it.RestMcuDebugResource;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientInInterceptor;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientOutInterceptor;
 import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
@@ -13,8 +12,6 @@ public class RestMcuTestRule extends ExternalResource {
     private RestMcuBoardResource boardResource;
 
     private RestMcuPinResource pinResource;
-
-    private RestMcuDebugResource debugResource;
 
     public RestMcuTestRule() {
         this(RestMcuTestContext.getUrl());
@@ -29,7 +26,6 @@ public class RestMcuTestRule extends ExternalResource {
 
         pinResource = context.prepareClient(RestMcuPinResource.class, url, null, true);
         boardResource = context.prepareClient(RestMcuBoardResource.class, url, null, true);
-        debugResource = context.prepareClient(RestMcuDebugResource.class, url, null, true);
     }
 
     @Override
@@ -62,10 +58,6 @@ public class RestMcuTestRule extends ExternalResource {
 
     public RestMcuBoardResource getBoardResource() {
         return boardResource;
-    }
-
-    public RestMcuDebugResource getDebugResource() {
-        return debugResource;
     }
 
 }
