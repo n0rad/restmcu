@@ -28,6 +28,9 @@ const prog_char *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t inde
     if (readIP(&buf[7], strspn_P(&buf[7], IP_CHARACTERS), newIp)) {
         return PSTR("invalid ip in notifyUrl");
     }
+    if (buf[len - 1] == '/') {
+    	len--;
+    }
     eeprom_write_block(buf, &boardSettings.notifyUrl, len);
     eeprom_write_byte((uint8_t *)&boardSettings.notifyUrl + len, 0);
     settingsReload();

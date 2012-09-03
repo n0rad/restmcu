@@ -52,12 +52,6 @@ public class NotifyResource implements RestMcuNotifyResource {
 
     @Override
     public void boardNotification(RestMcuBoardNotification boardNotification) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         boardNotifications.add(boardNotification);
         boardLatch.countDown();
     }

@@ -1,8 +1,8 @@
 package net.awired.restmcu.it;
 
 import net.awired.ajsl.test.RestContext;
-import net.awired.restmcu.api.filter.RestMcuSecurityInInterceptor;
-import net.awired.restmcu.api.filter.RestMcuSecurityOutInterceptor;
+import net.awired.restmcu.api.filter.RestMcuSecurityClientInInterceptor;
+import net.awired.restmcu.api.filter.RestMcuSecurityClientOutInterceptor;
 import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
 import net.awired.restmcu.api.resource.client.RestMcuPinResource;
 import net.awired.restmcu.api.resource.test.RestMcuDebugResource;
@@ -23,8 +23,9 @@ public class RestMcuTestRule extends ExternalResource {
     public RestMcuTestRule(String url) {
 
         RestContext context = new RestContext();
-        context.addInInterceptor(new RestMcuSecurityInInterceptor(new RestMcuTestSecurityKey()));
-        context.addOutInterceptor(new RestMcuSecurityOutInterceptor(new RestMcuTestSecurityKey()));
+
+        context.addInInterceptor(new RestMcuSecurityClientInInterceptor(new RestMcuTestSecurityKey()));
+        context.addOutInterceptor(new RestMcuSecurityClientOutInterceptor(new RestMcuTestSecurityKey()));
 
         pinResource = context.prepareClient(RestMcuPinResource.class, url, null, true);
         boardResource = context.prepareClient(RestMcuBoardResource.class, url, null, true);
