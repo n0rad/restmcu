@@ -1,11 +1,11 @@
 package net.awired.restmcu.it;
 
 import net.awired.ajsl.test.RestContext;
+import net.awired.housecream.server.it.RestMcuDebugResource;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientInInterceptor;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientOutInterceptor;
 import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
 import net.awired.restmcu.api.resource.client.RestMcuPinResource;
-import net.awired.restmcu.api.resource.test.RestMcuDebugResource;
 import org.junit.rules.ExternalResource;
 
 public class RestMcuTestRule extends ExternalResource {

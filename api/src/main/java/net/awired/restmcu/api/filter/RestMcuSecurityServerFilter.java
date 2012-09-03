@@ -38,7 +38,7 @@ public class RestMcuSecurityServerFilter implements RequestHandler, ResponseHand
         if (method == null || !RestMcuNotifyResource.class.isAssignableFrom(method.getDeclaringClass())) {
             return false;
         }
-        boolean isTimeCall = message.get("org.apache.cxf.message.Message.PATH_INFO").equals("/time");
+        boolean isTimeCall = message.get(Message.PATH_INFO).equals("/time");
         if (isTimeCall) {
             return false;
         }
