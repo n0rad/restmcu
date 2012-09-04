@@ -11,8 +11,6 @@ EthernetServer server(settingsBoardGetPort());
 #define BUFFER_SIZE 1000
 uint8_t buf[BUFFER_SIZE + 1];
 
-uint8_t buf2[BUFFER_SIZE + 1];
-
 void networkSetup(uint8_t *srvMac, uint8_t *srvIp) {
 	IPAddress ip(srvIp);
 	Ethernet.begin(srvMac, ip);
@@ -52,12 +50,15 @@ void networkManage() {
 	if (sendClient.available()) {
 //		int size = sendClient.read((uint8_t *) buf2, BUFFER_SIZE);
 		size = readHttpFrame(sendClient);
+#ifdef HMAC
 		if (!isTimeReady()) {
 			uint16_t endPos = strstrpos_P((char *) buf, DOUBLE_ENDL);
 			receiveTime((char *) &buf[endPos + 4]);
 		}
+#endif
 	}
 
+#ifdef HMAC
 	if (!isTimeReady() && sendClient.status() == SnSR::CLOSED && (lastFailTime == 0 || millis() - lastFailTime > dateFailRetryWait)) {
 		if (sendClient.connect(NotifyDstIp, notifyDstPort)) {
 			int len = clientBuildTimeQuery((char *) buf);
@@ -67,6 +68,7 @@ void networkManage() {
 			sendClient.stop();
 		}
 	}
+#endif
 
 	if (!sendClient.connected()) {
 		sendClient.stop();

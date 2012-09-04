@@ -1,5 +1,6 @@
 
-
+#FEATURE =
+#FEATURE = -DHMAC -DDEBUG
 TARGET = target/restmcu
 # Change this to match your arduino installation directory
 PORT = /dev/ttyUSB0
@@ -126,8 +127,8 @@ CTUNING = -ffunction-sections -fdata-sections
 CXXTUNING = -fno-exceptions -ffunction-sections -fdata-sections
 #CEXTRA = -Wa,-adhlns=$(<:.c=.lst)
 
-CFLAGS = $(CDEBUG) -O$(OPT) $(CWARN) $(CTUNING) $(CDEFS) $(CINCS) $(CSTANDARD) $(CEXTRA)
-CXXFLAGS = $(CDEBUG) -O$(OPT) $(CWARN) $(CXXTUNING) $(CDEFS) $(CXXINCS)
+CFLAGS = $(FEATURE) $(CDEBUG) -O$(OPT) $(CWARN) $(CTUNING) $(CDEFS) $(CINCS) $(CSTANDARD) $(CEXTRA)
+CXXFLAGS = $(FEATURE) $(CDEBUG) -O$(OPT) $(CWARN) $(CXXTUNING) $(CDEFS) $(CXXINCS)
 #ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
 LDFLAGS = -O$(OPT) -lm -Wl,--gc-sections
 

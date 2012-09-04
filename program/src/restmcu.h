@@ -5,10 +5,6 @@
 
 #define HARDWARE "Arduino Duemilanove / Nuelectronics enc28j60 Ethernet Shield V1.1"
 
-
-//#define DEBUG
-#define HMAC
-
 const long notifFailRetryWait = 60000; // 60s
 const long dateFailRetryWait = 1000; // 1s
 

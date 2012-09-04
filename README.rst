@@ -11,6 +11,14 @@ It provide through a restfull (json only) interface :
 
 The electronic wiring configuration is provided by a simple C file used during compilation
 
+Feature that can be enabled
+===========================
+
+You can enable some feature at compilation time :
+ 
+- HMAC : enable security using hmac-sha1 signature on calls
+- DEBUG : enable debug through serial
+
 Build dependencies
 ==================
 
@@ -26,6 +34,10 @@ Go to 'program' folder
 Create a new configuration file based on config.cpp file
 
 # make MCU=atmega1280 CONFIG=YOUR_BOARD_CONFIGURATION_FILE.cpp clean upload
+
+with hmac security :
+
+# make MCU=atmega1280 CONFIG=YOUR_BOARD_CONFIGURATION_FILE.cpp FEATURE=-DHMAC clean upload
 
 Code verification with board
 ============================
