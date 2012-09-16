@@ -9,7 +9,7 @@
 
 #include <restmcu-config.h>
 #include "../restmcu.h"
-#include "../pin/pin-manager.h"
+#include "../line/line-manager.h"
 #include "../util/mylibc.h"
 
 
@@ -29,21 +29,21 @@ void settingsSave();
 const prog_char CONFIG_VERSION[] PROGMEM = "hc1";
 const prog_char STR_INPUT[] PROGMEM = "INPUT";
 const prog_char STR_OUTPUT[] PROGMEM = "OUTPUT";
-const prog_char PIN_TYPE_ANALOG[] PROGMEM = "ANALOG";
-const prog_char PIN_TYPE_DIGITAL[] PROGMEM = "DIGITAL";
-const prog_char PIN_NOTIFICATION_SUP[] PROGMEM = "SUP_OR_EQUAL";
-const prog_char PIN_NOTIFICATION_INF[] PROGMEM = "INF_OR_EQUAL";
+const prog_char LINE_TYPE_ANALOG[] PROGMEM = "ANALOG";
+const prog_char LINE_TYPE_DIGITAL[] PROGMEM = "DIGITAL";
+const prog_char LINE_NOTIFICATION_SUP[] PROGMEM = "SUP_OR_EQUAL";
+const prog_char LINE_NOTIFICATION_INF[] PROGMEM = "INF_OR_EQUAL";
 
-extern uint8_t pinInputSize;
-extern uint8_t pinOutputSize;
-extern const char *pinDirection[];
-extern const char *pinType[];
-extern const char *pinNotification[];
+extern uint8_t lineInputSize;
+extern uint8_t lineOutputSize;
+extern const char *lineDirection[];
+extern const char *lineType[];
+extern const char *lineNotification[];
 
 extern uint8_t NotifyDstIp[4];
 extern uint16_t notifyDstPort;
 extern char notifyUrlPrefix[36];
-extern t_notify **pinNotifies;
+extern t_notify **lineNotifies;
 
 
 #endif

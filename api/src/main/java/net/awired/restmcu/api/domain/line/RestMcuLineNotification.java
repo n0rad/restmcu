@@ -1,25 +1,25 @@
-package net.awired.restmcu.api.domain.pin;
+package net.awired.restmcu.api.domain.line;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Objects;
 
-@XmlRootElement(name = "pinNotification")
+@XmlRootElement(name = "lineNotification")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RestMcuPinNotification {
+public class RestMcuLineNotification {
 
     private int id;
     private float oldValue;
     private float value;
     /** ex: 127.0.0.1:5879 */
     private String source;
-    private RestMcuPinNotify notify;
+    private RestMcuLineNotify notify;
 
-    public RestMcuPinNotification() {
+    public RestMcuLineNotification() {
     }
 
-    public RestMcuPinNotification(int id, float oldValue, float value, String source, RestMcuPinNotify notify) {
+    public RestMcuLineNotification(int id, float oldValue, float value, String source, RestMcuLineNotify notify) {
         this.id = id;
         this.oldValue = oldValue;
         this.value = value;
@@ -54,11 +54,11 @@ public class RestMcuPinNotification {
         this.value = value;
     }
 
-    public RestMcuPinNotify getNotify() {
+    public RestMcuLineNotify getNotify() {
         return notify;
     }
 
-    public void setNotify(RestMcuPinNotify notify) {
+    public void setNotify(RestMcuLineNotify notify) {
         this.notify = notify;
     }
 

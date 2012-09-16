@@ -6,7 +6,7 @@ typedef char eeprom_char;
 #include <avr/eeprom.h>
 #include <avr/pgmspace.h>
 #include <sha1.h>
-#include "pin/pin-manager.h"
+#include "line/line-manager.h"
 
 void fillHmacMessage(unsigned long posixTime);
 
@@ -35,7 +35,7 @@ typedef struct s_boardSettings {
 
 
 ////////////////////////////////////////////////////////////
-// PIN
+// LINE
 ///////////////////////////////////////////////////////////////
 #define ANALOG 1
 #define DIGITAL 2
@@ -43,49 +43,49 @@ typedef struct s_boardSettings {
 #define OVER_EQ 1
 #define UNDER_EQ 2
 
-#define PIN_NUMBER_OF_NOTIFY 4
+#define LINE_NUMBER_OF_NOTIFY 4
 
-#define CONFIG_PIN_NAME_SIZE 21
-#define CONFIG_PIN_DESCRIPTION_SIZE 101
+#define CONFIG_LINE_NAME_SIZE 21
+#define CONFIG_LINE_DESCRIPTION_SIZE 101
 
 typedef struct s_notify {
     uint8_t condition;
     float value; // value after conversion (this is why its a float)
 } t_notify;
 
-typedef struct s_pinInputDescription {
-    int8_t pinId;           // unique pin id on board
+typedef struct s_lineInputDescription {
+    int8_t lineId;           // unique line id on board
     int8_t type;            // ANALOG, DIGITAL
     uint8_t pullup;         // enable internal pullup resistor
-    PinInputConversion convertValue; // convert the 0-1023 to a display value (ex: float for temperature)
-    PinRead read;           // function to read value
-    prog_char description[CONFIG_PIN_DESCRIPTION_SIZE];
-} t_pinInputDescription;
-typedef struct s_pinInputSettings {
-	eeprom_char name[CONFIG_PIN_NAME_SIZE];
-    t_notify notifies[PIN_NUMBER_OF_NOTIFY];
-} t_pinInputSettings;
+    LineInputConversion convertValue; // convert the 0-1023 to a display value (ex: float for temperature)
+    LineRead read;           // function to read value
+    prog_char description[CONFIG_LINE_DESCRIPTION_SIZE];
+} t_lineInputDescription;
+typedef struct s_lineInputSettings {
+	eeprom_char name[CONFIG_LINE_NAME_SIZE];
+    t_notify notifies[LINE_NUMBER_OF_NOTIFY];
+} t_lineInputSettings;
 
-typedef struct s_pinOutputDescription {
-    int8_t pinId;         // unique pin id on board
+typedef struct s_lineOutputDescription {
+    int8_t lineId;         // unique line id on board
     int8_t type;          // ANALOG, DIGITAL
-    float valueMin;       // for output pin : min value as input for transform function that will not result under 0 (display value)
-    float valueMax;       // for output pin : max value as input for transform function that will not result over 255 (display value)
-    PinOutputConversion convertValue; // convert the display value to a 0-255 value
-    PinWrite write;       // function to write value
-    prog_char description[CONFIG_PIN_DESCRIPTION_SIZE];
-} t_pinOutputDescription;
-typedef struct s_pinOutputSettings {
-	eeprom_char name[CONFIG_PIN_NAME_SIZE];
+    float valueMin;       // for output line : min value as input for transform function that will not result under 0 (display value)
+    float valueMax;       // for output line : max value as input for transform function that will not result over 255 (display value)
+    LineOutputConversion convertValue; // convert the display value to a 0-255 value
+    LineWrite write;       // function to write value
+    prog_char description[CONFIG_LINE_DESCRIPTION_SIZE];
+} t_lineOutputDescription;
+typedef struct s_lineOutputSettings {
+	eeprom_char name[CONFIG_LINE_NAME_SIZE];
     float lastValue;
-} t_pinOutputSettings;
+} t_lineOutputSettings;
 
-extern const t_pinInputDescription pinInputDescription[];
-extern const t_pinOutputDescription pinOutputDescription[];
+extern const t_lineInputDescription lineInputDescription[];
+extern const t_lineOutputDescription lineOutputDescription[];
 extern const t_boardDescription boardDescription;
 
-extern t_pinInputSettings pinInputSettings[];
-extern t_pinOutputSettings pinOutputSettings[];
+extern t_lineInputSettings lineInputSettings[];
+extern t_lineOutputSettings lineOutputSettings[];
 extern t_boardSettings boardSettings;
 
 #endif

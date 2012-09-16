@@ -70,9 +70,9 @@ CONFIG = config.cpp
 
 C_APP = 
 CXX_APP = src/restmcu.cpp $(CONFIG) src/debug.cpp src/time.cpp src/settings/settings.cpp \
-		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
-		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
-		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp src/client/client-notify.cpp \
+		src/settings/settings-board.cpp src/settings/settings-line.cpp \
+		src/server/server.cpp src/line/line-manager.cpp src/config/config-manager.cpp \
+		src/server/server-line.cpp src/server/server-board.cpp src/client/client.cpp src/client/client-notify.cpp \
 		src/client/client-time.cpp src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp \
 		src/util/availableMemory.cpp
 

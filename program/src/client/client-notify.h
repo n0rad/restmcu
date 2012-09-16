@@ -15,13 +15,13 @@
 
 
 void clientBoardNotify(uint8_t notifType);
-void clientPinNotify(int pinId, float oldValue, float value, t_notify *notify);
+void clientLineNotify(int lineId, float oldValue, float value, t_notify *notify);
 uint16_t clientBuildNextQuery(char *buf);
 
 typedef struct s_notification {
     uint8_t isBoardNotif;
     uint8_t boardNotifType;
-    uint8_t pinId;
+    uint8_t lineId;
     float oldValue;
     float value;
     t_notify notify;

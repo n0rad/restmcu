@@ -39,13 +39,13 @@ ARDUINO = lib/arduino
 # HCC
 HCC_CXXSRC = lib/SPI/SPI.cpp src/hcc.cpp src/util/pure_virtual.cpp \
 		src/util/availableMemory.cpp $(CONFIG) src/settings/settings.cpp \
-		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
-		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
-		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp \
+		src/settings/settings-board.cpp src/settings/settings-line.cpp \
+		src/server/server.cpp src/line/line-manager.cpp src/config/config-manager.cpp \
+		src/server/server-line.cpp src/server/server-board.cpp src/client/client.cpp \
 		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp
 
 # BOARD
-HCC_CXXSRC += src/driver/hardware/board-duemilanove.cpp src/driver/hardware/pin-arduino.cpp
+HCC_CXXSRC += src/driver/hardware/board-duemilanove.cpp src/driver/hardware/line-arduino.cpp
 
 # ENC28j60 ETHERNET SHIELD
 ETHERNET_SHIELD_PATH = lib/ethernetShield-enc28j60

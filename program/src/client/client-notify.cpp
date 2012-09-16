@@ -28,10 +28,10 @@ void clientBoardNotify(uint8_t notifType) {
 }
 
 
-void clientPinNotify(int pinId, float oldValue, float value, t_notify *notify) {
+void clientLineNotify(int lineId, float oldValue, float value, t_notify *notify) {
     t_notification *tmpNotification = (t_notification *) malloc(sizeof(t_notification));
     tmpNotification->isBoardNotif = 0;
-    tmpNotification->pinId = pinId;
+    tmpNotification->lineId = lineId;
     tmpNotification->value = value;
     tmpNotification->oldValue = oldValue;
     tmpNotification->notify.condition = notify->condition;
@@ -48,7 +48,7 @@ uint16_t clientBuildNextQuery(char *buf) {
     if (notification->isBoardNotif) {
         plen = addToBufferTCP_P(buf, plen, PSTR("/board"));
     } else {
-        plen = addToBufferTCP_P(buf, plen, PSTR("/pin"));
+        plen = addToBufferTCP_P(buf, plen, PSTR("/line"));
     }
     plen = addToBufferTCP_P(buf, plen, PSTR(" HTTP/1.0\r\nContent-Type: application/json\r\n"));
 //    Keep-Alive: 300\r\nConnection: keep-alive\r\n
@@ -65,7 +65,7 @@ uint16_t clientBuildNextQuery(char *buf) {
         plen = addToBufferTCP_P(buf, plen, JSON_STR_END);
     } else {
         plen = addToBufferTCP_P(buf, plen, PSTR("id\":"));
-        plen = addToBufferTCP(buf, plen, (uint16_t) notification->pinId);
+        plen = addToBufferTCP(buf, plen, (uint16_t) notification->lineId);
         plen = addToBufferTCP_P(buf, plen, PSTR(",\"oldValue\":"));
         plen = addToBufferTCP(buf, plen, notification->oldValue);
         plen = addToBufferTCP_P(buf, plen, PSTR(",\"value\":"));
@@ -82,7 +82,7 @@ uint16_t clientBuildNextQuery(char *buf) {
         plen = addToBufferTCP(buf, plen, srvPort);
 
         plen = addToBufferTCP_P(buf, plen, PSTR("\",\"notify\":{\"notifyCondition\":\""));
-        plen = addToBufferTCP_P(buf, plen, pinNotification[notification->notify.condition - 1]);
+        plen = addToBufferTCP_P(buf, plen, lineNotification[notification->notify.condition - 1]);
         plen = addToBufferTCP_P(buf, plen, PSTR("\",\"notifyValue\":"));
         plen = addToBufferTCP(buf, plen, notification->notify.value);
         plen = addToBufferTCP_P(buf, plen, PSTR("}}"));

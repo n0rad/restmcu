@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.google.common.base.Objects;
 
-@XmlRootElement(name = "pinNotification")
+@XmlRootElement(name = "lineNotification")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RestMcuBoardNotification {
 

@@ -7,10 +7,10 @@ float tmp36Conversion(uint16_t value) {
 	voltage /= 1024.0;
 	return (voltage - 0.5) * 100;
 }
-uint16_t sepcdefaultPinRead(uint8_t pinId, uint8_t type) {
+uint16_t sepcdefaultLineRead(uint8_t lineId, uint8_t type) {
 	return analogRead(0);
 }
-uint16_t lumdefaultPinRead(uint8_t pinId, uint8_t type) {
+uint16_t lumdefaultLineRead(uint8_t lineId, uint8_t type) {
 	return analogRead(1);
 }
 
@@ -33,13 +33,13 @@ t_boardSettings boardSettings EEMEM = {
 };
 
 
-const t_pinInputDescription pinInputDescription[] PROGMEM = {
-        {21, DIGITAL, 0, noInputConversion, defaultPinRead, "a simple PIR"},
-        {8, DIGITAL, 0, noInputConversion, defaultPinRead, "lm35 temperature captor"},
-        {54, DIGITAL, 0, noInputConversion, defaultPinRead, "input from 9"},
+const t_lineInputDescription lineInputDescription[] PROGMEM = {
+        {21, DIGITAL, 0, noInputConversion, defaultLineRead, "a simple PIR"},
+        {8, DIGITAL, 0, noInputConversion, defaultLineRead, "lm35 temperature captor"},
+        {54, DIGITAL, 0, noInputConversion, defaultLineRead, "input from 9"},
         {-1}
 };
-t_pinInputSettings pinInputSettings[] EEMEM = {
+t_lineInputSettings lineInputSettings[] EEMEM = {
 	{"PIR", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
 	{"Push button", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
 	{"input9", {{0, 0},{0, 0},{0,0},{0,0}}}
@@ -47,13 +47,13 @@ t_pinInputSettings pinInputSettings[] EEMEM = {
 
 //////////////
 
-const t_pinOutputDescription pinOutputDescription[] PROGMEM = {
-        {6, ANALOG, 0, 255, noOutputConversion, defaultPinWrite, "optocoupler isolated and triac / no zero detection"},
-        {7, DIGITAL, 0, 1, noOutputConversion, defaultPinWrite, "optocoupler isolated and triac / no zero detection"},
-		{9, DIGITAL, 0, 1, noOutputConversion, defaultPinWrite, "control of analog 0"},
+const t_lineOutputDescription lineOutputDescription[] PROGMEM = {
+        {6, ANALOG, 0, 255, noOutputConversion, defaultLineWrite, "optocoupler isolated and triac / no zero detection"},
+        {7, DIGITAL, 0, 1, noOutputConversion, defaultLineWrite, "optocoupler isolated and triac / no zero detection"},
+		{9, DIGITAL, 0, 1, noOutputConversion, defaultLineWrite, "control of analog 0"},
         {-1}
 };
-t_pinOutputSettings pinOutputSettings[] EEMEM = {
+t_lineOutputSettings lineOutputSettings[] EEMEM = {
 	{"variator for light 1", 10},
 	{"variator for light 1", 0},
 	{"output9", 0}

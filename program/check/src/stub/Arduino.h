@@ -4,8 +4,8 @@ int analogRead(uint8_t);
 
 
 
-uint16_t defaultPinRead(unsigned char, unsigned char);
-void defaultPinWrite(unsigned char, unsigned char, unsigned short);
+uint16_t defaultLineRead(unsigned char, unsigned char);
+void defaultLineWrite(unsigned char, unsigned char, unsigned short);
 
 float noInputConversion(unsigned short);
 int16_t noOutputConversion(float);

@@ -1,16 +1,16 @@
-package net.awired.restmcu.api.domain.pin;
+package net.awired.restmcu.api.domain.line;
 
 import com.google.common.base.Objects;
 
-public class RestMcuPinNotify {
+public class RestMcuLineNotify {
 
-    private RestMcuPinNotifyCondition notifyCondition;
+    private RestMcuLineNotifyCondition notifyCondition;
     private float notifyValue;
 
-    public RestMcuPinNotify() {
+    public RestMcuLineNotify() {
     }
 
-    public RestMcuPinNotify(RestMcuPinNotifyCondition notifyCondition, float notifyValue) {
+    public RestMcuLineNotify(RestMcuLineNotifyCondition notifyCondition, float notifyValue) {
         this.notifyCondition = notifyCondition;
         this.notifyValue = notifyValue;
     }
@@ -23,11 +23,11 @@ public class RestMcuPinNotify {
                 .toString();
     }
 
-    public RestMcuPinNotifyCondition getNotifyCondition() {
+    public RestMcuLineNotifyCondition getNotifyCondition() {
         return notifyCondition;
     }
 
-    public void setNotifyCondition(RestMcuPinNotifyCondition notifyCondition) {
+    public void setNotifyCondition(RestMcuLineNotifyCondition notifyCondition) {
         this.notifyCondition = notifyCondition;
     }
 
@@ -59,7 +59,7 @@ public class RestMcuPinNotify {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        RestMcuPinNotify other = (RestMcuPinNotify) obj;
+        RestMcuLineNotify other = (RestMcuLineNotify) obj;
         if (notifyCondition != other.notifyCondition) {
             return false;
         }

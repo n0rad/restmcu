@@ -1,16 +1,16 @@
-package net.awired.restmcu.api.domain.pin;
+package net.awired.restmcu.api.domain.line;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "pin")
+@XmlRootElement(name = "line")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RestMcuPin {
+public class RestMcuLine {
 
     private String description;
-    private RestMcuPinDirection direction;
-    private RestMcuPinType type;
+    private RestMcuLineDirection direction;
+    private RestMcuLineType type;
     private Float valueMin;
     private Float valueMax;
 
@@ -22,19 +22,19 @@ public class RestMcuPin {
         this.description = description;
     }
 
-    public RestMcuPinDirection getDirection() {
+    public RestMcuLineDirection getDirection() {
         return direction;
     }
 
-    public RestMcuPinType getType() {
+    public RestMcuLineType getType() {
         return type;
     }
 
-    public void setType(RestMcuPinType type) {
+    public void setType(RestMcuLineType type) {
         this.type = type;
     }
 
-    public void setDirection(RestMcuPinDirection direction) {
+    public void setDirection(RestMcuLineDirection direction) {
         this.direction = direction;
     }
 

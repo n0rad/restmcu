@@ -4,14 +4,14 @@ import net.awired.ajsl.test.RestContext;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientInInterceptor;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientOutInterceptor;
 import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
-import net.awired.restmcu.api.resource.client.RestMcuPinResource;
+import net.awired.restmcu.api.resource.client.RestMcuLineResource;
 import org.junit.rules.ExternalResource;
 
 public class RestMcuTestRule extends ExternalResource {
 
     private RestMcuBoardResource boardResource;
 
-    private RestMcuPinResource pinResource;
+    private RestMcuLineResource lineResource;
 
     public RestMcuTestRule() {
         this(RestMcuTestContext.getUrl());
@@ -24,7 +24,7 @@ public class RestMcuTestRule extends ExternalResource {
         context.addInInterceptor(new RestMcuSecurityClientInInterceptor(new RestMcuTestSecurityKey()));
         context.addOutInterceptor(new RestMcuSecurityClientOutInterceptor(new RestMcuTestSecurityKey()));
 
-        pinResource = context.prepareClient(RestMcuPinResource.class, url, null, true);
+        lineResource = context.prepareClient(RestMcuLineResource.class, url, null, true);
         boardResource = context.prepareClient(RestMcuBoardResource.class, url, null, true);
     }
 
@@ -37,23 +37,23 @@ public class RestMcuTestRule extends ExternalResource {
         //        HccBoard deviceInfo = DefaultITDomainHelper.buildDefaultDevice();
         //        boardResource.setBoard(deviceInfo);
 
-        //        for (int i = 0; i < deviceInfo.getNumberOfPin() - 1; i++) {
-        //            HccPinInfo info = DefaultITDomainHelper.buildDefaultPin(i).getInfo();
+        //        for (int i = 0; i < deviceInfo.getNumberOfLine() - 1; i++) {
+        //            HccLineInfo info = DefaultITDomainHelper.buildDefaultLine(i).getInfo();
         //            if (info != null) {
-        //                pinResource.setPinInfo(i, info);
+        //                lineResource.setLineInfo(i, info);
         //            }
         //        }
         //
-        //        for (int i = 0; i < deviceInfo.getNumberOfPin() - 1; i++) {
-        //            HccPin pin = DefaultITDomainHelper.buildDefaultPin(i);
-        //            if (pin.getValue() != null) {
-        //                debugResource.setDebugValue(i, pin.getValue());
+        //        for (int i = 0; i < deviceInfo.getNumberOfLine() - 1; i++) {
+        //            HccLine line = DefaultITDomainHelper.buildDefaultLine(i);
+        //            if (line.getValue() != null) {
+        //                debugResource.setDebugValue(i, line.getValue());
         //            }
         //        }
     }
 
-    public RestMcuPinResource getPinResource() {
-        return pinResource;
+    public RestMcuLineResource getLineResource() {
+        return lineResource;
     }
 
     public RestMcuBoardResource getBoardResource() {

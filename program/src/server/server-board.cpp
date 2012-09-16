@@ -15,19 +15,19 @@ uint16_t boardGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webRes
     plen = addToBufferTCP_P(buf, plen, PSTR("\",\"freeMemory\":"));
     plen = addToBufferTCP(buf, plen, (uint16_t) getFreeMemory());
 
-    plen = addToBufferTCP_P(buf, plen, PSTR(",\"pinIds\":["));
+    plen = addToBufferTCP_P(buf, plen, PSTR(",\"lineIds\":["));
     uint8_t i = 0;
-    for (; i < pinInputSize; i++) {
+    for (; i < lineInputSize; i++) {
         if (i) {
             plen = addToBufferTCP(buf, plen, ',');
         }
-        plen = addToBufferTCP(buf, plen, (uint16_t) pgm_read_byte(&pinInputDescription[i].pinId));
+        plen = addToBufferTCP(buf, plen, (uint16_t) pgm_read_byte(&lineInputDescription[i].lineId));
     }
-    for (uint8_t j = 0; j < pinOutputSize; j++) {
+    for (uint8_t j = 0; j < lineOutputSize; j++) {
         if (i || j) {
             plen = addToBufferTCP(buf, plen, ',');
         }
-        plen = addToBufferTCP(buf, plen, (uint16_t) pgm_read_byte(&pinOutputDescription[j].pinId));
+        plen = addToBufferTCP(buf, plen, (uint16_t) pgm_read_byte(&lineOutputDescription[j].lineId));
     }
     plen = addToBufferTCP(buf, plen, ']');
 

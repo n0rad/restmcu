@@ -1,22 +1,22 @@
 #include <stdint.h>
 
-int analogRead(uint8_t pin) {
+int analogRead(uint8_t line) {
 	return 0;
 }
 
 
-float noInputConversion(uint16_t pinValue) {
-    return pinValue;
+float noInputConversion(uint16_t lineValue) {
+    return lineValue;
 }
-int16_t noOutputConversion(float pinValue) {
-    return pinValue;
+int16_t noOutputConversion(float lineValue) {
+    return lineValue;
 }
 
 
-uint16_t defaultPinRead(uint8_t pinId, uint8_t type) {
+uint16_t defaultLineRead(uint8_t lineId, uint8_t type) {
 	return 0;
 }
-void defaultPinWrite(uint8_t pinId, uint8_t type, uint16_t value) {}
+void defaultLineWrite(uint8_t lineId, uint8_t type, uint16_t value) {}
 
 
 uint8_t pgm_read_byte(int8_t *t) {

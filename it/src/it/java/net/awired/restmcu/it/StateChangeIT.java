@@ -5,11 +5,11 @@ import java.util.Arrays;
 import net.awired.ajsl.core.io.NetworkUtils;
 import net.awired.ajsl.test.RestServerRule;
 import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
-import net.awired.restmcu.api.domain.pin.RestMcuPinNotification;
-import net.awired.restmcu.api.domain.pin.RestMcuPinNotify;
-import net.awired.restmcu.api.domain.pin.RestMcuPinNotifyCondition;
-import net.awired.restmcu.api.domain.pin.RestMcuPinSettings;
-import net.awired.restmcu.api.resource.client.RestMcuPinResource;
+import net.awired.restmcu.api.domain.line.RestMcuLineNotification;
+import net.awired.restmcu.api.domain.line.RestMcuLineNotify;
+import net.awired.restmcu.api.domain.line.RestMcuLineNotifyCondition;
+import net.awired.restmcu.api.domain.line.RestMcuLineSettings;
+import net.awired.restmcu.api.resource.client.RestMcuLineResource;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,23 +28,23 @@ public class StateChangeIT {
         RestMcuBoardSettings boardSettings = new RestMcuBoardSettings();
         boardSettings.setNotifyUrl("http://" + NetworkUtils.getFirstNonWifiIp() + ":5879/");
         restmcu.getBoardResource().setBoardSettings(boardSettings);
-        RestMcuPinResource pinResource = restmcu.getPinResource();
-        RestMcuPinSettings settings = new RestMcuPinSettings();
-        settings.setNotifies(Arrays.asList(new RestMcuPinNotify(RestMcuPinNotifyCondition.SUP_OR_EQUAL, 1f)));
-        pinResource.setPinSettings(54, settings);
-        pinResource.setPinValue(9, 0f);
+        RestMcuLineResource lineResource = restmcu.getLineResource();
+        RestMcuLineSettings settings = new RestMcuLineSettings();
+        settings.setNotifies(Arrays.asList(new RestMcuLineNotify(RestMcuLineNotifyCondition.SUP_OR_EQUAL, 1f)));
+        lineResource.setLineSettings(54, settings);
+        lineResource.setLineValue(9, 0f);
 
-        pinResource.setPinValue(9, 1f);
+        lineResource.setLineValue(9, 1f);
 
-        RestMcuPinNotification restMcuPinNotification = notifyRule.getResource(NotifyResource.class).awaitPin()
+        RestMcuLineNotification restMcuLineNotification = notifyRule.getResource(NotifyResource.class).awaitLine()
                 .get(0);
-        assertEquals(54, restMcuPinNotification.getId());
-        assertEquals(new RestMcuPinNotify(RestMcuPinNotifyCondition.SUP_OR_EQUAL, 1f),
-                restMcuPinNotification.getNotify());
-        assertEquals(0f, restMcuPinNotification.getOldValue(), 0);
-        assertEquals(1f, restMcuPinNotification.getValue(), 0);
+        assertEquals(54, restMcuLineNotification.getId());
+        assertEquals(new RestMcuLineNotify(RestMcuLineNotifyCondition.SUP_OR_EQUAL, 1f),
+                restMcuLineNotification.getNotify());
+        assertEquals(0f, restMcuLineNotification.getOldValue(), 0);
+        assertEquals(1f, restMcuLineNotification.getValue(), 0);
         assertEquals(RestMcuTestContext.getUrl().substring(7, RestMcuTestContext.getUrl().length() - 1),
-                restMcuPinNotification.getSource());
+                restMcuLineNotification.getSource());
     }
 
     @Before

@@ -6,29 +6,29 @@
 char *definitionError;
 char *criticalProblem_p;
 
-const prog_char PIN_DEFINE_TWICE[] PROGMEM = "Pin %d is define twice";
-const prog_char PIN_TYPE_INVALID[] PROGMEM = "Invalid type on pin %d";
-const prog_char NOTIFY_VAL_OVERFLOW[] PROGMEM = "Notify val overflow on pin %d";
-const prog_char PIN_START_INVALID[] PROGMEM = "Invalid start value for pin %d";
-const prog_char PIN_MIN_INVALID[] PROGMEM = "Invalid min value for pin %d";
-const prog_char PIN_MAX_INVALID[] PROGMEM = "Invalid max value for pin %d";
+const prog_char LINE_DEFINE_TWICE[] PROGMEM = "Line %d is define twice";
+const prog_char LINE_TYPE_INVALID[] PROGMEM = "Invalid type on line %d";
+const prog_char NOTIFY_VAL_OVERFLOW[] PROGMEM = "Notify val overflow on line %d";
+const prog_char LINE_START_INVALID[] PROGMEM = "Invalid start value for line %d";
+const prog_char LINE_MIN_INVALID[] PROGMEM = "Invalid min value for line %d";
+const prog_char LINE_MAX_INVALID[] PROGMEM = "Invalid max value for line %d";
 
-const int8_t configGetInputPinIdx(uint8_t pinIdToFind) {
-	int8_t pinId;
-	for (uint8_t i = 0; -1 != (pinId = (int8_t) pinInputDescription[i].pinId);
+const int8_t configGetInputLineIdx(uint8_t lineIdToFind) {
+	int8_t lineId;
+	for (uint8_t i = 0; -1 != (lineId = (int8_t) lineInputDescription[i].lineId);
 			i++) {
-		if (pinId == pinIdToFind) {
+		if (lineId == lineIdToFind) {
 			return i;
 		}
 	}
 	return -1;
 }
 
-const int8_t configGetOutputPinIdx(uint8_t pinIdToFind) {
-	int8_t pinId;
-	for (uint8_t i = 0; -1 != (pinId = (int8_t) pinOutputDescription[i].pinId);
+const int8_t configGetOutputLineIdx(uint8_t lineIdToFind) {
+	int8_t lineId;
+	for (uint8_t i = 0; -1 != (lineId = (int8_t) lineOutputDescription[i].lineId);
 			i++) {
-		if (pinId == pinIdToFind) {
+		if (lineId == lineIdToFind) {
 			return i;
 		}
 	}
@@ -37,13 +37,13 @@ const int8_t configGetOutputPinIdx(uint8_t pinIdToFind) {
 
 int errors = 0;
 
-void displayError(const prog_char *progmem_s, int pin) {
+void displayError(const prog_char *progmem_s, int line) {
 	if (!errors) {
 		printf("\n");
 	}
 	errors = 1;
 	printf("\033[0;31m - ");
-	printf(progmem_s, pin);
+	printf(progmem_s, line);
 	printf("\n\033[0m");
 }
 
@@ -58,77 +58,77 @@ char *configCheck() {
 		displayError("Invalid server ip", 0);
 	}
 
-	int8_t pinId;
-	for (uint8_t i = 0; -1 != (pinId = (int8_t) pinInputDescription[i].pinId);
+	int8_t lineId;
+	for (uint8_t i = 0; -1 != (lineId = (int8_t) lineInputDescription[i].lineId);
 			i++) {
-		const int8_t inpos = configGetInputPinIdx(pinId);
-		const int8_t outpos = configGetOutputPinIdx(pinId);
+		const int8_t inpos = configGetInputLineIdx(lineId);
+		const int8_t outpos = configGetOutputLineIdx(lineId);
 		if (outpos != -1 || inpos != i) {
-			displayError(PIN_DEFINE_TWICE, pinId);
+			displayError(LINE_DEFINE_TWICE, lineId);
 		}
-		uint8_t type = pinInputDescription[i].type;
+		uint8_t type = lineInputDescription[i].type;
 		if (!(type == DIGITAL || type == ANALOG)) {
-			displayError(PIN_TYPE_INVALID, pinId);
+			displayError(LINE_TYPE_INVALID, lineId);
 		}
 		for (uint8_t j = 0; j < 4; j++) {
-			uint8_t cond = pinInputSettings[i].notifies[j].condition;
+			uint8_t cond = lineInputSettings[i].notifies[j].condition;
 			if (cond) {
-				uint32_t tmp = (pinInputSettings[i].notifies[j].value);
+				uint32_t tmp = (lineInputSettings[i].notifies[j].value);
 				float value = tmp;
 				if (!(cond == OVER_EQ || cond == UNDER_EQ)) {
-					displayError("Invalid notify on pin%d", pinId);
+					displayError("Invalid notify on line%d", lineId);
 				}
-				PinInputConversion conversionFunc =
-						(PinInputConversion) (pinInputDescription[i].convertValue);
+				LineInputConversion conversionFunc =
+						(LineInputConversion) (lineInputDescription[i].convertValue);
 				if (type == DIGITAL) {
 					if (value > conversionFunc(1)
 							|| value < conversionFunc(0)) {
-						displayError(NOTIFY_VAL_OVERFLOW, pinId);
+						displayError(NOTIFY_VAL_OVERFLOW, lineId);
 					}
 				} else if (value > conversionFunc(1023)
 						|| value < conversionFunc(0)) {
-					displayError(NOTIFY_VAL_OVERFLOW, pinId);
+					displayError(NOTIFY_VAL_OVERFLOW, lineId);
 				}
 			}
 		}
 	}
 
-	for (uint8_t i = 0; -1 != (pinId = (int8_t) pinOutputDescription[i].pinId);
+	for (uint8_t i = 0; -1 != (lineId = (int8_t) lineOutputDescription[i].lineId);
 			i++) {
-		const int8_t inpos = configGetInputPinIdx(pinId);
-		const int8_t outpos = configGetOutputPinIdx(pinId);
+		const int8_t inpos = configGetInputLineIdx(lineId);
+		const int8_t outpos = configGetOutputLineIdx(lineId);
 		if (inpos != -1 || outpos != i) {
-			displayError(PIN_DEFINE_TWICE, pinId);
+			displayError(LINE_DEFINE_TWICE, lineId);
 		}
-		uint8_t type = pinOutputDescription[i].type;
+		uint8_t type = lineOutputDescription[i].type;
 		if (!(type == DIGITAL || type == ANALOG)) {
-			displayError(PIN_TYPE_INVALID, pinId);
+			displayError(LINE_TYPE_INVALID, lineId);
 		}
 
-		uint32_t start = (pinOutputSettings[i].lastValue);
-		uint32_t min = (pinOutputDescription[i].valueMin);
-		uint32_t max = (pinOutputDescription[i].valueMax);
-		PinOutputConversion conversionFunc =
-				(PinOutputConversion) (pinOutputDescription[i].convertValue);
+		uint32_t start = (lineOutputSettings[i].lastValue);
+		uint32_t min = (lineOutputDescription[i].valueMin);
+		uint32_t max = (lineOutputDescription[i].valueMax);
+		LineOutputConversion conversionFunc =
+				(LineOutputConversion) (lineOutputDescription[i].convertValue);
 		if (type == DIGITAL) {
 			if (!(conversionFunc(start) == 0 || conversionFunc(start) == 1)) {
-				displayError(PIN_START_INVALID, pinId);
+				displayError(LINE_START_INVALID, lineId);
 			}
 			if (conversionFunc(min) != 0) {
-				displayError(PIN_MIN_INVALID, pinId);
+				displayError(LINE_MIN_INVALID, lineId);
 			}
 			if (conversionFunc(max) != 1) {
-				displayError(PIN_MAX_INVALID, pinId);
+				displayError(LINE_MAX_INVALID, lineId);
 			}
 		} else {
 			if (conversionFunc(start) > 255 || conversionFunc(start) < 0) {
-				displayError(PIN_START_INVALID, pinId);
+				displayError(LINE_START_INVALID, lineId);
 			}
 			if (conversionFunc(min) < 0) {
-				displayError(PIN_MIN_INVALID, pinId);
+				displayError(LINE_MIN_INVALID, lineId);
 			}
 			if (conversionFunc(max) > 255) {
-				displayError(PIN_MAX_INVALID, pinId);
+				displayError(LINE_MAX_INVALID, lineId);
 			}
 		}
 

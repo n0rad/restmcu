@@ -14,7 +14,7 @@ public class RestMcuBoard {
     private String version;
     private String hardware;
     private String mac;
-    private List<Integer> pinIds;
+    private List<Integer> lineIds;
     private Integer freeMemory;
 
     public String getSoftware() {
@@ -57,12 +57,12 @@ public class RestMcuBoard {
         return hardware;
     }
 
-    public void setPinIds(List<Integer> pinIds) {
-        this.pinIds = pinIds;
+    public void setLineIds(List<Integer> lineIds) {
+        this.lineIds = lineIds;
     }
 
-    public List<Integer> getPinIds() {
-        return pinIds;
+    public List<Integer> getLineIds() {
+        return lineIds;
     }
 
     public Integer getFreeMemory() {

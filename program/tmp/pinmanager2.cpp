@@ -1,26 +1,26 @@
 
-void OneWireReset(int Pin) // reset.  Should improve to act as a presence pulse
+void OneWireReset(int Line) // reset.  Should improve to act as a presence pulse
 {
-     digitalWrite(Pin, LOW);
-     pinMode(Pin, OUTPUT); // bring low for 500 us
+     digitalWrite(Line, LOW);
+     lineMode(Line, OUTPUT); // bring low for 500 us
      delayMicroseconds(500);
-     pinMode(Pin, INPUT);
+     lineMode(Line, INPUT);
      delayMicroseconds(500);
 }
 
 
-byte OneWireInByte(int Pin) // read byte, least sig byte first
+byte OneWireInByte(int Line) // read byte, least sig byte first
 {
     byte d, n, b;
 
     for (n=0; n<8; n++)
     {
-        digitalWrite(Pin, LOW);
-        pinMode(Pin, OUTPUT);
+        digitalWrite(Line, LOW);
+        lineMode(Line, OUTPUT);
         delayMicroseconds(5);
-        pinMode(Pin, INPUT);
+        lineMode(Line, INPUT);
         delayMicroseconds(5);
-        b = digitalRead(Pin);
+        b = digitalRead(Line);
         delayMicroseconds(50);
         d = (d >> 1) | (b<<7); // shift d to right and insert b in most sig bit position
     }
@@ -28,7 +28,7 @@ byte OneWireInByte(int Pin) // read byte, least sig byte first
 }
 
 
-void OneWireOutByte(int Pin, byte d) // output byte d (least sig bit first).
+void OneWireOutByte(int Line, byte d) // output byte d (least sig bit first).
 {
    byte n;
 
@@ -36,18 +36,18 @@ void OneWireOutByte(int Pin, byte d) // output byte d (least sig bit first).
    {
       if ((d & 0x01) == 1)  // test least sig bit
       {
-         digitalWrite(Pin, LOW);
-         pinMode(Pin, OUTPUT);
+         digitalWrite(Line, LOW);
+         lineMode(Line, OUTPUT);
          delayMicroseconds(5);
-         pinMode(Pin, INPUT);
+         lineMode(Line, INPUT);
          delayMicroseconds(60);
       }
       else
       {
-         digitalWrite(Pin, LOW);
-         pinMode(Pin, OUTPUT);
+         digitalWrite(Line, LOW);
+         lineMode(Line, OUTPUT);
          delayMicroseconds(60);
-         pinMode(Pin, INPUT);
+         lineMode(Line, INPUT);
       }
 
       d=d>>1; // now the next bit is in the least sig bit position.
@@ -61,16 +61,16 @@ void getCurrentTemp(char *temp)
 {
   int HighByte, LowByte, TReading, Tc_100, sign, whole, fract;
 
-  OneWireReset(TEMP_PIN);
-  OneWireOutByte(TEMP_PIN, 0xcc);
-  OneWireOutByte(TEMP_PIN, 0x44); // perform temperature conversion, strong pullup for one sec
+  OneWireReset(TEMP_LINE);
+  OneWireOutByte(TEMP_LINE, 0xcc);
+  OneWireOutByte(TEMP_LINE, 0x44); // perform temperature conversion, strong pullup for one sec
 
-  OneWireReset(TEMP_PIN);
-  OneWireOutByte(TEMP_PIN, 0xcc);
-  OneWireOutByte(TEMP_PIN, 0xbe);
+  OneWireReset(TEMP_LINE);
+  OneWireOutByte(TEMP_LINE, 0xcc);
+  OneWireOutByte(TEMP_LINE, 0xbe);
 
-  LowByte = OneWireInByte(TEMP_PIN);
-  HighByte = OneWireInByte(TEMP_PIN);
+  LowByte = OneWireInByte(TEMP_LINE);
+  HighByte = OneWireInByte(TEMP_LINE);
   TReading = (HighByte << 8) + LowByte;
   sign = TReading & 0x8000;  // test most sig bit
   if (sign) // negative

@@ -6,15 +6,15 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import net.awired.restmcu.api.domain.board.RestMcuBoardNotification;
-import net.awired.restmcu.api.domain.pin.RestMcuPinNotification;
+import net.awired.restmcu.api.domain.line.RestMcuLineNotification;
 
 @Produces("application/json")
 @Consumes("application/json")
 public interface RestMcuNotifyResource {
 
     @PUT
-    @Path("/pin")
-    public void pinNotification(RestMcuPinNotification pinNotification);
+    @Path("/line")
+    public void lineNotification(RestMcuLineNotification lineNotification);
 
     @PUT
     @Path("/board")

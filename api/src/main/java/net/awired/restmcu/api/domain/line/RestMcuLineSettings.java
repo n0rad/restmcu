@@ -1,4 +1,4 @@
-package net.awired.restmcu.api.domain.pin;
+package net.awired.restmcu.api.domain.line;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,16 +6,16 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "pinSettings")
+@XmlRootElement(name = "lineSettings")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RestMcuPinSettings {
+public class RestMcuLineSettings {
 
     private String name;
-    private List<RestMcuPinNotify> notifies;
+    private List<RestMcuLineNotify> notifies;
 
-    public void addNotify(RestMcuPinNotify notify) {
+    public void addNotify(RestMcuLineNotify notify) {
         if (this.notifies == null) {
-            this.notifies = new ArrayList<RestMcuPinNotify>();
+            this.notifies = new ArrayList<RestMcuLineNotify>();
         }
         this.notifies.add(notify);
     }
@@ -28,11 +28,11 @@ public class RestMcuPinSettings {
         this.name = name;
     }
 
-    public List<RestMcuPinNotify> getNotifies() {
+    public List<RestMcuLineNotify> getNotifies() {
         return notifies;
     }
 
-    public void setNotifies(List<RestMcuPinNotify> notifies) {
+    public void setNotifies(List<RestMcuLineNotify> notifies) {
         this.notifies = notifies;
     }
 

@@ -86,18 +86,18 @@ uint16_t parseResource(char *buf, uint16_t dataPointer, uint16_t dataLen) {
                currentWebRequest.resource = &resources[i];
                break;
             } else {
-                int8_t currentPinId = atoi(&buf[dataPointer + 4 + querylen]);
-                int8_t idx = configGetInputPinIdx(currentPinId);
+                int8_t currentLineId = atoi(&buf[dataPointer + 4 + querylen]);
+                int8_t idx = configGetInputLineIdx(currentLineId);
                 if (idx != -1) {
-                    currentWebRequest.pinIdx = idx;
+                    currentWebRequest.lineIdx = idx;
                 } else {
-                    idx = configGetOutputPinIdx(currentPinId);
+                    idx = configGetOutputLineIdx(currentLineId);
                     if (idx == -1) {
                         plen = startResponseHeader(&buf, HEADER_400);
-                        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_NOT_FOUND, PSTR("Pin not found"));
+                        plen = appendErrorMsg_P(buf, plen, ERROR_MSG_NOT_FOUND, PSTR("Line not found"));
                         return plen;
                     }
-                    currentWebRequest.pinIdx = pinInputSize + idx;
+                    currentWebRequest.lineIdx = lineInputSize + idx;
                 }
 
                 uint8_t j = dataPointer + 4 + querylen;

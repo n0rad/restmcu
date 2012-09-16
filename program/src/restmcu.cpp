@@ -31,13 +31,13 @@ int main() {
 
     networkSetup(srvMac, srvIp);
 
-    pinInit();
+    lineInit();
 
     clientBoardNotify(BOARD_NOTIFY_BOOT);
 
     while (1) {
         networkManage();
-        pinCheckChange();
+        lineCheckChange();
     }
 
     return 0;

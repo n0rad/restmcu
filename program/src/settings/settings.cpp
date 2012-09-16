@@ -4,13 +4,13 @@ uint8_t NotifyDstIp[4];
 uint16_t notifyDstPort;
 char notifyUrlPrefix[36];
 
-t_notify **pinNotifies = 0;
+t_notify **lineNotifies = 0;
 
-uint8_t pinInputSize = 0;
-uint8_t pinOutputSize = 0;
+uint8_t lineInputSize = 0;
+uint8_t lineOutputSize = 0;
 
-const prog_char *pinType[] = { PIN_TYPE_ANALOG, PIN_TYPE_DIGITAL};
-const prog_char *pinNotification[] = { PIN_NOTIFICATION_SUP, PIN_NOTIFICATION_INF};
+const prog_char *lineType[] = { LINE_TYPE_ANALOG, LINE_TYPE_DIGITAL};
+const prog_char *lineNotification[] = { LINE_NOTIFICATION_SUP, LINE_NOTIFICATION_INF};
 
 static void eeprom_write_block_P(uint8_t *eepromPos, prog_char *progPos, uint16_t len) {
     for (uint16_t i = 0; i < len; i++) {
@@ -41,23 +41,23 @@ void settingsReload() {
     memcpy(notifyUrlPrefix, &tmpNotifyUrl[startUrl], len + 1);
 
     // notifies
-    for (uint8_t i = 0; i < pinInputSize; i++) {
+    for (uint8_t i = 0; i < lineInputSize; i++) {
         for (uint8_t j = 0; j < 4; j++) {
-            eeprom_read_block((void *)&pinNotifies[i][j], &pinInputSettings[i].notifies[j], sizeof(t_notify));
+            eeprom_read_block((void *)&lineNotifies[i][j], &lineInputSettings[i].notifies[j], sizeof(t_notify));
         }
     }
 
 }
 
 void settingsLoad() {
-    // find size of pin list
-    for (; -1 != (int8_t) pgm_read_byte(&pinInputDescription[pinInputSize].pinId); pinInputSize++);
-    for (; -1 != (int8_t) pgm_read_byte(&pinOutputDescription[pinOutputSize].pinId); pinOutputSize++);
+    // find size of line list
+    for (; -1 != (int8_t) pgm_read_byte(&lineInputDescription[lineInputSize].lineId); lineInputSize++);
+    for (; -1 != (int8_t) pgm_read_byte(&lineOutputDescription[lineOutputSize].lineId); lineOutputSize++);
 
     // allocate notifies in ram
-    pinNotifies = (t_notify **) malloc(pinInputSize * sizeof(t_notify *));
-    for (uint8_t i = 0; i < pinInputSize; i++) {
-        pinNotifies[i] = (t_notify *) malloc(4 * sizeof(t_notify));
+    lineNotifies = (t_notify **) malloc(lineInputSize * sizeof(t_notify *));
+    for (uint8_t i = 0; i < lineInputSize; i++) {
+        lineNotifies[i] = (t_notify *) malloc(4 * sizeof(t_notify));
     }
 
     settingsReload();

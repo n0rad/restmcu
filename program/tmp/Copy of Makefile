@@ -32,13 +32,13 @@ CXXSRC += $(A_LIB)/Ethernet/utility/socket.cpp $(A_LIB)/Ethernet/utility/w5100.c
 CONFIG = config.cpp
 
 CXXSRC += src/restmcu.cpp $(CONFIG) src/settings/settings.cpp \
-		src/settings/settings-board.cpp src/settings/settings-pin.cpp \
-		src/server/server.cpp src/pin/pin-manager.cpp src/config/config-manager.cpp \
-		src/server/server-pin.cpp src/server/server-board.cpp src/client/client.cpp \
+		src/settings/settings-board.cpp src/settings/settings-line.cpp \
+		src/server/server.cpp src/line/line-manager.cpp src/config/config-manager.cpp \
+		src/server/server-line.cpp src/server/server-board.cpp src/client/client.cpp \
 		src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp
 
 #hardware
-CXXSRC += src/driver/hardware/board-duemilanove.cpp src/driver/hardware/pin-arduino.cpp
+CXXSRC += src/driver/hardware/board-duemilanove.cpp src/driver/hardware/line-arduino.cpp
 
 
 F_CPU = 16000000L

@@ -1,13 +1,13 @@
 RestMcu is a generic program for micro-controllers (arduino only for the moment) with a network interface.
 It provide through a restfull (json only) interface :
 
-- static board configuration (description, list of pins, ...)
-- dynamic board configuration (ip, port, pin notify url)
-- static pin configuration (based on electronic pin wiring) : analog/digital, input,output, ...
-- dynamic pin name and notification conditions 
-- notify a server of pin change based on condition set on pins
+- static board configuration (description, list of lines, ...)
+- dynamic board configuration (ip, port, line notify url)
+- static line configuration (based on electronic line wiring) : analog/digital, input,output, ...
+- dynamic line name and notification conditions 
+- notify a server of line change based on condition set on lines
 - support of hmac-sha256 security between board and server
-- keep states of pins in eeprom is case of power failure
+- keep states of lines in eeprom is case of power failure
 
 The electronic wiring configuration is provided by a simple C file used during compilation
 
@@ -59,15 +59,15 @@ on board:
 - GET /                      : read static board configuration
 - GET /settings              : read dynamic board settings 
 - PUT /settings              : update dynamic board settings
-- GET /pin/{pinId}           : get static pin configuration
-- GET /pin/{pinId}/settings  : get dynamic pin settings
-- PUT /pin/{pinId}/settings  : update dynamic pin settings
+- GET /line/{lineId}           : get static line configuration
+- GET /line/{lineId}/settings  : get dynamic line settings
+- PUT /line/{lineId}/settings  : update dynamic line settings
 
 on server:
 
 - GET /time                  : get posix timestamp from server (used in hmac-sha256)
 - PUT /board                 : notification of board (boot and test)
-- PUT /pin                   : notification of pin change based on pin settings
+- PUT /line                   : notification of line change based on line settings
 
 
 TODO

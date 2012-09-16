@@ -8,17 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import net.awired.restmcu.api.domain.board.RestMcuBoardNotification;
-import net.awired.restmcu.api.domain.pin.RestMcuPinNotification;
+import net.awired.restmcu.api.domain.line.RestMcuLineNotification;
 import net.awired.restmcu.api.resource.server.RestMcuNotifyResource;
 
 @Path("/")
 public class NotifyResource implements RestMcuNotifyResource {
 
     private List<RestMcuBoardNotification> boardNotifications = new ArrayList<RestMcuBoardNotification>();
-    private List<RestMcuPinNotification> pinNotifications = new ArrayList<RestMcuPinNotification>();
+    private List<RestMcuLineNotification> lineNotifications = new ArrayList<RestMcuLineNotification>();
 
     private CountDownLatch boardLatch = new CountDownLatch(1);
-    private CountDownLatch pinLatch = new CountDownLatch(1);
+    private CountDownLatch lineLatch = new CountDownLatch(1);
 
     @Context
     HttpServletRequest request;
@@ -30,24 +30,24 @@ public class NotifyResource implements RestMcuNotifyResource {
         return boardNotifications;
     }
 
-    public List<RestMcuPinNotification> awaitPin() throws InterruptedException {
-        if (!pinLatch.await(10, TimeUnit.SECONDS)) {
+    public List<RestMcuLineNotification> awaitLine() throws InterruptedException {
+        if (!lineLatch.await(10, TimeUnit.SECONDS)) {
             throw new RuntimeException("Countdown timeout");
         }
-        return pinNotifications;
+        return lineNotifications;
     }
 
     public void resetLatch() {
         boardLatch = new CountDownLatch(1);
-        pinLatch = new CountDownLatch(1);
+        lineLatch = new CountDownLatch(1);
         boardNotifications = new ArrayList<RestMcuBoardNotification>();
-        pinNotifications = new ArrayList<RestMcuPinNotification>();
+        lineNotifications = new ArrayList<RestMcuLineNotification>();
     }
 
     @Override
-    public void pinNotification(RestMcuPinNotification pinNotification) {
-        pinNotifications.add(pinNotification);
-        pinLatch.countDown();
+    public void lineNotification(RestMcuLineNotification lineNotification) {
+        lineNotifications.add(lineNotification);
+        lineLatch.countDown();
     }
 
     @Override

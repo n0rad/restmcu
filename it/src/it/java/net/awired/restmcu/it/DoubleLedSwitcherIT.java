@@ -1,7 +1,7 @@
 package net.awired.restmcu.it;
 
 import static org.junit.Assert.assertFalse;
-import net.awired.restmcu.api.resource.client.RestMcuPinResource;
+import net.awired.restmcu.api.resource.client.RestMcuLineResource;
 import net.awired.restmcu.it.RestMcuTestRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,13 +13,13 @@ public class DoubleLedSwitcherIT {
 
     class BasicThread1 extends Thread {
 
-        private final int pin;
+        private final int line;
         private final float lowValue;
         private final float highValue;
         public boolean failure;
 
-        public BasicThread1(int pin, float lowValue, float highValue) {
-            this.pin = pin;
+        public BasicThread1(int line, float lowValue, float highValue) {
+            this.line = line;
             this.lowValue = lowValue;
             this.highValue = highValue;
 
@@ -27,16 +27,16 @@ public class DoubleLedSwitcherIT {
 
         @Override
         public void run() {
-            RestMcuPinResource pinResource = restmcu.getPinResource();
+            RestMcuLineResource lineResource = restmcu.getLineResource();
             for (int i = 0; i < 100; i++) {
                 try {
-                    pinResource.setPinValue(pin, highValue);
-                    if (pinResource.getPinValue(pin) != highValue) {
+                    lineResource.setLineValue(line, highValue);
+                    if (lineResource.getLineValue(line) != highValue) {
                         failure = true;
                         break;
                     }
-                    pinResource.setPinValue(pin, lowValue);
-                    if (pinResource.getPinValue(pin) != lowValue) {
+                    lineResource.setLineValue(line, lowValue);
+                    if (lineResource.getLineValue(line) != lowValue) {
                         failure = true;
                         break;
                     }

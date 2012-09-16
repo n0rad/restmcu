@@ -11,8 +11,8 @@
 #include "../util/json.h"
 
 const prog_char DOUBLE_ENDL[] PROGMEM = "\r\n\r\n";
-const prog_char RESOURCE_PIN[] PROGMEM = "/pin/";
-const prog_char RESOURCE_PIN_SUFFIX[] PROGMEM = "/value ";
+const prog_char RESOURCE_LINE[] PROGMEM = "/line/";
+const prog_char RESOURCE_LINE_SUFFIX[] PROGMEM = "/value ";
 const prog_char RESOURCE_BOARD[] PROGMEM = "/ ";
 const prog_char RESOURCE_SETTINGS[] PROGMEM = "/settings ";
 const prog_char RESOURCE_RESET[] PROGMEM = "/reset ";
@@ -39,13 +39,13 @@ uint16_t appendErrorMsg_P(char *buf, uint16_t plen, const prog_char *type, const
 
 
 #include "server-board.h"
-#include "server-pin.h"
+#include "server-line.h"
 
 
 uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen);
 
 
-typedef uint16_t (*ResourceFunc)(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *pinId);
+typedef uint16_t (*ResourceFunc)(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *lineId);
 
 struct s_resource {
   const prog_char *method;
@@ -53,11 +53,11 @@ struct s_resource {
   const prog_char *suffix;
   ResourceFunc resourceFunc;
 } const resources[] PROGMEM = {
-  {PUT, RESOURCE_PIN, RESOURCE_PIN_SUFFIX, pinPutValue},
-  {GET, RESOURCE_PIN, RESOURCE_PIN_SUFFIX, pinGetValue},
-  {GET, RESOURCE_PIN, 0, pinGet},
-  {GET, RESOURCE_PIN, RESOURCE_SETTINGS, pinGetSettings},
-  {PUT, RESOURCE_PIN,  RESOURCE_SETTINGS, pinPutSettings},
+  {PUT, RESOURCE_LINE, RESOURCE_LINE_SUFFIX, linePutValue},
+  {GET, RESOURCE_LINE, RESOURCE_LINE_SUFFIX, lineGetValue},
+  {GET, RESOURCE_LINE, 0, lineGet},
+  {GET, RESOURCE_LINE, RESOURCE_SETTINGS, lineGetSettings},
+  {PUT, RESOURCE_LINE,  RESOURCE_SETTINGS, linePutSettings},
   {GET, RESOURCE_BOARD, 0, boardGet},
   {GET, RESOURCE_SETTINGS, 0, boardGetSettings},
   {PUT, RESOURCE_SETTINGS, 0, boardPutSettings},

@@ -1,72 +1,72 @@
 package net.awired.restmcu.it.wiring;
 
 import net.awired.restmcu.api.domain.board.RestMcuBoard;
-import net.awired.restmcu.api.domain.pin.RestMcuPin;
-import net.awired.restmcu.api.domain.pin.RestMcuPinDirection;
-import net.awired.restmcu.api.domain.pin.RestMcuPinType;
+import net.awired.restmcu.api.domain.line.RestMcuLine;
+import net.awired.restmcu.api.domain.line.RestMcuLineDirection;
+import net.awired.restmcu.api.domain.line.RestMcuLineType;
 
 public class TestBoardConfig {
 
-    public static RestMcuPin buildPin(int num) {
+    public static RestMcuLine buildLine(int num) {
         switch (num) {
             case 2: {
-                RestMcuPin pin = new RestMcuPin();
-                pin.setDescription("technical desc");
-                pin.setDirection(RestMcuPinDirection.INPUT);
-                pin.setType(RestMcuPinType.ANALOG);
-                pin.setValueMin(0f);
-                pin.setValueMax(1023f);
+                RestMcuLine line = new RestMcuLine();
+                line.setDescription("technical desc");
+                line.setDirection(RestMcuLineDirection.INPUT);
+                line.setType(RestMcuLineType.ANALOG);
+                line.setValueMin(0f);
+                line.setValueMax(1023f);
 
-                //                pin.setName("pin2");
-                pin.setDescription("input analog pin");
-                //                pin.addNotify(new RestMcuPinNotify(RestMcuPinNotifyCondition.inf_or_equal, 0));
-                //                pin.addNotify(new RestMcuPinNotify(RestMcuPinNotifyCondition.inf_or_equal, 42));
-                //                pin.setValue(952f);
-                return pin;
+                //                line.setName("line2");
+                line.setDescription("input analog line");
+                //                line.addNotify(new RestMcuLineNotify(RestMcuLineNotifyCondition.inf_or_equal, 0));
+                //                line.addNotify(new RestMcuLineNotify(RestMcuLineNotifyCondition.inf_or_equal, 42));
+                //                line.setValue(952f);
+                return line;
             }
             case 3: {
-                RestMcuPin pin = new RestMcuPin();
+                RestMcuLine line = new RestMcuLine();
 
-                pin.setDescription("out technical desc");
-                pin.setDirection(RestMcuPinDirection.OUTPUT);
-                pin.setType(RestMcuPinType.ANALOG);
-                pin.setValueMin(0f);
-                pin.setValueMax(254f);
-                //                pin.setValueStep(2f);
+                line.setDescription("out technical desc");
+                line.setDirection(RestMcuLineDirection.OUTPUT);
+                line.setType(RestMcuLineType.ANALOG);
+                line.setValueMin(0f);
+                line.setValueMax(254f);
+                //                line.setValueStep(2f);
 
-                //                pin.setName("pin3");
-                pin.setDescription("output analog pin");
-                //                pin.setValue(60f);
-                return pin;
+                //                line.setName("line3");
+                line.setDescription("output analog line");
+                //                line.setValue(60f);
+                return line;
             }
             case 4: {
-                RestMcuPin pin = new RestMcuPin();
-                pin.setDescription("out technical desc42");
-                pin.setDirection(RestMcuPinDirection.OUTPUT);
-                pin.setType(RestMcuPinType.DIGITAL);
-                pin.setValueMin(0f);
-                pin.setValueMax(1f);
+                RestMcuLine line = new RestMcuLine();
+                line.setDescription("out technical desc42");
+                line.setDirection(RestMcuLineDirection.OUTPUT);
+                line.setType(RestMcuLineType.DIGITAL);
+                line.setValueMin(0f);
+                line.setValueMax(1f);
 
-                //                pin.setName("pin4");
-                pin.setDescription("output digital pin");
-                //                pin.setValue(1f);
-                return pin;
+                //                line.setName("line4");
+                line.setDescription("output digital line");
+                //                line.setValue(1f);
+                return line;
             }
             case 5: {
-                RestMcuPin pin = new RestMcuPin();
+                RestMcuLine line = new RestMcuLine();
 
-                pin.setDescription("in technical desc43");
-                pin.setDirection(RestMcuPinDirection.INPUT);
-                pin.setType(RestMcuPinType.DIGITAL);
-                pin.setValueMin(0f);
-                pin.setValueMax(1f);
+                line.setDescription("in technical desc43");
+                line.setDirection(RestMcuLineDirection.INPUT);
+                line.setType(RestMcuLineType.DIGITAL);
+                line.setValueMin(0f);
+                line.setValueMax(1f);
 
-                //                pin.setName("pin5");
-                pin.setDescription("input digital pin");
-                //                pin.addNotify(new RestMcuPinNotify(RestMcuPinNotifyCondition.inf_or_equal, 0));
-                //                pin.addNotify(new RestMcuPinNotify(RestMcuPinNotifyCondition.inf_or_equal, 1));
-                //                pin.setValue(1f);
-                return pin;
+                //                line.setName("line5");
+                line.setDescription("input digital line");
+                //                line.addNotify(new RestMcuLineNotify(RestMcuLineNotifyCondition.inf_or_equal, 0));
+                //                line.addNotify(new RestMcuLineNotify(RestMcuLineNotifyCondition.inf_or_equal, 1));
+                //                line.setValue(1f);
+                return line;
             }
             default:
                 return null;
@@ -78,7 +78,7 @@ public class TestBoardConfig {
         device.setVersion("1.0");
         device.setSoftware("RestMcu");
         //        device.setNotifyUrl("http://localhost/4242");
-        //        device.setNumberOfPin(6);
+        //        device.setNumberOfLine(6);
         device.setHardware("arduino");
         //        device.setName("sample board");
         device.setDescription("genre");
