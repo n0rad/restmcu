@@ -53,9 +53,17 @@ uint16_t addToBufferTCP(char *buf, uint16_t pos, char val) {
 	return pos;
 }
 
+static char value_to_add[16] =
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
 uint16_t addToBufferTCP(char *buf, uint16_t pos, uint16_t val) {
-	itoa(val, &buf[pos], 10);
-	return strlen(buf) + pos;
+	int j = 0;
+	sprintf_P(value_to_add, PSTR("%d"), val);
+	while (value_to_add[j]) {
+		buf[pos] = value_to_add[j++];
+		pos++;
+	}
+	return pos;
 }
 
 uint16_t addToBufferTCP(char *buf, uint16_t pos, char *mem_s) {
