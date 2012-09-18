@@ -65,7 +65,7 @@ on board:
 
 on server:
 
-- GET /time                  : get posix timestamp from server (used in hmac-sha256)
+- GET /time                  : get posix timestamp from server (used in hmac-sha1)
 - PUT /board                 : notification of board (boot and test)
 - PUT /line                   : notification of line change based on line settings
 
@@ -77,3 +77,4 @@ TODO
 - dhcp
 - dns ?
 - fit in 328p (almost done)
+- constrain between pins

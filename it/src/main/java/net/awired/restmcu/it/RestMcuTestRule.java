@@ -1,6 +1,6 @@
 package net.awired.restmcu.it;
 
-import net.awired.ajsl.test.RestContext;
+import net.awired.ajsl.web.rest.RestContext;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientInInterceptor;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientOutInterceptor;
 import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
