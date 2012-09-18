@@ -4,6 +4,9 @@
 #include "../settings/settings-line.h"
 #include "../driver/line.h"
 
+static uint16_t *previousInputValues;
+
+
 float noInputConversion(uint16_t lineValue) {
     return lineValue;
 }
@@ -24,7 +27,7 @@ const prog_char *setLineValue(uint8_t lineOutputIdx, float value) {
         return PSTR("value overflow");
     }
     settingsLineOutputSetValue(lineOutputIdx, value);
-    writefunc(lineId, type, lowLvlVal);
+    writefunc(lineId, type, lowLvlVal, (prog_int8_t *) pgm_read_word(&lineOutputDescription[lineOutputIdx].params));
     return 0;
 }
 float getLineValue(uint8_t lineIdx) {
@@ -33,7 +36,7 @@ float getLineValue(uint8_t lineIdx) {
         uint8_t lineId = pgm_read_byte(&lineInputDescription[lineIdx].lineId);
         LineRead readfunc = (LineRead) pgm_read_word(&lineInputDescription[lineIdx].read);
         LineInputConversion converter = (LineInputConversion) pgm_read_word(&lineInputDescription[lineIdx].convertValue);
-        return converter(readfunc(lineId, type));
+        return converter(readfunc(lineId, type, (prog_int8_t *) pgm_read_word(&lineInputDescription[lineIdx].params)));
     } else {
         return settingsLineOutputGetValue(lineIdx - lineInputSize);
     }
@@ -42,14 +45,14 @@ float getLineValue(uint8_t lineIdx) {
 ////////////////////////////////////////////////////////
 // Low level line access
 ////////////////////////////////////////////////////////
-uint16_t defaultLineRead(uint8_t lineId, uint8_t type) {
+uint16_t defaultLineRead(uint8_t lineId, uint8_t type, prog_int8_t params[]) {
     if (type == ANALOG) {
         return analogRead(lineId);
     } else {
         return digitalRead(lineId);
     }
 }
-void defaultLineWrite(uint8_t lineId, uint8_t type, uint16_t value) {
+void defaultLineWrite(uint8_t lineId, uint8_t type, uint16_t value, prog_int8_t params[]) {
     if (type == ANALOG) {
         analogWrite(lineId, value);
     } else {
@@ -57,26 +60,35 @@ void defaultLineWrite(uint8_t lineId, uint8_t type, uint16_t value) {
     }
 }
 
-static uint16_t *previousInputValues;
+void defaultInputLineInit(int8_t lineId, const t_lineInputDescription *description) {
+    pinMode(lineId, INPUT);
+
+    if (pgm_read_byte(&description->pullup)) { // TODO move out of here ?
+        digitalWrite(lineId, HIGH);
+    }
+    delay(10);
+}
+
+void defaultOutputLineInit(int8_t lineId, const t_lineOutputDescription *description) {
+    pinMode(lineId, OUTPUT);
+}
 
 void lineInit() {
     int8_t lineId;
     previousInputValues = (uint16_t *) malloc(lineInputSize * sizeof(uint16_t));
     for (uint8_t i = 0; -1 != (lineId = (int8_t) pgm_read_byte(&lineInputDescription[i].lineId)); i++) {
-        pinMode(lineId, INPUT);
+    	LineInputInit initFunc = (LineInputInit) pgm_read_word(&lineInputDescription[i].init);
+        initFunc(lineId, &lineInputDescription[i]);
 
-        if (pgm_read_byte(&lineInputDescription[i].pullup)) {
-            digitalWrite(lineId, HIGH);
-        }
-        delay(10);
         LineRead readfunc = (LineRead) pgm_read_word(&lineInputDescription[i].read);
         uint8_t type = pgm_read_byte(&lineInputDescription[i].type);
-        previousInputValues[i] = readfunc(lineId, type);
+        previousInputValues[i] = readfunc(lineId, type, (prog_int8_t *) pgm_read_word(&lineInputDescription[i].params));
     }
     for (uint8_t i = 0; -1 != (lineId = (int8_t) pgm_read_byte(&lineOutputDescription[i].lineId)); i++) {
-        pinMode(lineId, OUTPUT);
-        float val = settingsLineOutputGetValue(i);
-        setLineValue(i, settingsLineOutputGetValue(i));
+    	LineOutputInit initFunc = (LineOutputInit) pgm_read_word(&lineOutputDescription[i].init);
+    	initFunc(lineId, &lineOutputDescription[i]);
+
+    	setLineValue(i, settingsLineOutputGetValue(i));
     }
 }
 
@@ -87,7 +99,7 @@ void lineCheckChange() {
         uint8_t type = pgm_read_byte(&lineInputDescription[i].type);
 
         uint16_t oldValue = previousInputValues[i];
-        uint16_t value = readfunc(lineId, type);
+        uint16_t value = readfunc(lineId, type, (prog_int8_t *) pgm_read_word(&lineInputDescription[i].params));
 
         for (uint8_t j = 0; j < LINE_NUMBER_OF_NOTIFY; j++) {
             t_notify *notify = settingsLineGetNotify(i, j);

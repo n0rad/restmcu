@@ -1,3 +1,5 @@
+#include "restmcu.h"
+
 #ifdef DEBUG
 void DEBUG_P(const prog_char *progmem) {
     char c;

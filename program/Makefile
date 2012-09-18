@@ -76,7 +76,8 @@ CXX_APP = src/restmcu.cpp $(CONFIG) src/debug.cpp src/time.cpp src/settings/sett
 		src/client/client-time.cpp src/util/json.cpp src/util/mylibc.cpp src/util/buffer.cpp \
 		src/util/availableMemory.cpp
 
-CXX_APP +=  src/driver/hardware/network-w5100.cpp
+CXX_APP +=  src/driver/hardware/network-w5100.cpp \
+	src/driver/device/mux-shield.cpp
 
 #src/driver/hardware/board-mega.cpp
 
