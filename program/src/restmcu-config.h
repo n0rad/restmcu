@@ -9,6 +9,9 @@ typedef char eeprom_char;
 #include <sha1.h>
 #include "line/line-manager.h"
 
+#include "driver/device/mux-shield.h"
+#include "driver/device/rotary-encoder.h"
+
 typedef struct s_lineInputDescription t_lineInputDescription;
 typedef struct s_lineOutputDescription t_lineOutputDescription;
 
@@ -30,7 +33,7 @@ void fillHmacMessage(unsigned long posixTime);
 #define CONFIG_BOARD_KEY_SIZE			 64
 #define CONFIG_BOARD_IP_SIZE            4
 #define CONFIG_BOARD_PORT_SIZE          sizeof(uint16_t)
-#define CONFIG_BOARD_NOTIFY_SIZE        51
+#define CONFIG_BOARD_NOTIFY_SIZE        101
 #define CONFIG_BOARD_NAME_SIZE          21
 
 typedef struct s_boardDescription {

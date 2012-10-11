@@ -60,7 +60,7 @@ $(ARDUINO_LIB)/Ethernet/EthernetUdp.cpp \
 $(ARDUINO_LIB)/Ethernet/Dns.cpp \
 $(ARDUINO_LIB)/Ethernet/utility/socket.cpp \
 $(ARDUINO_LIB)/Ethernet/utility/w5100.cpp \
-lib/crypto/sha1.cpp
+lib/crypto/sha1.cpp lib/rotaryEncoder/Encoder.cpp
 
 ##################################################
 # RESTMCU
@@ -77,7 +77,7 @@ CXX_APP = src/restmcu.cpp $(CONFIG) src/debug.cpp src/time.cpp src/settings/sett
 		src/util/availableMemory.cpp
 
 CXX_APP +=  src/driver/hardware/network-w5100.cpp \
-	src/driver/device/mux-shield.cpp
+	src/driver/device/mux-shield.cpp src/driver/device/rotary-encoder.cpp
 
 #src/driver/hardware/board-mega.cpp
 
@@ -110,7 +110,7 @@ CXXDEFS = -DF_CPU=$(F_CPU)L -DARDUINO=$(VERSION)
 
 # Place -I options here
 CINCS = -I$(ARDUINO)  -I$(VARIANTS) -I$(ARDUINO_LIB) -I$(ARDUINO_LIB)/SPI \
-	-I$(ARDUINO_LIB)/Ethernet -I$(ARDUINO_LIB)/Ethernet/utility -Isrc -Ilib/crypto
+	-I$(ARDUINO_LIB)/Ethernet -I$(ARDUINO_LIB)/Ethernet/utility -Isrc -Ilib/rotaryEncoder -Ilib/crypto
 CXXINCS = $(CINCS)
 
 # Compiler flag to set the C Standard level.

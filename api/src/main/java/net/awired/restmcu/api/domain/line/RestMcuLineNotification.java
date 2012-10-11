@@ -9,7 +9,7 @@ import com.google.common.base.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RestMcuLineNotification {
 
-    private int id;
+    private int lineId;
     private float oldValue;
     private float value;
     /** ex: 127.0.0.1:5879 */
@@ -19,8 +19,8 @@ public class RestMcuLineNotification {
     public RestMcuLineNotification() {
     }
 
-    public RestMcuLineNotification(int id, float oldValue, float value, String source, RestMcuLineNotify notify) {
-        this.id = id;
+    public RestMcuLineNotification(int lineId, float oldValue, float value, String source, RestMcuLineNotify notify) {
+        this.lineId = lineId;
         this.oldValue = oldValue;
         this.value = value;
         this.source = source;
@@ -28,9 +28,30 @@ public class RestMcuLineNotification {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hashCode(lineId, oldValue, value, source, notify);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RestMcuLineNotification other = (RestMcuLineNotification) obj;
+        return Objects.equal(this.lineId, other.lineId) //
+                && Objects.equal(this.oldValue, other.oldValue) //
+                && Objects.equal(this.value, other.value) //
+                && Objects.equal(this.source, other.source) //
+                && Objects.equal(this.notify, other.notify);
+    }
+
+    @Override
     public String toString() {
         return Objects.toStringHelper(this) //
-                .add("id", id) //
+                .add("lineId", lineId) //
                 .add("oldValue", oldValue) //
                 .add("value", value) //
                 .add("source", source) //
@@ -63,11 +84,11 @@ public class RestMcuLineNotification {
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.lineId = id;
     }
 
     public int getId() {
-        return id;
+        return lineId;
     }
 
     public String getSource() {

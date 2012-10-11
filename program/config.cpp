@@ -2,8 +2,6 @@
 #include <Arduino.h>
 #include <string.h>
 
-#include "src/driver/device/mux-shield.h"
-
 float tmp36Conversion(uint16_t value) {
 	float voltage = value * 5.0; // 5V as aref
 	voltage /= 1024.0;
@@ -34,18 +32,22 @@ t_boardSettings boardSettings EEMEM = {
 	"http://192.168.42.213:5879"  // notify url
 };
 
-static prog_int8_t muxFirstParams[] PROGMEM = {21, 2, 3, 4, 5, 14, 15, 16};
-static prog_int8_t muxSecondParams[] PROGMEM = {21, 2, 3, 4, 5, 15, 14, 16};
-static prog_int8_t muxThirdParams[] PROGMEM = {21, 2, 3, 4, 5, 16, 14, 15};
+static prog_int8_t muxFirstParams[] PROGMEM = {21, 2, 3, 4, 5, 54, 55, 56};
+static prog_int8_t muxSecondParams[] PROGMEM = {21, 2, 3, 4, 5, 55, 54, 56};
+static prog_int8_t muxThirdParams[] PROGMEM = {21, 2, 3, 4, 5, 56, 54, 55};
+
+static prog_int8_t rotary[] PROGMEM = {2, 3};
 
 const t_lineInputDescription lineInputDescription[] PROGMEM = {
-        {21, DIGITAL, 0, muxShieldInputLineInit, noInputConversion, muxShieldLineRead, "a simple PIR", muxFirstParams},
+//        {2, DIGITAL, 0, rotaryEncoderLineInit, noInputConversion, rotaryEncoderLineRead, "lm35 temperature captor", rotary},
+//        {21, DIGITAL, 0, muxShieldInputLineInit, noInputConversion, muxShieldLineRead, "a simple PIR", muxFirstParams},
         {8, DIGITAL, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "lm35 temperature captor"},
         {54, DIGITAL, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "input from 9"},
         {-1}
 };
 t_lineInputSettings lineInputSettings[] EEMEM = {
-	{"PIR", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
+//	{"input9", {{0, 0},{0, 0},{0,0},{0,0}}},
+//	{"PIR", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
 	{"Push button", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
 	{"input9", {{0, 0},{0, 0},{0,0},{0,0}}}
 };
@@ -53,12 +55,16 @@ t_lineInputSettings lineInputSettings[] EEMEM = {
 //////////////
 
 const t_lineOutputDescription lineOutputDescription[] PROGMEM = {
+ //       {21, DIGITAL, 0, 1, muxShieldOutputLineInit, noOutputConversion, muxShieldLineWrite, "opto", muxFirstParams},
+ //       {37, DIGITAL, 0, 1, muxShieldOutputLineInit, noOutputConversion, muxShieldLineWrite, "opto", muxSecondParams},
         {6, ANALOG, 0, 255, defaultOutputLineInit, noOutputConversion, defaultLineWrite, "optocoupler isolated and triac / no zero detection"},
         {7, DIGITAL, 0, 1, defaultOutputLineInit, noOutputConversion, defaultLineWrite, "optocoupler isolated and triac / no zero detection"},
 		{9, DIGITAL, 0, 1, defaultOutputLineInit, noOutputConversion, defaultLineWrite, "control of analog 0"},
         {-1}
 };
 t_lineOutputSettings lineOutputSettings[] EEMEM = {
+//	{"variator for light 1", 1},
+//	{"variator for light 1", 1},
 	{"variator for light 1", 10},
 	{"variator for light 1", 0},
 	{"output9", 0}
