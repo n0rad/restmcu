@@ -12,7 +12,7 @@ uint16_t addToBufferTCPHex(char *buf, uint16_t pos, uint8_t *val, uint8_t len);
 uint16_t addToBufferTCP(char *buf, uint16_t pos, uint16_t val);
 uint16_t addToBufferTCP(char *buf, uint16_t pos, char val);
 uint16_t addToBufferTCP(char *buf, uint16_t pos, char *mem_s);
-uint16_t addToBufferTCP_P(char *buf, uint16_t pos, const prog_char *progmem_s);
+uint16_t addToBufferTCP_P(char *buf, uint16_t pos, const char PROGMEM *progmem_s);
 uint16_t addToBufferTCP_E(char *buf, uint16_t pos, eeprom_char *eeprom_s);
 
 #endif

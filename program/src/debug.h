@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-void DEBUG_P(const prog_char *progmem);
+void DEBUG_P(const char PROGMEM *progmem);
 void DEBUG_E(const char *eeprom);
 
 

@@ -24,7 +24,7 @@ eeprom_char *settingsLineGetName_E(uint8_t lineIdx) {
 
 /////////////////
 
-const prog_char *settingsLineSetName(char *buf, uint16_t len, uint8_t index) {
+const char PROGMEM *settingsLineSetName(char *buf, uint16_t len, uint8_t index) {
     if (len >  CONFIG_LINE_NAME_SIZE - 1) {
         return NAME_TOO_LONG;
     }
@@ -39,7 +39,7 @@ const prog_char *settingsLineSetName(char *buf, uint16_t len, uint8_t index) {
     return 0;
 }
 
-const prog_char *settingsLineHandleLineNotifyArray(uint8_t index) {
+const char PROGMEM *settingsLineHandleLineNotifyArray(uint8_t index) {
     for (uint8_t i = index; i < 4; i++) {
         eeprom_write_byte((uint8_t *) &lineInputSettings[currentSetLineIdx].notifies[i].condition, 0);
     }
@@ -47,7 +47,7 @@ const prog_char *settingsLineHandleLineNotifyArray(uint8_t index) {
     return 0;
 }
 
-const prog_char *settingsLineSetNotifyCond(char *buf, uint16_t len, uint8_t index) {
+const char PROGMEM *settingsLineSetNotifyCond(char *buf, uint16_t len, uint8_t index) {
     if (index > 3) {
         return TOO_MANY_NOTIFY;
     }
@@ -66,7 +66,7 @@ const prog_char *settingsLineSetNotifyCond(char *buf, uint16_t len, uint8_t inde
     eeprom_write_byte((uint8_t *) &lineInputSettings[currentSetLineIdx].notifies[index].condition, notif);
     return 0;
 }
-const prog_char *settingsLineSetNotifyValue(char *buf, uint16_t len, uint8_t index) {
+const char PROGMEM *settingsLineSetNotifyValue(char *buf, uint16_t len, uint8_t index) {
     if (index > 3) {
         return TOO_MANY_NOTIFY;
     }

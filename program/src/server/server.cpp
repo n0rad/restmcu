@@ -2,7 +2,7 @@
 
 #define TCP_CHECKSUM_L_P    0x33 // TODO move to driver
 
-uint16_t startResponseHeader(char **buf, const prog_char *codeMsg) {
+uint16_t startResponseHeader(char **buf, const char PROGMEM *codeMsg) {
 //    *buf = &((*buf)[TCP_CHECKSUM_L_P + 3]);
     uint16_t plen;
     plen = addToBufferTCP_P(*buf, 0, HEADER_HTTP);
@@ -16,7 +16,7 @@ uint16_t startResponseHeader(char **buf, const prog_char *codeMsg) {
     return plen;
 }
 
-uint16_t appendErrorMsg_P(char *buf, uint16_t plen, const prog_char *type, const prog_char *msg) {
+uint16_t appendErrorMsg_P(char *buf, uint16_t plen, const char PROGMEM *type, const char PROGMEM *msg) {
     plen = addToBufferTCP_P(buf, plen, PSTR("{\"errorClass\":\"net.awired.ajsl.core.lang.exception."));
     plen = addToBufferTCP_P(buf, plen, type);
     plen = addToBufferTCP_P(buf, plen, PSTR("\",\"message\":\""));
@@ -74,14 +74,14 @@ static uint16_t commonCheck(char *buf, uint16_t dataPointer, uint16_t dataLen) {
 uint16_t parseResource(char *buf, uint16_t dataPointer, uint16_t dataLen) {
     uint16_t plen;
 
-    prog_char *methodPos;
+    char PROGMEM *methodPos;
     int i = 0;
-    for (; (methodPos = (prog_char *) pgm_read_word(&resources[i].method)); i++) {
-        uint16_t querylen = strlen_P((prog_char *) pgm_read_word(&resources[i].query));
-        prog_char *currentQueryPos = (prog_char *) pgm_read_word(&resources[i].query);
+    for (; (methodPos = (char PROGMEM *) pgm_read_word(&resources[i].method)); i++) {
+        uint16_t querylen = strlen_P((char PROGMEM *) pgm_read_word(&resources[i].query));
+        char PROGMEM *currentQueryPos = (char PROGMEM *) pgm_read_word(&resources[i].query);
         if (strncmp_P((char *) &(buf[dataPointer]), methodPos, 4) == 0
                 && strncmp_P((char *) & (buf[dataPointer + 4]), currentQueryPos, querylen) == 0) {
-            prog_char *suffixPos = (prog_char *) pgm_read_word(&resources[i].suffix);
+            char PROGMEM *suffixPos = (char PROGMEM *) pgm_read_word(&resources[i].suffix);
             if (' ' == pgm_read_byte(&currentQueryPos[querylen - 1])) {
                currentWebRequest.resource = &resources[i];
                break;
@@ -131,7 +131,7 @@ uint16_t handleWebRequest(char *buf, uint16_t dataPointer, uint16_t dataLen) {
         plen = appendErrorMsg_P(buf, plen, ERROR_MSG_NOT_FOUND, PSTR("No resource for this url"));
     } else {
         ResourceFunc currentFunc = (ResourceFunc) pgm_read_word(&currentWebRequest.resource->resourceFunc);
-        if ((prog_char *)pgm_read_word(&currentWebRequest.resource->method) == GET) { // GET do not need data, calling func directly
+        if ((char PROGMEM *)pgm_read_word(&currentWebRequest.resource->method) == GET) { // GET do not need data, calling func directly
             plen = currentFunc(buf, 0, dataLen, &currentWebRequest);
         } else {
             uint16_t endPos = strstrpos_P(&buf[dataPointer], DOUBLE_ENDL);

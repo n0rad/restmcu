@@ -20,13 +20,13 @@ void defaultOutputLineInit(int8_t lineId, const t_lineOutputDescription *descrip
 void defaultInputLineInit(int8_t lineId, const t_lineInputDescription *description);
 
 //read write
-uint16_t defaultLineRead(uint8_t lineId, uint8_t type, prog_int8_t *params);
-void defaultLineWrite(uint8_t lineId, uint8_t type, uint16_t value, prog_int8_t *params);
+uint16_t defaultLineRead(uint8_t lineId, uint8_t type, int8_t PROGMEM *params);
+void defaultLineWrite(uint8_t lineId, uint8_t type, uint16_t value, int8_t PROGMEM *params);
 
 
 #include <restmcu-config.h>
 
-const prog_char *setLineValue(uint8_t lineOutputIdx, float value);
+const char PROGMEM *setLineValue(uint8_t lineOutputIdx, float value);
 float getLineValue(uint8_t lineId);
 
 void lineInit();

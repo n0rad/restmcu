@@ -25,9 +25,9 @@ uint16_t settingsBoardGetPort();
 eeprom_char *settingsBoardGetName_E();
 eeprom_char *settingsBoardGetNotifyUrl_E();
 
-const prog_char *settingsBoardSetName(char *buf, uint16_t len, uint8_t index);
-const prog_char *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t index);
-const prog_char *settingsBoardSetIP(char *buf, uint16_t len, uint8_t index);
-const prog_char *settingsBoardSetPort(char *buf, uint16_t len, uint8_t index);
+const char PROGMEM *settingsBoardSetName(char *buf, uint16_t len, uint8_t index);
+const char PROGMEM *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t index);
+const char PROGMEM *settingsBoardSetIP(char *buf, uint16_t len, uint8_t index);
+const char PROGMEM *settingsBoardSetPort(char *buf, uint16_t len, uint8_t index);
 
 #endif

@@ -16,8 +16,8 @@ typedef struct s_lineInputDescription t_lineInputDescription;
 typedef struct s_lineOutputDescription t_lineOutputDescription;
 
 
-typedef uint16_t (*LineRead)(uint8_t lineId, uint8_t type, prog_int8_t *params);
-typedef void (*LineWrite)(uint8_t lineId, uint8_t type, uint16_t value, prog_int8_t *params);
+typedef uint16_t (*LineRead)(uint8_t lineId, uint8_t type, int8_t PROGMEM *params);
+typedef void (*LineWrite)(uint8_t lineId, uint8_t type, uint16_t value, int8_t PROGMEM *params);
 typedef void (*LineInputInit)(int8_t lineId, const t_lineInputDescription *description);
 typedef void (*LineOutputInit)(int8_t lineId, const t_lineOutputDescription *description);
 
@@ -38,8 +38,8 @@ void fillHmacMessage(unsigned long posixTime);
 
 typedef struct s_boardDescription {
     uint8_t mac[CONFIG_BOARD_MAC_SIZE];
-    prog_char description[CONFIG_BOARD_DESCRIPTION_SIZE];
-    prog_char hmacKey[CONFIG_BOARD_KEY_SIZE];
+    char PROGMEM description[CONFIG_BOARD_DESCRIPTION_SIZE];
+    char PROGMEM hmacKey[CONFIG_BOARD_KEY_SIZE];
 } t_boardDescription;
 typedef struct s_boardSettings {
     uint8_t ip[CONFIG_BOARD_IP_SIZE];
@@ -75,8 +75,8 @@ typedef struct s_lineInputDescription {
     LineInputInit init;			// function to init line
     LineInputConversion convertValue; // convert the 0-1023 to a display value (ex: float for temperature)
     LineRead read;           // function to read value
-    prog_char description[CONFIG_LINE_DESCRIPTION_SIZE];
-    prog_int8_t *params;
+    char PROGMEM description[CONFIG_LINE_DESCRIPTION_SIZE];
+    int8_t PROGMEM *params;
 } t_lineInputDescription;
 typedef struct s_lineInputSettings {
 	eeprom_char name[CONFIG_LINE_NAME_SIZE];
@@ -91,8 +91,8 @@ typedef struct s_lineOutputDescription {
     LineOutputInit init;			// function to init line
     LineOutputConversion convertValue; // convert the display value to a 0-255 value
     LineWrite write;       // function to write value
-    prog_char description[CONFIG_LINE_DESCRIPTION_SIZE];
-    prog_int8_t *params;
+    char PROGMEM description[CONFIG_LINE_DESCRIPTION_SIZE];
+    int8_t PROGMEM *params;
 } t_lineOutputDescription;
 typedef struct s_lineOutputSettings {
 	eeprom_char name[CONFIG_LINE_NAME_SIZE];

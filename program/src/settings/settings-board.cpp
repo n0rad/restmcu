@@ -16,7 +16,7 @@ eeprom_char *settingsBoardGetNotifyUrl_E() {
     return (eeprom_char *) &boardSettings.notifyUrl;
 }
 
-const prog_char *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t index) {
+const char PROGMEM *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t index) {
     if (len >  CONFIG_BOARD_NOTIFY_SIZE - 1) {
         return PSTR("notifyUrl is too long");
     }
@@ -36,7 +36,7 @@ const prog_char *settingsBoardSetNotifyUrl(char *buf, uint16_t len, uint8_t inde
     settingsReload();
     return 0;
 }
-const prog_char *settingsBoardSetName(char *buf, uint16_t len, uint8_t index) {
+const char PROGMEM *settingsBoardSetName(char *buf, uint16_t len, uint8_t index) {
 	if (len >  CONFIG_BOARD_NAME_SIZE - 1) {
         return NAME_TOO_LONG;
     }
@@ -46,7 +46,7 @@ const prog_char *settingsBoardSetName(char *buf, uint16_t len, uint8_t index) {
     return 0;
 }
 
-const prog_char *settingsBoardSetIP(char *buf, uint16_t len, uint8_t index) {
+const char PROGMEM *settingsBoardSetIP(char *buf, uint16_t len, uint8_t index) {
     uint8_t newIp[4];
     if (readIP(buf, len, newIp)) {
         return NOT_VALID_IP;
@@ -61,7 +61,7 @@ const prog_char *settingsBoardSetIP(char *buf, uint16_t len, uint8_t index) {
     return 0;
 }
 
-const prog_char *settingsBoardSetPort(char *buf, uint16_t len, uint8_t index) {
+const char PROGMEM *settingsBoardSetPort(char *buf, uint16_t len, uint8_t index) {
     for (uint8_t i = 0; i < len; i++) {
         if (buf[i] < '0' || buf[i] > '9') {
             return NOT_VALID_PORT;

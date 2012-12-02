@@ -32,11 +32,11 @@ t_boardSettings boardSettings EEMEM = {
 	"http://192.168.42.213:5879"  // notify url
 };
 
-static prog_int8_t muxFirstParams[] PROGMEM = {21, 2, 3, 4, 5, 54, 55, 56};
-static prog_int8_t muxSecondParams[] PROGMEM = {21, 2, 3, 4, 5, 55, 54, 56};
-static prog_int8_t muxThirdParams[] PROGMEM = {21, 2, 3, 4, 5, 56, 54, 55};
+const int8_t PROGMEM muxFirstParams[] PROGMEM = {21, 2, 3, 4, 5, 54, 55, 56};
+const int8_t PROGMEM muxSecondParams[] PROGMEM = {21, 2, 3, 4, 5, 55, 54, 56};
+const int8_t PROGMEM muxThirdParams[] PROGMEM = {21, 2, 3, 4, 5, 56, 54, 55};
 
-static prog_int8_t rotary[] PROGMEM = {2, 3};
+const int8_t PROGMEM rotary[] PROGMEM = {2, 3};
 
 const t_lineInputDescription lineInputDescription[] PROGMEM = {
 //        {2, DIGITAL, 0, rotaryEncoderLineInit, noInputConversion, rotaryEncoderLineRead, "lm35 temperature captor", rotary},

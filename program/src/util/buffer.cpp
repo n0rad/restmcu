@@ -79,7 +79,7 @@ uint16_t addToBufferTCP(char *buf, uint16_t pos, char *mem_s) {
 	//	 return pos + len;
 }
 
-uint16_t addToBufferTCP_P(char *buf, uint16_t pos, const prog_char *progmem) {
+uint16_t addToBufferTCP_P(char *buf, uint16_t pos, const char PROGMEM *progmem) {
 	unsigned char c;
 	while ((c = pgm_read_byte(progmem++))) {
 		buf[pos] = c;

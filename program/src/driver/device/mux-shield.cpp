@@ -2,7 +2,7 @@
 #include "../../restmcu.h"
 
 void muxShieldInputLineInit(int8_t lineId, const t_lineInputDescription *description) {
-	prog_int8_t *params = (prog_int8_t *) pgm_read_word(&description->params);
+	int8_t PROGMEM *params = (int8_t PROGMEM *) pgm_read_word(&description->params);
 	pinMode(pgm_read_byte(&params[0]), OUTPUT);
 	pinMode(pgm_read_byte(&params[1]), OUTPUT);
 	pinMode(pgm_read_byte(&params[2]), OUTPUT);
@@ -10,14 +10,14 @@ void muxShieldInputLineInit(int8_t lineId, const t_lineInputDescription *descrip
 }
 
 void muxShieldOutputLineInit(int8_t lineId, const t_lineOutputDescription *description) {
-	prog_int8_t *params = (prog_int8_t *) pgm_read_word(&description->params);
+	int8_t PROGMEM *params = (int8_t PROGMEM *) pgm_read_word(&description->params);
 	pinMode(pgm_read_byte(&params[0]), OUTPUT);
 	pinMode(pgm_read_byte(&params[1]), OUTPUT);
 	pinMode(pgm_read_byte(&params[2]), OUTPUT);
 	pinMode(pgm_read_byte(&params[3]), OUTPUT);
 }
 
-uint16_t muxShieldLineRead(uint8_t lineId, uint8_t type, prog_int8_t params[]) {
+uint16_t muxShieldLineRead(uint8_t lineId, uint8_t type, int8_t PROGMEM params[]) {
 	pinMode(pgm_read_byte(&params[5]), INPUT);
 	pinMode(pgm_read_byte(&params[6]), INPUT);
 	pinMode(pgm_read_byte(&params[7]), INPUT);
@@ -34,7 +34,7 @@ uint16_t muxShieldLineRead(uint8_t lineId, uint8_t type, prog_int8_t params[]) {
     	return !digitalRead(pgm_read_byte(&params[5]));
     }
 }
-void muxShieldLineWrite(uint8_t lineId, uint8_t type, uint16_t value, prog_int8_t params[]) {
+void muxShieldLineWrite(uint8_t lineId, uint8_t type, uint16_t value, int8_t PROGMEM params[]) {
 	pinMode(pgm_read_byte(&params[5]), OUTPUT);
 	pinMode(pgm_read_byte(&params[6]), INPUT);
 	pinMode(pgm_read_byte(&params[7]), INPUT);

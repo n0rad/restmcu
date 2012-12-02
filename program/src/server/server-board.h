@@ -17,9 +17,9 @@ uint16_t boardNotify(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *web
 
 #include "server.h"
 
-const prog_char BOARD_PARAM_NOTIFYURL[] PROGMEM = "notifyUrl";
-const prog_char BOARD_PARAM_IP[] PROGMEM = "ip";
-const prog_char BOARD_PARAM_PORT[] PROGMEM = "port";
+const char BOARD_PARAM_NOTIFYURL[] PROGMEM = "notifyUrl";
+const char BOARD_PARAM_IP[] PROGMEM = "ip";
+const char BOARD_PARAM_PORT[] PROGMEM = "port";
 
 const t_json boardPutSettingsElements[] PROGMEM = {
         {PARAM_NAME, settingsBoardSetName, 0, 0},

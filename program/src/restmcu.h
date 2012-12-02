@@ -12,12 +12,12 @@ const long dateFailRetryWait = 1000; // 1s
 #include "debug.h"
 #include "restmcu-config.h"
 
-const prog_char HMAC_TIME[] PROGMEM = "Hmac-Time: ";
-const prog_char HMAC_HASH[] PROGMEM = "Hmac-Hash: ";
+const char HMAC_TIME[] PROGMEM = "Hmac-Time: ";
+const char HMAC_HASH[] PROGMEM = "Hmac-Hash: ";
 
-const prog_char GET[] PROGMEM = "GET ";
-const prog_char PUT[] PROGMEM = "PUT ";
-const prog_char JSON_STR_END[] PROGMEM = "\"}";
+const char GET[] PROGMEM = "GET ";
+const char PUT[] PROGMEM = "PUT ";
+const char JSON_STR_END[] PROGMEM = "\"}";
 
 typedef struct s_webRequest {
     const struct s_resource *resource;

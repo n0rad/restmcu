@@ -17,7 +17,7 @@ int16_t noOutputConversion(float lineValue) {
 ////////////////////////////////////////////////////////
 // High level line access (read line or settings)
 ////////////////////////////////////////////////////////
-const prog_char *setLineValue(uint8_t lineOutputIdx, float value) {
+const char PROGMEM *setLineValue(uint8_t lineOutputIdx, float value) {
     uint8_t type = pgm_read_byte(&lineOutputDescription[lineOutputIdx].type);
     uint8_t lineId = pgm_read_byte(&lineOutputDescription[lineOutputIdx].lineId);
     LineWrite writefunc = (LineWrite) pgm_read_word(&lineOutputDescription[lineOutputIdx].write);
@@ -27,7 +27,7 @@ const prog_char *setLineValue(uint8_t lineOutputIdx, float value) {
         return PSTR("value overflow");
     }
     settingsLineOutputSetValue(lineOutputIdx, value);
-    writefunc(lineId, type, lowLvlVal, (prog_int8_t *) pgm_read_word(&lineOutputDescription[lineOutputIdx].params));
+    writefunc(lineId, type, lowLvlVal, (int8_t PROGMEM *) pgm_read_word(&lineOutputDescription[lineOutputIdx].params));
     return 0;
 }
 float getLineValue(uint8_t lineIdx) {
@@ -36,7 +36,7 @@ float getLineValue(uint8_t lineIdx) {
         uint8_t lineId = pgm_read_byte(&lineInputDescription[lineIdx].lineId);
         LineRead readfunc = (LineRead) pgm_read_word(&lineInputDescription[lineIdx].read);
         LineInputConversion converter = (LineInputConversion) pgm_read_word(&lineInputDescription[lineIdx].convertValue);
-        return converter(readfunc(lineId, type, (prog_int8_t *) pgm_read_word(&lineInputDescription[lineIdx].params)));
+        return converter(readfunc(lineId, type, (int8_t PROGMEM *) pgm_read_word(&lineInputDescription[lineIdx].params)));
     } else {
         return settingsLineOutputGetValue(lineIdx - lineInputSize);
     }
@@ -45,14 +45,14 @@ float getLineValue(uint8_t lineIdx) {
 ////////////////////////////////////////////////////////
 // Low level line access
 ////////////////////////////////////////////////////////
-uint16_t defaultLineRead(uint8_t lineId, uint8_t type, prog_int8_t params[]) {
+uint16_t defaultLineRead(uint8_t lineId, uint8_t type, int8_t PROGMEM params[]) {
     if (type == ANALOG) {
         return analogRead(lineId);
     } else {
         return digitalRead(lineId);
     }
 }
-void defaultLineWrite(uint8_t lineId, uint8_t type, uint16_t value, prog_int8_t params[]) {
+void defaultLineWrite(uint8_t lineId, uint8_t type, uint16_t value, int8_t PROGMEM params[]) {
     if (type == ANALOG) {
         analogWrite(lineId, value);
     } else {
@@ -82,7 +82,7 @@ void lineInit() {
 
         LineRead readfunc = (LineRead) pgm_read_word(&lineInputDescription[i].read);
         uint8_t type = pgm_read_byte(&lineInputDescription[i].type);
-        previousInputValues[i] = readfunc(lineId, type, (prog_int8_t *) pgm_read_word(&lineInputDescription[i].params));
+        previousInputValues[i] = readfunc(lineId, type, (int8_t PROGMEM *) pgm_read_word(&lineInputDescription[i].params));
     }
     for (uint8_t i = 0; -1 != (lineId = (int8_t) pgm_read_byte(&lineOutputDescription[i].lineId)); i++) {
     	LineOutputInit initFunc = (LineOutputInit) pgm_read_word(&lineOutputDescription[i].init);
@@ -99,7 +99,7 @@ void lineCheckChange() {
         uint8_t type = pgm_read_byte(&lineInputDescription[i].type);
 
         uint16_t oldValue = previousInputValues[i];
-        uint16_t value = readfunc(lineId, type, (prog_int8_t *) pgm_read_word(&lineInputDescription[i].params));
+        uint16_t value = readfunc(lineId, type, (int8_t PROGMEM *) pgm_read_word(&lineInputDescription[i].params));
 
         for (uint8_t j = 0; j < LINE_NUMBER_OF_NOTIFY; j++) {
             t_notify *notify = settingsLineGetNotify(i, j);

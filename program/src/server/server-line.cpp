@@ -7,7 +7,7 @@ uint16_t linePutValue(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *we
         return plen;
     }
     float value = atof(&buf[dat_p]);
-    const prog_char *res = setLineValue(webResource->lineIdx - lineInputSize, value);
+    const char PROGMEM *res = setLineValue(webResource->lineIdx - lineInputSize, value);
     if (res) {
         plen = startResponseHeader(&buf, HEADER_400);
         plen = appendErrorMsg_P(buf, plen, ERROR_MSG_UPDATE, res);
@@ -27,7 +27,7 @@ uint16_t lineGetValue(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *we
 
 uint16_t linePutSettings(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webResource) {
     currentSetLineIdx = webResource->lineIdx;
-    const prog_char *error = jsonParse(&buf[dat_p], &linePutSettingsObj);
+    const char PROGMEM *error = jsonParse(&buf[dat_p], &linePutSettingsObj);
     if (error) {
         plen = startResponseHeader(&buf, HEADER_400);
         plen = appendErrorMsg_P(buf, plen, ERROR_MSG_UPDATE, error);
@@ -74,7 +74,7 @@ uint16_t lineGet(char *buf, uint16_t dat_p, uint16_t plen, t_webRequest *webReso
     plen = addToBufferTCP_P(buf, plen, webResource->lineIdx < lineInputSize ? STR_INPUT : STR_OUTPUT);
 
     plen = addToBufferTCP_P(buf, plen, JSON_DESCRIPTION);
-    plen = addToBufferTCP_P(buf, plen, (const prog_char *) (webResource->lineIdx < lineInputSize ?
+    plen = addToBufferTCP_P(buf, plen, (const char PROGMEM *) (webResource->lineIdx < lineInputSize ?
             &lineInputDescription[webResource->lineIdx].description : &lineOutputDescription[webResource->lineIdx - lineInputSize].description));
 
 

@@ -54,7 +54,7 @@ int my_strpos(const char *s, int ch) {
     return -1;
 }
 
-size_t strstrpos_P(const char *str, const prog_char *wanted) {
+size_t strstrpos_P(const char *str, const char PROGMEM *wanted) {
     const size_t len = strlen_P(wanted);
     size_t pos = 0;
     if (len == 0)

@@ -9,10 +9,10 @@ t_notify **lineNotifies = 0;
 uint8_t lineInputSize = 0;
 uint8_t lineOutputSize = 0;
 
-const prog_char *lineType[] = { LINE_TYPE_ANALOG, LINE_TYPE_DIGITAL};
-const prog_char *lineNotification[] = { LINE_NOTIFICATION_SUP, LINE_NOTIFICATION_INF};
+const char *lineType[] = { LINE_TYPE_ANALOG, LINE_TYPE_DIGITAL};
+const char *lineNotification[] = { LINE_NOTIFICATION_SUP, LINE_NOTIFICATION_INF};
 
-static void eeprom_write_block_P(uint8_t *eepromPos, prog_char *progPos, uint16_t len) {
+static void eeprom_write_block_P(uint8_t *eepromPos, char PROGMEM *progPos, uint16_t len) {
     for (uint16_t i = 0; i < len; i++) {
         uint8_t data = pgm_read_byte(&progPos[i]);
         eeprom_write_byte(&eepromPos[i], data);

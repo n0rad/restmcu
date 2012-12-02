@@ -6,7 +6,7 @@
 
 
 void rotaryEncoderLineInit(int8_t lineId, const t_lineInputDescription *description);
-uint16_t rotaryEncoderLineRead(uint8_t lineId, uint8_t type, prog_int8_t params[]);
+uint16_t rotaryEncoderLineRead(uint8_t lineId, uint8_t type, int8_t PROGMEM params[]);
 
 
 

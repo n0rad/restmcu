@@ -13,26 +13,26 @@
 #include "../util/mylibc.h"
 
 
-const prog_char IP_CHARACTERS[] PROGMEM = "0123456789.";
+const char IP_CHARACTERS[] PROGMEM = "0123456789.";
 
-const prog_char TOO_MANY_NOTIFY[] PROGMEM = "Too many notify";
-const prog_char NO_NOTIFY_OUTPUT[] PROGMEM = "No notify on output";
-const prog_char CANNOT_SET_MIN_VAL[] PROGMEM = "valueMin cannot be set";
-const prog_char CANNOT_SET_MAX_VAL[] PROGMEM = "valueMax cannot be set";
-const prog_char DESCRIPTION_CANNOT_BE_SET[] PROGMEM = "description cannot be set";
-const prog_char NAME_TOO_LONG[] PROGMEM = "name is too long";
+const char TOO_MANY_NOTIFY[] PROGMEM = "Too many notify";
+const char NO_NOTIFY_OUTPUT[] PROGMEM = "No notify on output";
+const char CANNOT_SET_MIN_VAL[] PROGMEM = "valueMin cannot be set";
+const char CANNOT_SET_MAX_VAL[] PROGMEM = "valueMax cannot be set";
+const char DESCRIPTION_CANNOT_BE_SET[] PROGMEM = "description cannot be set";
+const char NAME_TOO_LONG[] PROGMEM = "name is too long";
 
 void settingsLoad();
 void settingsReload();
 void settingsSave();
 
-const prog_char CONFIG_VERSION[] PROGMEM = "hc1";
-const prog_char STR_INPUT[] PROGMEM = "INPUT";
-const prog_char STR_OUTPUT[] PROGMEM = "OUTPUT";
-const prog_char LINE_TYPE_ANALOG[] PROGMEM = "ANALOG";
-const prog_char LINE_TYPE_DIGITAL[] PROGMEM = "DIGITAL";
-const prog_char LINE_NOTIFICATION_SUP[] PROGMEM = "SUP_OR_EQUAL";
-const prog_char LINE_NOTIFICATION_INF[] PROGMEM = "INF_OR_EQUAL";
+const char CONFIG_VERSION[] PROGMEM = "hc1";
+const char STR_INPUT[] PROGMEM = "INPUT";
+const char STR_OUTPUT[] PROGMEM = "OUTPUT";
+const char LINE_TYPE_ANALOG[] PROGMEM = "ANALOG";
+const char LINE_TYPE_DIGITAL[] PROGMEM = "DIGITAL";
+const char LINE_NOTIFICATION_SUP[] PROGMEM = "SUP_OR_EQUAL";
+const char LINE_NOTIFICATION_INF[] PROGMEM = "INF_OR_EQUAL";
 
 extern uint8_t lineInputSize;
 extern uint8_t lineOutputSize;

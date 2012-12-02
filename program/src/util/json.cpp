@@ -1,6 +1,6 @@
 #include "json.h"
 
-const prog_char *jsonParseValue(char **buffer, const t_json *currentStructure, uint8_t index);
+const char PROGMEM *jsonParseValue(char **buffer, const t_json *currentStructure, uint8_t index);
 
 
 static uint8_t findEndOfValue(char *buf) {
@@ -23,9 +23,9 @@ static char *skipSpaces(char *buf) {
     return buf;
 }
 
-static const prog_char *jsonParseObject(char **buffer, const t_json *structureList, uint8_t index) {
+static const char PROGMEM *jsonParseObject(char **buffer, const t_json *structureList, uint8_t index) {
     char *buf =  *buffer;
-    prog_char *keypos;
+    char PROGMEM *keypos;
     do {
         buf = skipSpaces(&buf[1]); // skip '{' and then ',' on each loop
 
@@ -37,7 +37,7 @@ static const prog_char *jsonParseObject(char **buffer, const t_json *structureLi
         }
         buf = &buf[1]; // enter inside key
         const t_json *currentStructure = 0;
-        for (uint8_t i = 0; (keypos = (prog_char *) pgm_read_word(&structureList[i].key)); i++) {
+        for (uint8_t i = 0; (keypos = (char PROGMEM *) pgm_read_word(&structureList[i].key)); i++) {
             int keylen = strlen_P(keypos);
             if (strncmp_P(buf, keypos, keylen) == 0) {
                 if (buf[keylen] != '"') {
@@ -54,7 +54,7 @@ static const prog_char *jsonParseObject(char **buffer, const t_json *structureLi
             return JSON_ERROR_NO_SEPARATOR;
         }
         buf = skipSpaces(&buf[1]); // skip separator ':' and white spaces
-        const prog_char *res = jsonParseValue(&buf, currentStructure, index);
+        const char PROGMEM *res = jsonParseValue(&buf, currentStructure, index);
         if (res) {
             return res;
         }
@@ -72,7 +72,7 @@ static const prog_char *jsonParseObject(char **buffer, const t_json *structureLi
     return 0;
 }
 
-static const prog_char *jsonParseArray(char **buffer, const t_json *currentStructure) {
+static const char PROGMEM *jsonParseArray(char **buffer, const t_json *currentStructure) {
     char *buf =  *buffer;
     jsonHandleEndArray endFunc = (jsonHandleEndArray) pgm_read_word(&currentStructure->handleEndArray);
     if (currentStructure && !endFunc) {
@@ -84,7 +84,7 @@ static const prog_char *jsonParseArray(char **buffer, const t_json *currentStruc
         if (buf[0] == ']') {
         	break;
         }
-        const prog_char *res = jsonParseValue(&buf, currentStructure, count);
+        const char PROGMEM *res = jsonParseValue(&buf, currentStructure, count);
         if (res) {
             return res;
         }
@@ -99,7 +99,7 @@ static const prog_char *jsonParseArray(char **buffer, const t_json *currentStruc
         return JSON_ERROR_NO_ARRAY_END;
     }
 
-    const prog_char *res = endFunc(count);
+    const char PROGMEM *res = endFunc(count);
     if (res) {
         return res;
     }
@@ -108,7 +108,7 @@ static const prog_char *jsonParseArray(char **buffer, const t_json *currentStruc
     return 0;
 }
 
-const prog_char *jsonParseValue(char **buffer, const t_json *currentStructure, uint8_t index) {
+const char PROGMEM *jsonParseValue(char **buffer, const t_json *currentStructure, uint8_t index) {
     char *buf =  *buffer;
     buf = skipSpaces(buf);
 
@@ -117,14 +117,14 @@ const prog_char *jsonParseValue(char **buffer, const t_json *currentStructure, u
 //    DEBUG_PRINTLN(buf[1]);
     if (buf[0] == '[') {
 //        DEBUG_PRINT("found array");
-        const prog_char *res = jsonParseArray(&buf, currentStructure);
+        const char PROGMEM *res = jsonParseArray(&buf, currentStructure);
         if (res) {
             return res;
         }
     } else if (buf[0] == '{') {
 //        DEBUG_PRINTLN("found OBJ");
         const t_json *objStruct = (t_json *) pgm_read_word(&currentStructure->valueStruct);
-        const prog_char *res = jsonParseObject(&buf, objStruct, index);
+        const char PROGMEM *res = jsonParseObject(&buf, objStruct, index);
         if (res) {
             return res;
         }
@@ -134,7 +134,7 @@ const prog_char *jsonParseValue(char **buffer, const t_json *currentStructure, u
             func = (jsonHandleValue) pgm_read_word(&currentStructure->handleValue);
         }
         uint16_t len;
-        const prog_char *res = 0;
+        const char PROGMEM *res = 0;
         if (buf[0] == '"') {
             buf = &buf[1];
             len = my_strpos(buf, '"');
@@ -157,6 +157,6 @@ const prog_char *jsonParseValue(char **buffer, const t_json *currentStructure, u
     return 0;
 }
 
-const prog_char  *jsonParse(char *buf, const t_json *currentStructure) {
+const char PROGMEM *jsonParse(char *buf, const t_json *currentStructure) {
     return jsonParseValue(&buf, currentStructure, 0);
 }
