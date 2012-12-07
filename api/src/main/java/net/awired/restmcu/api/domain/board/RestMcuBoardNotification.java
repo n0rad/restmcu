@@ -11,12 +11,47 @@ public class RestMcuBoardNotification {
 
     private RestMcuBoardNotificationType type;
 
+    public RestMcuBoardNotification() {
+    }
+
+    public RestMcuBoardNotification(RestMcuBoardNotificationType type) {
+        this.type = type;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        RestMcuBoardNotification other = (RestMcuBoardNotification) obj;
+        if (type != other.type) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         return Objects.toStringHelper(this) //
                 .add("type", type) //
                 .toString();
     }
+
+    ///////////////////////////////////////////////////
 
     public void setType(RestMcuBoardNotificationType type) {
         this.type = type;
@@ -25,4 +60,5 @@ public class RestMcuBoardNotification {
     public RestMcuBoardNotificationType getType() {
         return type;
     }
+
 }

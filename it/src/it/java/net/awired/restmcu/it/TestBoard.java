@@ -32,10 +32,6 @@ public class TestBoard implements RestMcuBoardResource {
     }
 
     @Override
-    public void init() {
-    }
-
-    @Override
     public void runNotify() {
     }
 

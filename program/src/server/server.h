@@ -16,7 +16,6 @@ const char RESOURCE_LINE_SUFFIX[] PROGMEM = "/value ";
 const char RESOURCE_BOARD[] PROGMEM = "/ ";
 const char RESOURCE_SETTINGS[] PROGMEM = "/settings ";
 const char RESOURCE_RESET[] PROGMEM = "/reset ";
-const char RESOURCE_INIT[] PROGMEM = "/init ";
 const char RESOURCE_NOTIFY[] PROGMEM = "/notify ";
 
 const char HEADER_HTTP[] PROGMEM = "HTTP/1.0 ";

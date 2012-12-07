@@ -29,7 +29,7 @@ t_boardSettings boardSettings EEMEM = {
 	{192, 168, 42, 30},          // ip
 	80,                           // port
 	"window1 controller",         // name
-	"http://192.168.42.213:5879"  // notify url
+	"http://192.168.42.12:50852"  // notify url
 };
 
 const int8_t PROGMEM muxFirstParams[] PROGMEM = {21, 2, 3, 4, 5, 54, 55, 56};
@@ -49,7 +49,7 @@ t_lineInputSettings lineInputSettings[] EEMEM = {
 //	{"input9", {{0, 0},{0, 0},{0,0},{0,0}}},
 //	{"PIR", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
 	{"Push button", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
-	{"input9", {{0, 0},{0, 0},{0,0},{0,0}}}
+	{"54", {{OVER_EQ, 0},{UNDER_EQ, 0},{OVER_EQ,1},{UNDER_EQ,1}}}
 };
 
 //////////////

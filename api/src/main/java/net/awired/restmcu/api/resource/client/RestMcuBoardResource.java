@@ -30,10 +30,6 @@ public interface RestMcuBoardResource {
     public void resetBoard();
 
     @PUT
-    @Path("/init")
-    public void init();
-
-    @PUT
     @Path("/notify")
     public void runNotify();
 
