@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <string.h>
 
-float tmp36Conversion(uint16_t value) {
+float tmp36CelciusConversion(uint16_t value) {
 	float voltage = value * 5.0; // 5V as aref
 	voltage /= 1024.0;
 	return (voltage - 0.5) * 100;
@@ -46,8 +46,11 @@ const int8_t PROGMEM debounced0[] PROGMEM = {0};
 const int8_t PROGMEM debounced1[] PROGMEM = {1};
 
 const t_lineInputDescription lineInputDescription[] PROGMEM = {
-        {2, DIGITAL, 1, defaultInputLineInit, digitalReversedConversion, debouncedLineRead, "red push button with internal pullup", debounced0},
-        {3, DIGITAL, 1, defaultInputLineInit, digitalReversedConversion, debouncedLineRead, "black push button with internal pullup", debounced1},
+        {6, DIGITAL, 1, defaultInputLineInit, digitalReversedConversion, debouncedLineRead, "red push button with internal pullup", debounced0},
+        {7, DIGITAL, 1, defaultInputLineInit, digitalReversedConversion, debouncedLineRead, "black push button with internal pullup", debounced1},
+        {57, ANALOG, 1, defaultInputLineInit, noInputConversion, defaultLineRead, "sample photoresistor on pullup"},
+        {58, ANALOG, 0, defaultInputLineInit, tmp36CelciusConversion, defaultLineRead, "tmp36 temperature sensor"},
+        {18, DIGITAL, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "pir motion sensor with pullup"},
 //        {2, DIGITAL, 0, rotaryEncoderLineInit, noInputConversion, rotaryEncoderLineRead, "lm35 temperature captor", rotary},
 //        {21, DIGITAL, 0, muxShieldInputLineInit, noInputConversion, muxShieldLineRead, "a simple PIR", muxFirstParams},
 //        {8, DIGITAL, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "lm35 temperature captor"},
@@ -56,7 +59,10 @@ const t_lineInputDescription lineInputDescription[] PROGMEM = {
 };
 t_lineInputSettings lineInputSettings[] EEMEM = {
     {"living button", {{OVER_EQ, 0},{UNDER_EQ, 0},{OVER_EQ,1},{UNDER_EQ,1}}},
-    {"bedroom button", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
+    {"bedroom button", {{OVER_EQ, 0},{UNDER_EQ, 0},{OVER_EQ,1},{UNDER_EQ,1}}},
+    {"living light", {{OVER_EQ, 0},{UNDER_EQ, 0},{OVER_EQ,0},{UNDER_EQ,0}}},
+    {"living temperature", {{OVER_EQ, 500},{UNDER_EQ, 100},{OVER_EQ,300},{UNDER_EQ,200}}},
+    {"entrance sensor", {{OVER_EQ, 0},{UNDER_EQ, 0},{OVER_EQ,1},{UNDER_EQ,1}}},
 //	{"input9", {{0, 0},{0, 0},{0,0},{0,0}}},
 //	{"PIR", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
 //	{"Push button", {{OVER_EQ, 0},{UNDER_EQ, 0},{0,0},{0,0}}},
