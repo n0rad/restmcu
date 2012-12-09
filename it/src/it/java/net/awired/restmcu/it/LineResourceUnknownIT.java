@@ -8,7 +8,7 @@ import org.junit.Test;
 public class LineResourceUnknownIT {
 
     @Rule
-    public RestMcuTestRule restmcu = new RestMcuTestRule();
+    public RestmcuTestRule restmcu = new RestmcuTestRule();
 
     @Test(expected = NotFoundException.class)
     public void should_throw_exception_on_unknown_line() throws Exception {

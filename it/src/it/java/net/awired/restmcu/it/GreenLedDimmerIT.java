@@ -2,14 +2,14 @@ package net.awired.restmcu.it;
 
 import static org.junit.Assert.assertEquals;
 import net.awired.restmcu.api.resource.client.RestMcuLineResource;
-import net.awired.restmcu.it.RestMcuTestRule;
+import net.awired.restmcu.it.RestmcuTestRule;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class GreenLedDimmerIT {
 
     @Rule
-    public RestMcuTestRule restmcu = new RestMcuTestRule();
+    public RestmcuTestRule restmcu = new RestmcuTestRule();
 
     @Test
     public void should_dim_green_led_up_and_down() throws Exception {

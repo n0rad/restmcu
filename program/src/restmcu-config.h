@@ -11,6 +11,7 @@ typedef char eeprom_char;
 
 #include "driver/device/mux-shield.h"
 #include "driver/device/rotary-encoder.h"
+#include "driver/device/debounced.h"
 
 typedef struct s_lineInputDescription t_lineInputDescription;
 typedef struct s_lineOutputDescription t_lineOutputDescription;
@@ -76,7 +77,7 @@ typedef struct s_lineInputDescription {
     LineInputConversion convertValue; // convert the 0-1023 to a display value (ex: float for temperature)
     LineRead read;           // function to read value
     char PROGMEM description[CONFIG_LINE_DESCRIPTION_SIZE];
-    int8_t PROGMEM *params;
+    const int8_t PROGMEM *params;
 } t_lineInputDescription;
 typedef struct s_lineInputSettings {
 	eeprom_char name[CONFIG_LINE_NAME_SIZE];

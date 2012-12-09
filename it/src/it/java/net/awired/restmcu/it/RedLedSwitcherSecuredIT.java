@@ -8,7 +8,7 @@ import org.junit.Test;
 public class RedLedSwitcherSecuredIT {
 
     @Rule
-    public RestMcuTestRule restmcu = new RestMcuTestRule();
+    public RestmcuTestRule restmcu = new RestmcuTestRule();
 
     // sha256      : 30s
     // sha1        : 18s

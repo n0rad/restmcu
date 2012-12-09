@@ -13,7 +13,7 @@ import org.junit.Test;
 public class BoardSettingsIT {
 
     @Rule
-    public RestMcuTestRule restmcu = new RestMcuTestRule();
+    public RestmcuTestRule restmcu = new RestmcuTestRule();
 
     @Test
     public void should_update_settings_with_same() throws Exception {

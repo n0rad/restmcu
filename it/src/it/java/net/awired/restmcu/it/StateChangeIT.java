@@ -10,6 +10,7 @@ import net.awired.restmcu.api.domain.line.RestMcuLineNotify;
 import net.awired.restmcu.api.domain.line.RestMcuLineNotifyCondition;
 import net.awired.restmcu.api.domain.line.RestMcuLineSettings;
 import net.awired.restmcu.api.resource.client.RestMcuLineResource;
+import net.awired.restmcu.it.resource.NotifyResource;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,7 +18,7 @@ import org.junit.Test;
 public class StateChangeIT {
 
     @Rule
-    public RestMcuTestRule restmcu = new RestMcuTestRule();
+    public RestmcuTestRule restmcu = new RestmcuTestRule();
 
     @Rule
     public RestServerRule notifyRule = new RestServerRule("http://0.0.0.0:5879", NotifyResource.class);
@@ -43,7 +44,7 @@ public class StateChangeIT {
                 restMcuLineNotification.getNotify());
         assertEquals(0f, restMcuLineNotification.getOldValue(), 0);
         assertEquals(1f, restMcuLineNotification.getValue(), 0);
-        assertEquals(RestMcuTestContext.getUrl().substring(7, RestMcuTestContext.getUrl().length() - 1),
+        assertEquals(RestmcuTestContext.getUrl().substring(7, RestmcuTestContext.getUrl().length() - 1),
                 restMcuLineNotification.getSource());
     }
 

@@ -13,7 +13,7 @@ import org.junit.Test;
 public class LineResourceIT {
 
     @Rule
-    public RestMcuTestRule restmcu = new RestMcuTestRule();
+    public RestmcuTestRule restmcu = new RestmcuTestRule();
 
     @Test
     public void should_change_name() throws Exception {

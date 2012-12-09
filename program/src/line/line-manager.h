@@ -13,6 +13,8 @@ typedef int16_t (*LineOutputConversion)(float lineValue);
 
 // conversion
 float noInputConversion(uint16_t lineValue);
+float digitalReversedConversion(uint16_t lineValue);
+
 int16_t noOutputConversion(float lineValue);
 
 //init

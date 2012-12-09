@@ -7,6 +7,13 @@
 static uint16_t *previousInputValues;
 
 
+float digitalReversedConversion(uint16_t lineValue) {
+    if (lineValue == 0) {
+        return 1;
+    }
+    return 0;
+}
+
 float noInputConversion(uint16_t lineValue) {
     return lineValue;
 }
@@ -49,7 +56,8 @@ uint16_t defaultLineRead(uint8_t lineId, uint8_t type, int8_t PROGMEM params[]) 
     if (type == ANALOG) {
         return analogRead(lineId);
     } else {
-        return digitalRead(lineId);
+        uint16_t val = digitalRead(lineId);
+        return val;
     }
 }
 void defaultLineWrite(uint8_t lineId, uint8_t type, uint16_t value, int8_t PROGMEM params[]) {
@@ -106,7 +114,8 @@ void lineCheckChange() {
             if (notify->condition != 0) {
                 if ((notify->condition == UNDER_EQ && oldValue > notify->value && value <= notify->value)
                         || (notify->condition == OVER_EQ && oldValue < notify->value && value >= notify->value)) {
-                    clientLineNotify(lineId, oldValue, value, notify);
+                    LineInputConversion converter = (LineInputConversion) pgm_read_word(&lineInputDescription[i].convertValue);
+                    clientLineNotify(lineId, converter(oldValue), converter(value), notify);
                 }
             }
         }

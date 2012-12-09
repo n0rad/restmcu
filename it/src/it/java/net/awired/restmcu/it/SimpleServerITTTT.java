@@ -5,17 +5,18 @@ import net.awired.ajsl.test.RestServerRule;
 import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientInInterceptor;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientOutInterceptor;
+import net.awired.restmcu.it.resource.NotifyResource;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class SimpleServerITTTT {
     @Rule
-    public RestMcuTestRule restmcu = new RestMcuTestRule();
+    public RestmcuTestRule restmcu = new RestmcuTestRule();
 
     @Rule
     public RestServerRule notifyRule = new RestServerRule("http://0.0.0.0:5879", NotifyResource.class)
-            .addInInterceptor(new RestMcuSecurityClientInInterceptor(new RestMcuTestSecurityKey())).addOutInterceptor(
-                    new RestMcuSecurityClientOutInterceptor(new RestMcuTestSecurityKey()));
+            .addInInterceptor(new RestMcuSecurityClientInInterceptor(new RestmcuTestSecurityKey())).addOutInterceptor(
+                    new RestMcuSecurityClientOutInterceptor(new RestmcuTestSecurityKey()));
 
     @Test
     public void should() throws Exception {

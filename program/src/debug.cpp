@@ -1,7 +1,7 @@
 #include "restmcu.h"
 
 #ifdef DEBUG
-void DEBUG_P(const prog_char *progmem) {
+void DEBUG_P(const char PROGMEM *progmem) {
     char c;
     while ((c = pgm_read_byte(progmem++))) {
         DEBUG_PRINT(c);

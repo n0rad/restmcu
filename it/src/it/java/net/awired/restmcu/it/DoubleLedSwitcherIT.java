@@ -2,14 +2,14 @@ package net.awired.restmcu.it;
 
 import static org.junit.Assert.assertFalse;
 import net.awired.restmcu.api.resource.client.RestMcuLineResource;
-import net.awired.restmcu.it.RestMcuTestRule;
+import net.awired.restmcu.it.RestmcuTestRule;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class DoubleLedSwitcherIT {
 
     @Rule
-    public RestMcuTestRule restmcu = new RestMcuTestRule();
+    public RestmcuTestRule restmcu = new RestmcuTestRule();
 
     class BasicThread1 extends Thread {
 

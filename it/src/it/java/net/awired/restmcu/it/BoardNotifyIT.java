@@ -7,6 +7,7 @@ import net.awired.ajsl.test.RestServerRule;
 import net.awired.restmcu.api.domain.board.RestMcuBoardNotification;
 import net.awired.restmcu.api.domain.board.RestMcuBoardNotificationType;
 import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
+import net.awired.restmcu.it.resource.NotifyResource;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import org.junit.Test;
 public class BoardNotifyIT {
 
     @Rule
-    public RestMcuTestRule restmcu = new RestMcuTestRule();
+    public RestmcuTestRule restmcu = new RestmcuTestRule();
 
     @Rule
     public RestServerRule notifyRule = new RestServerRule("http://0.0.0.0:5879", NotifyResource.class);

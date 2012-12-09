@@ -78,3 +78,4 @@ TODO
 - dns ?
 - fit in 328p (almost done)
 - constrain between pins
+- reduce memory by removing pullup info in payload ?
