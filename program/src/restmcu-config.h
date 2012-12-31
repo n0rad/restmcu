@@ -93,7 +93,7 @@ typedef struct s_lineOutputDescription {
     LineOutputConversion convertValue; // convert the display value to a 0-255 value
     LineWrite write;       // function to write value
     char PROGMEM description[CONFIG_LINE_DESCRIPTION_SIZE];
-    int8_t PROGMEM *params;
+    const int8_t PROGMEM *params;
 } t_lineOutputDescription;
 typedef struct s_lineOutputSettings {
 	eeprom_char name[CONFIG_LINE_NAME_SIZE];

@@ -9,20 +9,24 @@ import com.google.common.base.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RestMcuLine {
 
+    private int id;
     private String description;
     private RestMcuLineDirection direction;
     private RestMcuLineType type;
     private Float valueMin;
     private Float valueMax;
+    private Float value;
 
     @Override
     public String toString() {
         return Objects.toStringHelper(this) //
+                .add("id", id) //
                 .add("description", description) //
                 .add("direction", direction) //
                 .add("type", type) //
                 .add("valueMin", valueMin) //
                 .add("valueMax", valueMax) //
+                .add("value", value) //
                 .toString();
     }
 
@@ -66,6 +70,22 @@ public class RestMcuLine {
 
     public Float getValueMax() {
         return valueMax;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Float getValue() {
+        return value;
+    }
+
+    public void setValue(Float value) {
+        this.value = value;
     }
 
 }
