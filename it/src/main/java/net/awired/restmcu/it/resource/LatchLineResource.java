@@ -104,8 +104,8 @@ public class LatchLineResource implements RestMcuLineResource {
             throw new NotFoundException("line not found" + lineId);
         }
         lineInfo.value = value;
-        lineInfo.valueLatch.countDown();
         lineInfo.dateLatch = new Date();
+        lineInfo.valueLatch.countDown();
     }
 
 }
