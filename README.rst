@@ -38,17 +38,13 @@ On Mac OS X :
 * Get AVR from http://www.obdev.at/products/crosspack/download.html (will take 200 Mb on your hard drive)
 * Export the right paths for the makefile (this will get an update) : 
 
-``
+<pre>
 export AVRPACK_HOME=/usr/local/CrossPack-AVR
-
 export AVR_TOOLS_PATH=$AVRPACK_HOME/bin/
-
 export AVR_LIB_PATH=$AVRPACK_HOME/avr
-
 export AVRDUDE_PATH=$AVRPACK_HOME/bin/
-
 export AVRDUDE_CONF=$AVRPACK_HOME/etc/avrdude.conf
-``
+</pre>
 
 Use the program on your board
 =================
