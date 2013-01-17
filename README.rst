@@ -33,14 +33,16 @@ Building the C part
 On Linux : # sudo apt-get install avr-libc binutils-avr gcc-avr avrdude
 
 On Mac OS X : 
-- Install the command line tools from XCode (menu > preferences > downloads)
-- Get AVR from http://www.obdev.at/products/crosspack/download.html (will take 200 Mb on your hard drive)
-- Export the right paths for the makefile (this will get an update) : 
+* Install the command line tools from XCode (menu > preferences > downloads)
+* Get AVR from http://www.obdev.at/products/crosspack/download.html (will take 200 Mb on your hard drive)
+* Export the right paths for the makefile (this will get an update) : 
+```
 export AVRPACK_HOME=/usr/local/CrossPack-AVR
 export AVR_TOOLS_PATH=$AVRPACK_HOME/bin/
 export AVR_LIB_PATH=$AVRPACK_HOME/avr
 export AVRDUDE_PATH=$AVRPACK_HOME/bin/
 export AVRDUDE_CONF=$AVRPACK_HOME/etc/avrdude.conf
+```
 
 Use the program on your board
 =================
