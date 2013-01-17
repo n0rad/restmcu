@@ -85,7 +85,7 @@ CXX_APP +=  src/driver/hardware/network-w5100.cpp \
 
 #AVR_TOOLS_PATH = /usr/bin/
 #AVRDUDE_PATH = $(INSTALL_DIR)/hardware/tools/
-
+#AVR_LIB_PATH = /usr/lib/avr
 
 
 MODULES = $(C_MODULES) $(CXX_MODULES)
@@ -135,7 +135,9 @@ LDFLAGS = -O$(OPT) -lm -Wl,--gc-sections
 
 
 # Programming support using avrdude. Settings and variables.
-AVRDUDE_CONF = /etc/avrdude.conf
+ifndef AVRDUDE_CONF
+  AVRDUDE_CONF = /etc/avrdude.conf
+endif
 AVRDUDE_PORT = $(PORT)
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
@@ -258,7 +260,7 @@ extcoff: $(TARGET).elf
 $(TARGET).elf: target/core.a
 	#cd check; make clean all && ./restmcu-check # TODO should move somewhere else without breaking upload (no compile)
 	@echo "Linking   ${GREEN} $@ ${WHITE}"
-	$(LD) $(ALL_LDFLAGS) -o $@ -L. target/core.a /usr/lib/avr/lib/avr5/libc.a  target/core.a
+	$(LD) $(ALL_LDFLAGS) -o $@ -L. target/core.a $(AVR_LIB_PATH)/lib/avr5/libc.a  target/core.a
 
 target/core.a: $(OBJ)
 	@for i in $(OBJ); do echo $(AR) rcs target/core.a $$i; $(AR) rcs target/core.a $$i; done
