@@ -1,5 +1,7 @@
 RestMcu is a generic program for micro-controllers (arduino only for the moment) with a network interface.
-It provide through a restfull (json only) interface :
+===========================
+
+It provides through a restfull (json only) interface :
 
 - static board configuration (description, list of lines, ...)
 - dynamic board configuration (ip, port, line notify url)
