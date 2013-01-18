@@ -35,29 +35,48 @@ On Linux : # sudo apt-get install avr-libc binutils-avr gcc-avr avrdude
 On Mac OS X : 
 
 * Install the command line tools from XCode (menu > preferences > downloads)
-* Get AVR from http://www.obdev.at/products/crosspack/download.html (will take 200 Mb on your hard drive)
-* Export the right paths for the makefile (this will get an update) : 
+* Get the [CrossAVR pack] (http://www.obdev.at/products/crosspack/download.html) (will take 200 Mb on your hard drive)
 
-<pre>
-export AVRPACK_HOME=/usr/local/CrossPack-AVR
+Change the following environment variables
+```
+export AVRPACK_HOME=/your/crosspack/install/path
 export AVR_TOOLS_PATH=$AVRPACK_HOME/bin/
 export AVR_LIB_PATH=$AVRPACK_HOME/avr
 export AVRDUDE_PATH=$AVRPACK_HOME/bin/
 export AVRDUDE_CONF=$AVRPACK_HOME/etc/avrdude.conf
-</pre>
+```
 
-Use the program on your board
+On Windows : 
+
+* Download [WinAVR] (http://sourceforge.net/projects/winavr) (install it at an easy path)
+
+Change the following environment variables (in bashrc if you use cygwin or mintty) :  
+```
+ export AVRPACK_HOME=/your/winavr/install/path  
+ export AVR_TOOLS_PATH=$AVRPACK_HOME/bin/  
+export AVR_LIB_PATH=$AVRPACK_HOME/avr  
+export AVRDUDE_PATH=$AVRPACK_HOME/bin/  
+export AVRDUDE_CONF=$AVRPACK_HOME/bin/avrdude.conf
+``` 
+
+
+Build and deploy the program on your board
 =================
 
-Go to the 'program' folder
+Go to the 'program' folder  
+Create a new configuration file based on config.cpp file  
 
-Create a new configuration file based on config.cpp file
-
-# make MCU=atmega1280 CONFIG=YOUR_BOARD_CONFIGURATION_FILE.cpp clean upload
-
-with hmac security :
-
-# make MCU=atmega1280 CONFIG=YOUR_BOARD_CONFIGURATION_FILE.cpp FEATURE=-DHMAC clean upload
+Then run the following command :   
+```
+make MCU=atmega1280 CONFIG=YOUR_BOARD_CONFIGURATION_FILE.cpp clean upload
+```  
+Or with hmac security :  
+```
+make MCU=atmega1280 CONFIG=YOUR_BOARD_CONFIGURATION_FILE.cpp FEATURE=-DHMAC clean upload
+```
+Available goals for the Makefile
+================
+clean, package, upload
 
 Code verification with board
 ============================
@@ -69,7 +88,9 @@ to test it yourself :
 - wire a board like the schema 'it/wiring/TestBoardWiring.fzz' (open it with http://fritzing.org/) 
 - plug the board to the network (for tests) and the usb (to program the board)
 - run the command and replace the type of board AND the ip address with a free one in your network :
-   # MCU=atmega1280 mvn -Dboard.host=192.168.42.244 -Dboard.port=80 -Dboard.path=/ -Pboard clean verify
+```
+MCU=atmega1280 mvn -Dboard.host=192.168.42.244 -Dboard.port=80 -Dboard.path=/ -Pboard clean verify
+```
 
 Resources 
 =========
@@ -98,4 +119,3 @@ TODO
 - dns ?
 - fit in 328p (almost done)
 - constrain between pins
-
