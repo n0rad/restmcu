@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import net.awired.ajsl.core.lang.Pair;
 import net.awired.ajsl.core.lang.exception.NotFoundException;
 import net.awired.ajsl.core.lang.exception.UpdateException;
 import net.awired.restmcu.api.domain.line.RestMcuLine;
 import net.awired.restmcu.api.domain.line.RestMcuLineSettings;
 import net.awired.restmcu.api.resource.client.RestMcuLineResource;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class LatchLineResource implements RestMcuLineResource {
 
@@ -50,7 +51,7 @@ public class LatchLineResource implements RestMcuLineResource {
         if (!lineInfo.valueLatch.await(10, TimeUnit.SECONDS)) {
             throw new RuntimeException("Countdown timeout");
         }
-        return new Pair<Float, Date>(lineInfo.value, lineInfo.dateLatch);
+        return new ImmutablePair<Float, Date>(lineInfo.value, lineInfo.dateLatch);
     }
 
     @Override

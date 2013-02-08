@@ -1,6 +1,6 @@
 package net.awired.restmcu.api.filter;
 
-import net.awired.ajsl.web.resource.filter.AjslFilterUtils;
+import net.awired.ajsl.ws.resource.filter.AjslFilterUtils;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;

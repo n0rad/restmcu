@@ -1,7 +1,7 @@
 package net.awired.restmcu.it;
 
 import java.util.Arrays;
-import net.awired.ajsl.web.rest.RestContext;
+import net.awired.ajsl.ws.rest.RestContext;
 import net.awired.restmcu.it.resource.NotifyResource;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.transport.Destination;

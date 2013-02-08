@@ -28,7 +28,7 @@
 		</dependency>
       <dependency>
             <groupId>net.awired.ajsl</groupId>
-            <artifactId>ajsl-web</artifactId>
+            <artifactId>ajsl-ws</artifactId>
             <version>${ajsl.version}</version>
             <scope>provided</scope>
         </dependency>
