@@ -2,7 +2,7 @@
 
 //Encoder myEnc  = Encoder();
 
-Encoder myEnc(32, 33);
+Encoder myEnc(0, 1);
 
 //Encoder *myEnc;
 //myEnc = new Encoder(pgm_read_byte(&params[0]), pgm_read_byte(&params[1]));

@@ -26,7 +26,7 @@ const t_boardDescription boardDescription PROGMEM = {
     "TOTO42" // Hmac key
 };
 t_boardSettings boardSettings EEMEM = {
-	{192, 168, 32, 244},          // ip
+	{192, 168, 42, 244},          // ip
 	80,                           // port
 	"window1 controller",         // name
 	"http://192.168.42.12:6786"  // notify url

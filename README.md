@@ -80,6 +80,13 @@ Available goals for the Makefile
 ================
 clean, package, upload
 
+
+Well known board
+================
+
+Arduino 2560 : make PORT=/dev/ttyACM0 MCU=atmega2560 UPLOAD_RATE=115200 AVRDUDE_PROGRAMMER=stk500v2 CONFIG=myconfig.cpp clean upload
+
+
 Code verification with board
 ============================
 

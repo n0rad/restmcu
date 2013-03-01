@@ -86,9 +86,9 @@ CXX_APP +=  src/driver/hardware/network-w5100.cpp \
 ifndef AVR_TOOLS_PATH
 	AVR_TOOLS_PATH=/usr/bin/
 endif
-ifndef AVRDUDE_PATH
-	AVRDUDE_PATH=$(INSTALL_DIR)/hardware/tools/
-endif 
+#ifndef AVRDUDE_PATH
+#	AVRDUDE_PATH=$(INSTALL_DIR)/hardware/tools/
+#endif 
 ifndef AVR_LIB_PATH
 	AVR_LIB_PATH=/usr/lib/avr
 endif 
