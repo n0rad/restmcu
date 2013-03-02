@@ -1,2 +1,0 @@
-lib/arduino/hardware/arduino/cores/arduino/Print.cpp: In member function ‘size_t Print::print(const __FlashStringHelper*)’:
-lib/arduino/hardware/arduino/cores/arduino/Print.cpp:44:23: warning: ‘__progmem__’ attribute ignored [-Wattributes]

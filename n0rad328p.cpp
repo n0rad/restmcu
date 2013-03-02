@@ -10,7 +10,7 @@ void fillHmacMessage(unsigned long time) {
 
 
 const t_boardDescription boardDescription PROGMEM = {
-    {0x54, 0x55, 0x58, 0x10, 0x00, 0xF5},           // mac
+    {0x54, 0x55, 0x58, 0x10, 0x01, 0xF7},           // mac
     "window in front of the house not powered from POE but only by a transfo",   // description
     "TOTO42" // Hmac key
 };
@@ -22,9 +22,11 @@ t_boardSettings boardSettings EEMEM = {
 };
 
 const t_lineInputDescription lineInputDescription[] PROGMEM = {
+        {54, ANALOG, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "tmp36 temperature sensor"},
         {-1}
 };
 t_lineInputSettings lineInputSettings[] EEMEM = {
+        {"living temperature", {{0, 500},{0, 100},{0,300},{0,200}}},
 };
 
 //////////////
