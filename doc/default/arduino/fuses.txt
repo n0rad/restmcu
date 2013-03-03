@@ -1,11 +1,7 @@
-Read fuses must be done with an IPS programmer since the bootloader cannot access fuses.
+Read fuses must be done with an ICPS programmer since the bootloader cannot access fuses.
 
 read fuses :
 # avrdude -C /etc/avrdude.conf -p atmega2560 -P /dev/ttyUSB0 -c stk500v2 -b 115200 -U lfuse:r:low:r -U hfuse:r:high:r -U efuse:r:extended:r
 
 write high fuse : 
 # avrdude -C /etc/avrdude.conf -p atmega2560 -P /dev/ttyUSB0 -c stk500v2 -b 115200 -U hfuse:w:0xD0:m
-
-
-
-/DEV-ENV/bin/arduino-1.0.1/hardware/tools/avrdude -C/DEV-ENV/bin/arduino-1.0.1/hardware/tools/avrdude.conf -v -v -v -v -patmega2560 -cstk500v2 -P/dev/ttyUSB0 -e -Ulock:w:0x3F:m -Uefuse:w:0xFD:m -Uhfuse:w:0xD8:m -Ulfuse:w:0xFF:m

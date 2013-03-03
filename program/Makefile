@@ -148,7 +148,7 @@ AVRDUDE_PORT = $(PORT)
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
-AVRDUDE_FLAGS = -V -F -C $(AVRDUDE_CONF) -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) -b $(UPLOAD_RATE) -D
+AVRDUDE_FLAGS = -C $(AVRDUDE_CONF) -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) -b $(UPLOAD_RATE) -D
 
 # Program settings
 CC = $(AVR_TOOLS_PATH)avr-gcc
@@ -266,7 +266,7 @@ extcoff: $(TARGET).elf
 $(TARGET).elf: target/core.a
 	#cd check; make clean all && ./restmcu-check # TODO should move somewhere else without breaking upload (no compile)
 	@echo "Linking   ${GREEN} $@ ${WHITE}"
-	$(LD) $(ALL_LDFLAGS) -o $@ -L. target/core.a $(AVR_LIB_PATH)/lib/avr5/libc.a  target/core.a
+	$(LD) $(ALL_LDFLAGS) -o $@ -L. target/core.a $(AVR_LIB_PATH)/lib/avr6/libc.a  target/core.a
 
 target/core.a: $(OBJ)
 	@for i in $(OBJ); do echo $(AR) rcs target/core.a $$i; $(AR) rcs target/core.a $$i; done

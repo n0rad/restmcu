@@ -22,7 +22,7 @@ t_boardSettings boardSettings EEMEM = {
 };
 
 const t_lineInputDescription lineInputDescription[] PROGMEM = {
-        {54, ANALOG, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "tmp36 temperature sensor"},
+        {14, ANALOG, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "tmp36 temperature sensor"},
         {-1}
 };
 t_lineInputSettings lineInputSettings[] EEMEM = {
@@ -32,9 +32,9 @@ t_lineInputSettings lineInputSettings[] EEMEM = {
 //////////////
 
 const t_lineOutputDescription lineOutputDescription[] PROGMEM = {
-        {3, ANALOG, 0, 255, defaultOutputLineInit, noOutputConversion, defaultLineWrite, "red led"},
+        {3, DIGITAL, 0, 1, defaultOutputLineInit, noOutputConversion, defaultLineWrite, "red led"},
         {-1}
 };
 t_lineOutputSettings lineOutputSettings[] EEMEM = {
-    {"red", 10},
+    {"red", 1},
 };

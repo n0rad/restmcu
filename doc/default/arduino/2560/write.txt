@@ -1,0 +1,3 @@
+# WRITE BOOTLOADER WITH ICSP
+avrdude -C/DEV-ENV/bin/arduino-1.0.1/hardware/tools/avrdude.conf -v -v -v -v -patmega2560 -cstk500v2 -P/dev/ttyUSB0 -e -Ulock:w:0x3F:m -Uefuse:w:0xFD:m -Uhfuse:w:0xD8:m -Ulfuse:w:0xFF:m
+avrdude -C/DEV-ENV/bin/arduino-1.0.1/hardware/tools/avrdude.conf -patmega2560 -cstk500v2 -P/dev/ttyUSB0 -e -Uflash:w:stk500boot_v2_mega2560.hex:i -Ulock:w:0x0f:m
