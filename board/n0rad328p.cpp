@@ -11,14 +11,14 @@ void fillHmacMessage(unsigned long time) {
 
 const t_boardDescription boardDescription PROGMEM = {
     {0x54, 0x55, 0x58, 0x10, 0x01, 0xF7},           // mac
-    "window in front of the house not powered from POE but only by a transfo",   // description
+    "arduino ethernet board",   // description
     "TOTO42" // Hmac key
 };
 t_boardSettings boardSettings EEMEM = {
 	{192, 168, 88, 20},          // ip
 	80,                           // port
-	"window1 controller",         // name
-	"http://192.168.42.12:6786"  // notify url
+	"window ctrl",         // name
+	"http://192.168.88.11:6786"  // notify url
 };
 
 const t_lineInputDescription lineInputDescription[] PROGMEM = {

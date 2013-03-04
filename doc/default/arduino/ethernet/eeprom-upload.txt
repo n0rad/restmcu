@@ -1,0 +1,9 @@
+Write bootloader with ICSP
+# avrdude -C /etc/avrdude.conf -p atmega328p -P /dev/ttyUSB0 -c stk500v2 -b 115200 -U flash:w:flash-blink-with-bootloader.hex -Ulock:w:0x0f:m
+
+
+Write eeprom with ICSP
+# avrdude -C /etc/avrdude.conf -p atmega328p -P /dev/ttyUSB0 -c stk500v2 -b 115200 -D -U eeprom:w:target/restmcu.eep
+
+Write program with bootloader (it seems that writing program without bootloader does not work on my board because of fail on verif)
+# avrdude -C /etc/avrdude.conf -p atmega328p -P /dev/ttyACM0 -c arduino -b 115200 -U flash:w:target/restmcu.hex

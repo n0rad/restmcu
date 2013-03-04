@@ -25,22 +25,18 @@ EthernetClient sendClient;
 uint16_t readHttpFrame(EthernetClient client) {
 	uint16_t size = 0;
 
-//	while (client.connected()) {
-	if (client.available()) {
-		size = client.read((uint8_t *) buf, BUFFER_SIZE);
-		buf[size] = 0;
+    size = client.read((uint8_t *) buf, BUFFER_SIZE);
+    buf[size] = 0;
 
-		char *found = strstr_P((char *) buf, PSTR("Content-Length: "));
-		if (found == 0) {
-			return size; // no length so we stop here
-		}
-		int contentLength = atoi(&found[16]);
-		size_t contentPos = strlen(&strstr_P(found, DOUBLE_ENDL)[4]);
-		if (contentPos < contentLength) {
-			size += client.read((uint8_t *) &buf[size], contentLength - contentPos);
-		}
-	}
-//	}
+    char *found = strstr_P((char *) buf, PSTR("Content-Length: "));
+    if (found == 0) {
+        return size; // no length so we stop here
+    }
+    int contentLength = atoi(&found[16]);
+    size_t contentPos = strlen(&strstr_P(found, DOUBLE_ENDL)[4]);
+    if (contentPos < contentLength) {
+        size += client.read((uint8_t *) &buf[size], contentLength - contentPos);
+    }
 	return size;
 }
 
@@ -88,19 +84,23 @@ void networkManage() {
 	}
 
 	EthernetClient client = server.available();
-	if (client) {
-		size = readHttpFrame(client);
+    if (client) {
+        while (client.connected()) {
+            if (client.available()) {
+                size = readHttpFrame(client);
 
-		if (size > 0) {
-			buf[size] = 0;
-			size = handleWebRequest((char *) buf, 0, size);
-			buf[size] = 0;
-			client.println((const char *) buf);
-		}
+                if (size > 0) {
+                    buf[size] = 0;
+                    size = handleWebRequest((char *) buf, 0, size);
+                    buf[size] = 0;
+                    client.println((const char *) buf);
+                }
 
-//		delay(1);
-		client.stop();
-	}
+                delay(1);
+                client.stop();
+            }
+        }
+    }
 	if (needReboot) {
 		resetFunc();
 	}

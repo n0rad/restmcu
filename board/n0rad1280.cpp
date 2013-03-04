@@ -7,6 +7,10 @@ float tmp36CelciusConversion(uint16_t value) {
 	voltage /= 1024.0;
 	return (voltage - 0.5) * 100;
 }
+float lm35CelciusConversion(uint16_t value) {
+    return (4.88 * value * 100.0) / 1024.0;
+}
+
 uint16_t sepcdefaultLineRead(uint8_t lineId, uint8_t type) {
 	return analogRead(0);
 }
@@ -29,7 +33,7 @@ t_boardSettings boardSettings EEMEM = {
 	{192, 168, 88, 21},          // ip
 	80,                           // port
 	"window1 controller",         // name
-	"http://192.168.42.12:6786"  // notify url
+	"http://192.168.88.11:6786"  // notify url
 };
 
 const int8_t PROGMEM rotary[] PROGMEM = {0, 1};
@@ -42,7 +46,7 @@ const int8_t PROGMEM debounced1[] PROGMEM = {1};
 const int8_t PROGMEM debounced2[] PROGMEM = {2};
 
 const t_lineInputDescription lineInputDescription[] PROGMEM = {
-        {54, ANALOG, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "tmp36 temperature sensor"},
+        {54, ANALOG, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "lm35 temperature sensor"},
         {55, ANALOG, 1, defaultInputLineInit, noInputConversion, defaultLineRead, "sample photoresistor on pullup"},
         {56, DIGITAL, 1, defaultInputLineInit, digitalReversedConversion, debouncedLineRead, "rotary push button with internal pullup", debounced2},
         {57, DIGITAL, 1, defaultInputLineInit, digitalReversedConversion, debouncedLineRead, "red push button with internal pullup", debounced0},
@@ -65,7 +69,7 @@ t_lineInputSettings lineInputSettings[] EEMEM = {
 //////////////
 
 const t_lineOutputDescription lineOutputDescription[] PROGMEM = {
-        {3, ANALOG, 0, 255, defaultOutputLineInit, noOutputConversion, defaultLineWrite, "red led"},
+        {3, DIGITAL, 0, 1, defaultOutputLineInit, noOutputConversion, defaultLineWrite, "red led"},
         {5, ANALOG, 0, 255, defaultOutputLineInit, noOutputConversion, defaultLineWrite, "led 3 color red"},
         {6, ANALOG, 0, 255, defaultOutputLineInit, noOutputConversion, defaultLineWrite, "led 3 color green"},
         {9, ANALOG, 0, 255, defaultOutputLineInit, noOutputConversion, defaultLineWrite, "led 3 color blue"},
@@ -81,7 +85,7 @@ const t_lineOutputDescription lineOutputDescription[] PROGMEM = {
         {-1}
 };
 t_lineOutputSettings lineOutputSettings[] EEMEM = {
-    {"smallred", 10},
+    {"smallred", 0},
     {"red", 10},
     {"green", 10},
     {"blue", 10},

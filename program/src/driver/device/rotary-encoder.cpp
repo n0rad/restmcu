@@ -22,11 +22,11 @@ uint16_t rotaryEncoderLineRead(uint8_t lineId, uint8_t type, int8_t PROGMEM para
      newLeft = myEnc.read();
      newRight = myEnc.read();
      if (newLeft != positionLeft || newRight != positionRight) {
-       Serial.print("Left = ");
-       Serial.print(newLeft);
-       Serial.print(", Right = ");
-       Serial.print(newRight);
-       Serial.println();
+//       Serial.print("Left = ");
+//       Serial.print(newLeft);
+//       Serial.print(", Right = ");
+//       Serial.print(newRight);
+//       Serial.println();
        positionLeft = newLeft;
        positionRight = newRight;
      }

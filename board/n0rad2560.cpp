@@ -29,7 +29,7 @@ t_boardSettings boardSettings EEMEM = {
 	{192, 168, 88, 22},          // ip
 	80,                           // port
 	"window1 controller",         // name
-	"http://192.168.42.12:6786"  // notify url
+	"http://192.168.88.11:6786"  // notify url
 };
 
 const int8_t PROGMEM rotary[] PROGMEM = {0, 1};

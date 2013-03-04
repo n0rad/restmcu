@@ -19,10 +19,6 @@ int main() {
     Serial.begin(9600);
 #endif
 
-//    srandom(42);
-//    random();
-//    millis();
-
     settingsLoad();
 
 	settingsBoardGetIP(srvIp);
