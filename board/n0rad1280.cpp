@@ -8,20 +8,21 @@ float tmp36CelciusConversion(uint16_t value) {
 	return (voltage - 0.5) * 100;
 }
 float lm35CelciusConversion(uint16_t value) {
-    return (4.88 * value * 100.0) / 1024.0;
-}
-
-uint16_t sepcdefaultLineRead(uint8_t lineId, uint8_t type) {
-	return analogRead(0);
-}
-uint16_t lumdefaultLineRead(uint8_t lineId, uint8_t type) {
-	return analogRead(1);
+    int tempPin = (5.0 * value * 100.0) / 1024.0;
+    return tempPin;
 }
 
 void fillHmacMessage(unsigned long time) {
 	Sha1.print(time);
 	Sha1.print("MESSAGE");
 }
+
+uint16_t stableLineRead(uint8_t lineId, uint8_t type, int8_t PROGMEM params[]) {
+    defaultLineRead(lineId, type, params);
+    delay(10);
+    return defaultLineRead(lineId, type, params);
+}
+
 
 
 const t_boardDescription boardDescription PROGMEM = {
@@ -46,13 +47,13 @@ const int8_t PROGMEM debounced1[] PROGMEM = {1};
 const int8_t PROGMEM debounced2[] PROGMEM = {2};
 
 const t_lineInputDescription lineInputDescription[] PROGMEM = {
-        {54, ANALOG, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "lm35 temperature sensor"},
+        {54, ANALOG, 0, defaultInputLineInit, lm35CelciusConversion, stableLineRead, "lm35 temperature sensor"},
         {55, ANALOG, 1, defaultInputLineInit, noInputConversion, defaultLineRead, "sample photoresistor on pullup"},
         {56, DIGITAL, 1, defaultInputLineInit, digitalReversedConversion, debouncedLineRead, "rotary push button with internal pullup", debounced2},
         {57, DIGITAL, 1, defaultInputLineInit, digitalReversedConversion, debouncedLineRead, "red push button with internal pullup", debounced0},
         {100, DIGITAL, 0, rotaryEncoderLineInit, noInputConversion, rotaryEncoderLineRead, "rotary encoder", rotary},
 //        {25, DIGITAL, 1, defaultInputLineInit, digitalReversedConversion, debouncedLineRead, "black push button with internal pullup", debounced1},
-//        {18, DIGITAL, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "pir motion sensor with pullup"},
+        {21, DIGITAL, 0, defaultInputLineInit, noInputConversion, defaultLineRead, "pir motion sensor with pullup"},
         {-1}
 };
 t_lineInputSettings lineInputSettings[] EEMEM = {
