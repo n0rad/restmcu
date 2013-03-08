@@ -5,7 +5,9 @@ import java.util.concurrent.TimeUnit;
 import net.awired.ajsl.core.lang.exception.UpdateException;
 import net.awired.ajsl.ws.rest.RestContext;
 import net.awired.restmcu.api.domain.board.RestMcuBoard;
+import net.awired.restmcu.api.domain.board.RestMcuBoardNotification;
 import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
+import net.awired.restmcu.api.domain.line.RestMcuLineNotification;
 import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
 import net.awired.restmcu.api.resource.server.RestMcuNotifyResource;
 import com.google.common.base.Preconditions;
@@ -21,9 +23,18 @@ public class LatchBoardResource implements RestMcuBoardResource {
         setLatch = new CountDownLatch(1);
     }
 
-    public RestMcuNotifyResource buildNotifyProxyFromNotifyUrl() {
+    public void sendNotif(RestMcuLineNotification notif) {
         Preconditions.checkNotNull(boardSettings.getNotifyUrl(), "notification url is mandatory");
-        return new RestContext().prepareClient(RestMcuNotifyResource.class, boardSettings.getNotifyUrl(), null, true);
+        RestMcuNotifyResource client = new RestContext().prepareClient(RestMcuNotifyResource.class,
+                boardSettings.getNotifyUrl(), null, true);
+        client.lineNotification(notif);
+    }
+
+    public void sendNotif(RestMcuBoardNotification notif) {
+        Preconditions.checkNotNull(boardSettings.getNotifyUrl(), "notification url is mandatory");
+        RestMcuNotifyResource client = new RestContext().prepareClient(RestMcuNotifyResource.class,
+                boardSettings.getNotifyUrl(), null, true);
+        client.boardNotification(notif);
     }
 
     public RestMcuBoardSettings awaitUpdateSettings() throws InterruptedException {

@@ -17,8 +17,10 @@ public class BoardNotifyIT {
     @Rule
     public RestmcuTestRule restmcu = new RestmcuTestRule();
 
+    private NotifyResource notifyResource = new NotifyResource();
+
     @Rule
-    public RestServerRule notifyRule = new RestServerRule("http://0.0.0.0:5879", NotifyResource.class);
+    public RestServerRule notifyRule = new RestServerRule("http://0.0.0.0:5879", notifyResource);
 
     @Test
     public void should_notify_server() throws Exception {
@@ -29,7 +31,7 @@ public class BoardNotifyIT {
 
         restmcu.getBoardResource().runNotify();
 
-        List<RestMcuBoardNotification> awaitBoard = notifyRule.getResource(NotifyResource.class).awaitBoard();
+        List<RestMcuBoardNotification> awaitBoard = notifyResource.awaitBoard();
         assertEquals(1, awaitBoard.size());
 
         assertEquals(RestMcuBoardNotificationType.TEST, awaitBoard.get(0).getType());
@@ -38,7 +40,7 @@ public class BoardNotifyIT {
     @Before
     public void before() throws Exception {
         Thread.sleep(60 * 1000);
-        notifyRule.getResource(NotifyResource.class).resetLatch();
+        notifyResource.resetLatch();
     }
 
 }

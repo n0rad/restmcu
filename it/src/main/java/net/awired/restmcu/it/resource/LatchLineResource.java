@@ -15,43 +15,36 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class LatchLineResource implements RestMcuLineResource {
 
-    public static class LineInfo {
-        public RestMcuLineSettings settings;
-        public RestMcuLine description;
-        public float value;
-        public Date dateLatch;
-        public CountDownLatch valueLatch = new CountDownLatch(1);
+    private Map<Integer, LineInfo> lines = new HashMap<Integer, LineInfo>();
+
+    public LatchLineResource addLine(LineInfo lineInfo) {
+        lines.put(lineInfo.getLineId(), lineInfo);
+        return this;
     }
 
-    public Map<Integer, LineInfo> lines = new HashMap<Integer, LatchLineResource.LineInfo>();
-
-    public void line(int lineId, LineInfo lineInfo) {
-        lines.put(lineId, lineInfo);
-    }
-
-    public LineInfo line(int lineId) {
+    public LineInfo lineInfo(int lineId) {
         return lines.get(lineId);
     }
 
     public void resetValueLatch(int lineId) {
-        lines.get(lineId).valueLatch = new CountDownLatch(1);
-        lines.get(lineId).dateLatch = null;
+        lines.get(lineId).setValueLatch(new CountDownLatch(1));
+        lines.get(lineId).setDateLatch(null);
     }
 
     public float awaitLineValue(int lineId) throws InterruptedException {
         LineInfo lineInfo = lines.get(lineId);
-        if (!lineInfo.valueLatch.await(10, TimeUnit.SECONDS)) {
+        if (!lineInfo.getValueLatch().await(10, TimeUnit.SECONDS)) {
             throw new RuntimeException("Countdown timeout");
         }
-        return lineInfo.value;
+        return lineInfo.getValue();
     }
 
     public Pair<Float, Date> awaitLineValueAndDate(int lineId) throws InterruptedException {
         LineInfo lineInfo = lines.get(lineId);
-        if (!lineInfo.valueLatch.await(10, TimeUnit.SECONDS)) {
+        if (!lineInfo.getValueLatch().await(10, TimeUnit.SECONDS)) {
             throw new RuntimeException("Countdown timeout");
         }
-        return new ImmutablePair<Float, Date>(lineInfo.value, lineInfo.dateLatch);
+        return new ImmutablePair<Float, Date>(lineInfo.getValue(), lineInfo.getDateLatch());
     }
 
     @Override
@@ -60,7 +53,7 @@ public class LatchLineResource implements RestMcuLineResource {
         if (lineInfo == null) {
             throw new NotFoundException("line not found" + lineId);
         }
-        return lineInfo.description;
+        return lineInfo.getDescription();
     }
 
     @Override
@@ -69,7 +62,7 @@ public class LatchLineResource implements RestMcuLineResource {
         if (lineInfo == null) {
             throw new NotFoundException("line not found" + lineId);
         }
-        return lineInfo.settings;
+        return lineInfo.getSettings();
     }
 
     @Override
@@ -81,11 +74,11 @@ public class LatchLineResource implements RestMcuLineResource {
         }
 
         if (lineSettings.getName() != null) {
-            lineInfo.settings.setName(lineSettings.getName());
+            lineInfo.getSettings().setName(lineSettings.getName());
         }
 
         if (lineSettings.getNotifies() != null) {
-            lineInfo.settings.setNotifies(lineSettings.getNotifies());
+            lineInfo.getSettings().setNotifies(lineSettings.getNotifies());
         }
     }
 
@@ -95,7 +88,7 @@ public class LatchLineResource implements RestMcuLineResource {
         if (lineInfo == null) {
             throw new NotFoundException("line not found" + lineId);
         }
-        return lineInfo.value;
+        return lineInfo.getValue();
     }
 
     @Override
@@ -104,9 +97,9 @@ public class LatchLineResource implements RestMcuLineResource {
         if (lineInfo == null) {
             throw new NotFoundException("line not found" + lineId);
         }
-        lineInfo.value = value;
-        lineInfo.dateLatch = new Date();
-        lineInfo.valueLatch.countDown();
+        lineInfo.setValue(value);
+        lineInfo.setDateLatch(new Date());
+        lineInfo.getValueLatch().countDown();
     }
 
 }

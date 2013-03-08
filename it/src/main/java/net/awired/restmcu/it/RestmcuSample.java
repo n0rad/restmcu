@@ -13,7 +13,7 @@ import net.awired.restmcu.api.domain.line.RestMcuLineSettings;
 import net.awired.restmcu.api.domain.line.RestMcuLineType;
 import net.awired.restmcu.it.resource.EmulatorBoardResource;
 import net.awired.restmcu.it.resource.EmulatorLineResource;
-import net.awired.restmcu.it.resource.LatchLineResource.LineInfo;
+import net.awired.restmcu.it.resource.LineInfo;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.transport.Destination;
 import org.apache.cxf.transport.http_jetty.JettyHTTPDestination;
@@ -35,7 +35,7 @@ public class RestmcuSample {
         board.boardSettings.setNotifyUrl("NOTSETYET");
 
         EmulatorLineResource line = new EmulatorLineResource(board);
-        line.lines.put(5, fillPin());
+        line.addLine(fillPin());
 
         String listenAddress = "http://" + board.boardSettings.getIp() + ":" + board.boardSettings.getPort();
         server = new RestContext().prepareServer(listenAddress, Arrays.asList(board, line));
@@ -49,22 +49,21 @@ public class RestmcuSample {
     }
 
     public LineInfo fillPin() {
-        LineInfo line = new LineInfo();
-        line.value = 42;
-        line.description = new RestMcuLine();
-        line.description.setDescription("pin 42 description");
-        line.description.setDirection(RestMcuLineDirection.INPUT);
-        line.description.setType(RestMcuLineType.ANALOG);
-        line.description.setValueMax(1024f);
-        line.description.setValueMin(0f);
+        LineInfo line = new LineInfo(42);
+        line.setDescription(new RestMcuLine());
+        line.getDescription().setDescription("pin 42 description");
+        line.getDescription().setDirection(RestMcuLineDirection.INPUT);
+        line.getDescription().setType(RestMcuLineType.ANALOG);
+        line.getDescription().setValueMax(1024f);
+        line.getDescription().setValueMin(0f);
 
-        line.settings = new RestMcuLineSettings();
-        line.settings.setName("name of pin");
+        line.setSettings(new RestMcuLineSettings());
+        line.getSettings().setName("name of pin");
         List<RestMcuLineNotify> notifies = new ArrayList<RestMcuLineNotify>();
         notifies.add(new RestMcuLineNotify(SUP_OR_EQUAL, 42));
         notifies.add(new RestMcuLineNotify(INF_OR_EQUAL, 42));
 
-        line.settings.setNotifies(notifies);
+        line.getSettings().setNotifies(notifies);
 
         return line;
     }

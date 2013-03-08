@@ -3,20 +3,29 @@ package net.awired.restmcu.it.builder;
 import net.awired.restmcu.api.domain.line.RestMcuLine;
 import net.awired.restmcu.api.domain.line.RestMcuLineDirection;
 import net.awired.restmcu.api.domain.line.RestMcuLineSettings;
-import net.awired.restmcu.it.resource.LatchLineResource.LineInfo;
+import net.awired.restmcu.it.resource.LineInfo;
 
 public class LineInfoBuilder {
+    private final Integer id;
     private String name;
     private float value;
     private RestMcuLineDirection direction;
 
+    public static LineInfoBuilder line(Integer id) {
+        return new LineInfoBuilder(id);
+    }
+
+    public LineInfoBuilder(Integer id) {
+        this.id = id;
+    }
+
     public LineInfo build() {
-        LineInfo pinInfo = new LineInfo();
-        pinInfo.description = new RestMcuLine();
-        pinInfo.settings = new RestMcuLineSettings();
-        pinInfo.value = value;
-        pinInfo.settings.setName(name);
-        pinInfo.description.setDirection(direction);
+        LineInfo pinInfo = new LineInfo(id);
+        pinInfo.setDescription(new RestMcuLine());
+        pinInfo.setSettings(new RestMcuLineSettings());
+        pinInfo.setValue(value);
+        pinInfo.getSettings().setName(name);
+        pinInfo.getDescription().setDirection(direction);
         return pinInfo;
     }
 

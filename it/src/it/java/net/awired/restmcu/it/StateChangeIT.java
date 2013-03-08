@@ -20,8 +20,10 @@ public class StateChangeIT {
     @Rule
     public RestmcuTestRule restmcu = new RestmcuTestRule();
 
+    private NotifyResource notifyResource = new NotifyResource();
+
     @Rule
-    public RestServerRule notifyRule = new RestServerRule("http://0.0.0.0:5879", NotifyResource.class);
+    public RestServerRule notifyRule = new RestServerRule("http://0.0.0.0:5879", notifyResource);
 
     @Test
     public void should_notify_on_state_change() throws Exception {
@@ -37,8 +39,7 @@ public class StateChangeIT {
 
         lineResource.setLineValue(9, 1f);
 
-        RestMcuLineNotification restMcuLineNotification = notifyRule.getResource(NotifyResource.class).awaitLine()
-                .get(0);
+        RestMcuLineNotification restMcuLineNotification = notifyResource.awaitLine().get(0);
         assertEquals(54, restMcuLineNotification.getId());
         assertEquals(new RestMcuLineNotify(RestMcuLineNotifyCondition.SUP_OR_EQUAL, 1f),
                 restMcuLineNotification.getNotify());
@@ -51,6 +52,6 @@ public class StateChangeIT {
     @Before
     public void before() throws Exception {
         Thread.sleep(60 * 1000);
-        notifyRule.getResource(NotifyResource.class).resetLatch();
+        notifyResource.resetLatch();
     }
 }
