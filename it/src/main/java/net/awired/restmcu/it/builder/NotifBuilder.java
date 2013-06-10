@@ -7,7 +7,6 @@ import net.awired.restmcu.it.resource.LineInfo;
 
 public class NotifBuilder {
 
-    private String source;
     private float value;
     private float oldValue;
     private Integer lineId;
@@ -16,6 +15,12 @@ public class NotifBuilder {
 
     public static NotifBuilder notif() {
         return new NotifBuilder();
+    }
+
+    public static NotifBuilder notif(LineInfo lineInfo) {
+        NotifBuilder notifBuilder = new NotifBuilder();
+        notifBuilder.line(lineInfo);
+        return notifBuilder;
     }
 
     public RestMcuLineNotification build() {
@@ -27,7 +32,6 @@ public class NotifBuilder {
             pinNotif.setId(lineId);
             pinNotif.setOldValue(oldValue);
         }
-        pinNotif.setSource(source);
         pinNotif.setValue(value);
         pinNotif.setNotify(notify);
         return pinNotif;
@@ -35,11 +39,6 @@ public class NotifBuilder {
 
     public NotifBuilder line(LineInfo lineInfo) {
         this.lineInfo = lineInfo;
-        return this;
-    }
-
-    public NotifBuilder source(String source) {
-        this.source = source;
         return this;
     }
 

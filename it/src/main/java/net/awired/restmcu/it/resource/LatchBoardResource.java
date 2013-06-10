@@ -3,7 +3,7 @@ package net.awired.restmcu.it.resource;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import net.awired.ajsl.core.lang.exception.UpdateException;
-import net.awired.ajsl.ws.rest.RestContext;
+import net.awired.ajsl.ws.rest.RestBuilder;
 import net.awired.restmcu.api.domain.board.RestMcuBoard;
 import net.awired.restmcu.api.domain.board.RestMcuBoardNotification;
 import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
@@ -18,22 +18,30 @@ public class LatchBoardResource implements RestMcuBoardResource {
     public final RestMcuBoardSettings boardSettings = new RestMcuBoardSettings();
 
     private CountDownLatch setLatch = new CountDownLatch(1);
+    private final String source;
+
+    public LatchBoardResource(String source) {
+        this.source = source;
+    }
 
     public void resetLatch() {
         setLatch = new CountDownLatch(1);
     }
 
     public void sendNotif(RestMcuLineNotification notif) {
+        if (notif.getSource() == null) {
+            notif.setSource(source);
+        }
         Preconditions.checkNotNull(boardSettings.getNotifyUrl(), "notification url is mandatory");
-        RestMcuNotifyResource client = new RestContext().prepareClient(RestMcuNotifyResource.class,
-                boardSettings.getNotifyUrl(), null, true);
+        RestMcuNotifyResource client = new RestBuilder().buildClient(RestMcuNotifyResource.class,
+                boardSettings.getNotifyUrl());
         client.lineNotification(notif);
     }
 
     public void sendNotif(RestMcuBoardNotification notif) {
         Preconditions.checkNotNull(boardSettings.getNotifyUrl(), "notification url is mandatory");
-        RestMcuNotifyResource client = new RestContext().prepareClient(RestMcuNotifyResource.class,
-                boardSettings.getNotifyUrl(), null, true);
+        RestMcuNotifyResource client = new RestBuilder().buildClient(RestMcuNotifyResource.class,
+                boardSettings.getNotifyUrl());
         client.boardNotification(notif);
     }
 

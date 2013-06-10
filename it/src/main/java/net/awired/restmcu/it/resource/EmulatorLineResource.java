@@ -1,9 +1,9 @@
 package net.awired.restmcu.it.resource;
 
+import static net.awired.restmcu.it.builder.NotifBuilder.notif;
 import net.awired.ajsl.core.lang.exception.NotFoundException;
 import net.awired.ajsl.core.lang.exception.UpdateException;
 import net.awired.restmcu.api.domain.line.RestMcuLineNotification;
-import net.awired.restmcu.it.builder.NotifBuilder;
 
 public class EmulatorLineResource extends LatchLineResource {
 
@@ -22,8 +22,9 @@ public class EmulatorLineResource extends LatchLineResource {
 
     private void notifyChange(Integer lineId, Float oldValue) {
         String source = boardResource.getBoardSettings().getIp() + ":" + boardResource.getBoardSettings().getPort();
-        RestMcuLineNotification notif = NotifBuilder.notif().lineId(lineId).oldVal(oldValue).source(source)
-                .val(lineInfo(lineId).getValue()).build();
+        RestMcuLineNotification notif = notif().lineId(lineId).oldVal(oldValue).val(lineInfo(lineId).getValue())
+                .build();
+        notif.setSource(source);
         boardResource.sendNotif(notif);
     }
 }

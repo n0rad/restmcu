@@ -1,6 +1,6 @@
 package net.awired.restmcu.it;
 
-import net.awired.ajsl.ws.rest.RestContext;
+import net.awired.ajsl.ws.rest.RestBuilder;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientInInterceptor;
 import net.awired.restmcu.api.filter.RestMcuSecurityClientOutInterceptor;
 import net.awired.restmcu.api.resource.client.RestMcuBoardResource;
@@ -19,13 +19,13 @@ public class RestmcuTestRule extends ExternalResource {
 
     public RestmcuTestRule(String url) {
 
-        RestContext context = new RestContext();
+        RestBuilder context = new RestBuilder();
 
         context.addInInterceptor(new RestMcuSecurityClientInInterceptor(new RestmcuTestSecurityKey()));
         context.addOutInterceptor(new RestMcuSecurityClientOutInterceptor(new RestmcuTestSecurityKey()));
 
-        lineResource = context.prepareClient(RestMcuLineResource.class, url, null, true);
-        boardResource = context.prepareClient(RestMcuBoardResource.class, url, null, true);
+        lineResource = context.buildClient(RestMcuLineResource.class, url);
+        boardResource = context.buildClient(RestMcuBoardResource.class, url);
     }
 
     @Override

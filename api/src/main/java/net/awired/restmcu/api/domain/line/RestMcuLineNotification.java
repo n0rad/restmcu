@@ -19,11 +19,10 @@ public class RestMcuLineNotification {
     public RestMcuLineNotification() {
     }
 
-    public RestMcuLineNotification(int lineId, float oldValue, float value, String source, RestMcuLineNotify notify) {
+    public RestMcuLineNotification(int lineId, float oldValue, float value, RestMcuLineNotify notify) {
         this.lineId = lineId;
         this.oldValue = oldValue;
         this.value = value;
-        this.source = source;
         this.notify = notify;
     }
 

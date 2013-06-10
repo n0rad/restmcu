@@ -1,7 +1,7 @@
 package net.awired.restmcu.it;
 
 import java.util.Arrays;
-import net.awired.ajsl.ws.rest.RestContext;
+import net.awired.ajsl.ws.rest.RestBuilder;
 import net.awired.restmcu.it.resource.NotifyResource;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.transport.Destination;
@@ -15,7 +15,7 @@ public class RestmcuServerSample {
 
     public RestmcuServerSample() {
         NotifyResource notifyResource = new NotifyResource();
-        server = new RestContext().prepareServer("http://0.0.0.0:6786", Arrays.asList(notifyResource));
+        server = new RestBuilder().buildServer("http://0.0.0.0:6786", Arrays.asList(notifyResource));
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
