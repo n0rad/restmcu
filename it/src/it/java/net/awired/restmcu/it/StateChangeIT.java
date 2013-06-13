@@ -2,8 +2,8 @@ package net.awired.restmcu.it;
 
 import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
-import net.awired.ajsl.core.io.NetworkUtils;
-import net.awired.ajsl.test.RestServerRule;
+import net.awired.core.io.NetworkUtils;
+import net.awired.jaxrs.junit.RestServerRule;
 import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
 import net.awired.restmcu.api.domain.line.RestMcuLineNotification;
 import net.awired.restmcu.api.domain.line.RestMcuLineNotify;

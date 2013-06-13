@@ -1,6 +1,6 @@
 package net.awired.restmcu.it;
 
-import net.awired.ajsl.core.lang.exception.NotFoundException;
+import net.awired.core.lang.exception.NotFoundException;
 import net.awired.restmcu.api.domain.line.RestMcuLineSettings;
 import org.junit.Rule;
 import org.junit.Test;

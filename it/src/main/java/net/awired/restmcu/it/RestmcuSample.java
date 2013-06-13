@@ -5,7 +5,7 @@ import static net.awired.restmcu.api.domain.line.RestMcuLineNotifyCondition.SUP_
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.awired.ajsl.ws.rest.RestBuilder;
+import net.awired.jaxrs.client.server.rest.RestBuilder;
 import net.awired.restmcu.api.domain.line.RestMcuLine;
 import net.awired.restmcu.api.domain.line.RestMcuLineDirection;
 import net.awired.restmcu.api.domain.line.RestMcuLineNotify;

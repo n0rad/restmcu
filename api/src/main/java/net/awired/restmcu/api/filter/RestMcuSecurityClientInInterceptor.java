@@ -1,6 +1,6 @@
 package net.awired.restmcu.api.filter;
 
-import net.awired.ajsl.ws.resource.filter.AjslFilterUtils;
+import net.awired.jaxrs.client.server.resource.filter.FilterUtils;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
@@ -19,7 +19,7 @@ public class RestMcuSecurityClientInInterceptor extends AbstractPhaseInterceptor
         try {
             restMcuSecurityContext.checkSecurity(message);
         } catch (SecurityException e) {
-            AjslFilterUtils.replaceCurrentPayloadWithError(message, e);
+            FilterUtils.replaceCurrentPayloadWithError(message, e);
         }
 
     }

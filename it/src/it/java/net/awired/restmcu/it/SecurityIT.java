@@ -1,6 +1,6 @@
 package net.awired.restmcu.it;
 
-import net.awired.ajsl.test.RestServerRule;
+import net.awired.jaxrs.junit.RestServerRule;
 import net.awired.restmcu.api.filter.RestMcuSecurityServerFilter;
 import org.junit.Rule;
 import org.junit.Test;

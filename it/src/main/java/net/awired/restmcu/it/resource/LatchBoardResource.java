@@ -2,8 +2,8 @@ package net.awired.restmcu.it.resource;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import net.awired.ajsl.core.lang.exception.UpdateException;
-import net.awired.ajsl.ws.rest.RestBuilder;
+import net.awired.core.lang.exception.UpdateException;
+import net.awired.jaxrs.client.server.rest.RestBuilder;
 import net.awired.restmcu.api.domain.board.RestMcuBoard;
 import net.awired.restmcu.api.domain.board.RestMcuBoardNotification;
 import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;

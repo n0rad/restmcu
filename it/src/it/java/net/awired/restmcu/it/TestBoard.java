@@ -1,6 +1,6 @@
 package net.awired.restmcu.it;
 
-import net.awired.ajsl.core.lang.exception.UpdateException;
+import net.awired.core.lang.exception.UpdateException;
 import net.awired.restmcu.api.domain.board.RestMcuBoard;
 import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
 import net.awired.restmcu.api.resource.client.RestMcuBoardResource;

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import net.awired.ajsl.core.lang.exception.UpdateException;
+import net.awired.core.lang.exception.UpdateException;
 import net.awired.restmcu.api.domain.board.RestMcuBoardSettings;
 import org.junit.Ignore;
 import org.junit.Rule;

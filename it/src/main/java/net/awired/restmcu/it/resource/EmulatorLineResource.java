@@ -1,8 +1,8 @@
 package net.awired.restmcu.it.resource;
 
 import static net.awired.restmcu.it.builder.NotifBuilder.notif;
-import net.awired.ajsl.core.lang.exception.NotFoundException;
-import net.awired.ajsl.core.lang.exception.UpdateException;
+import net.awired.core.lang.exception.NotFoundException;
+import net.awired.core.lang.exception.UpdateException;
 import net.awired.restmcu.api.domain.line.RestMcuLineNotification;
 
 public class EmulatorLineResource extends LatchLineResource {

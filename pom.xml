@@ -24,7 +24,7 @@
 	<properties>
 		<jacoco.file.path>/tmp/hccJacoco.out</jacoco.file.path>
 		<ajsl.version>0.5-SNAPSHOT</ajsl.version>
-		<cxf.version>2.5.3</cxf.version>
+		<cxf.version>2.7.5</cxf.version>
 		<spring.version>3.1.0.RELEASE</spring.version>
 	</properties>
 
