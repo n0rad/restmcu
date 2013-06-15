@@ -10,9 +10,9 @@
 	<packaging>pom</packaging>
 
 	<parent>
-		<groupId>net.awired.parent.parent-java</groupId>
+		<groupId>net.awired.parent</groupId>
 		<artifactId>parent-java</artifactId>
-		<version>1.13</version>
+		<version>1.16</version>
 	</parent>
 
 

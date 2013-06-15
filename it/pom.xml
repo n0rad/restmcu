@@ -38,8 +38,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.awired.aclm</groupId>
-			<artifactId>aclm</artifactId>
+			<groupId>net.awired.typed.command.line.parser</groupId>
+			<artifactId>typed-command-line-parser</artifactId>
 			<version>0.2.1-SNAPSHOT</version>
 		</dependency>
 
