@@ -9,12 +9,11 @@
 	<name>RestMcu</name>
 	<packaging>pom</packaging>
 
-	<parent>
-		<groupId>fr.norad.parent</groupId>
-		<artifactId>parent-java</artifactId>
-		<version>1.18</version>
-	</parent>
-
+    <parent>
+        <groupId>org.housecream.parent</groupId>
+        <artifactId>parent-java</artifactId>
+        <version>1.19-SNAPSHOT</version>
+    </parent>
 
 	<modules>
 		<module>api</module>
