@@ -7,7 +7,7 @@
 	<name>RestMcu - IT</name>
 
 	<parent>
-		<groupId>net.awired.restmcu</groupId>
+		<groupId>org.housecream.restmcu</groupId>
 		<artifactId>restmcu</artifactId>
 		<version>0.1-SNAPSHOT</version>
 		<relativePath>../</relativePath>
@@ -22,25 +22,19 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>net.awired.restmcu</groupId>
+			<groupId>org.housecream.restmcu</groupId>
 			<artifactId>restmcu-api</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>net.awired.jaxrs.client.server</groupId>
+			<groupId>fr.norad.jaxrs.client.server</groupId>
 			<artifactId>jaxrs-client-server</artifactId>
-			<version>0.5-SNAPSHOT</version>
+			<version>0.5</version>
 		</dependency>
 		<dependency>
-			<groupId>net.awired.jaxrs.junit</groupId>
+			<groupId>fr.norad.jaxrs.junit</groupId>
 			<artifactId>jaxrs-junit</artifactId>
 			<version>0.5-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>net.awired.typed.command.line.parser</groupId>
-			<artifactId>typed-command-line-parser</artifactId>
-			<version>0.2.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -124,7 +118,7 @@
 		<profile>
 			<id>board</id>
 			<properties>
-				<!-- <config.file>../it/src/main/java/net/awired/restmcu/it/wiring/TestBoardConfig.cpp</config.file> -->
+				<!-- <config.file>../it/src/main/java/org/housecream/restmcu/it/wiring/TestBoardConfig.cpp</config.file> -->
 				<config.file>../it/target/classes/TestBoardConfig.cpp</config.file>
 			</properties>
 			<build>

@@ -7,7 +7,7 @@
 	<name>RestMcu - Api</name>
 
 	<parent>
-		<groupId>net.awired.restmcu</groupId>
+		<groupId>org.housecream.restmcu</groupId>
 		<artifactId>restmcu</artifactId>
 		<version>0.1-SNAPSHOT</version>
 		<relativePath>../</relativePath>
@@ -22,14 +22,14 @@
 		</dependency>
  -->
 		<dependency>
-			<groupId>net.awired.core</groupId>
+			<groupId>fr.norad.core</groupId>
 			<artifactId>core</artifactId>
-			<version>0.5-SNAPSHOT</version>
+			<version>0.7</version>
 		</dependency>
       <dependency>
-            <groupId>net.awired.jaxrs.client.server</groupId>
+            <groupId>fr.norad.jaxrs.client.server</groupId>
             <artifactId>jaxrs-client-server</artifactId>
-            <version>0.5-SNAPSHOT</version>
+            <version>0.5</version>
             <scope>provided</scope>
         </dependency>
 		<dependency>

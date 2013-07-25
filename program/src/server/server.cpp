@@ -17,7 +17,7 @@ uint16_t startResponseHeader(char **buf, const char PROGMEM *codeMsg) {
 }
 
 uint16_t appendErrorMsg_P(char *buf, uint16_t plen, const char PROGMEM *type, const char PROGMEM *msg) {
-    plen = addToBufferTCP_P(buf, plen, PSTR("{\"errorClass\":\"net.awired.ajsl.core.lang.exception."));
+    plen = addToBufferTCP_P(buf, plen, PSTR("{\"errorClass\":\"fr.norad.core.lang.exception."));
     plen = addToBufferTCP_P(buf, plen, type);
     plen = addToBufferTCP_P(buf, plen, PSTR("\",\"message\":\""));
     plen = addToBufferTCP_P(buf, plen, msg);

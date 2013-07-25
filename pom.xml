@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>net.awired.restmcu</groupId>
+	<groupId>org.housecream.restmcu</groupId>
 	<artifactId>restmcu</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>RestMcu</name>
 	<packaging>pom</packaging>
 
 	<parent>
-		<groupId>net.awired.parent</groupId>
+		<groupId>fr.norad.parent</groupId>
 		<artifactId>parent-java</artifactId>
-		<version>1.16</version>
+		<version>1.18</version>
 	</parent>
 
 
@@ -31,12 +31,12 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>net.awired.restmcu</groupId>
+				<groupId>org.housecream.restmcu</groupId>
 				<artifactId>restmcu-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>net.awired.restmcu</groupId>
+				<groupId>org.housecream.restmcu</groupId>
 				<artifactId>restmcu-stub</artifactId>
 				<type>war</type>
 				<version>${project.version}</version>
