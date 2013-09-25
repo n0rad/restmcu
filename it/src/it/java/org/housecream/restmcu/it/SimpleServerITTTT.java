@@ -7,6 +7,7 @@ import org.housecream.restmcu.it.resource.NotifyResource;
 import org.junit.Rule;
 import org.junit.Test;
 import fr.norad.core.io.NetworkUtils;
+import fr.norad.jaxrs.client.server.rest.RestBuilder;
 import fr.norad.jaxrs.junit.RestServerRule;
 
 public class SimpleServerITTTT {
@@ -14,9 +15,12 @@ public class SimpleServerITTTT {
     public RestmcuTestRule restmcu = new RestmcuTestRule();
 
     @Rule
-    public RestServerRule notifyRule = new RestServerRule("http://0.0.0.0:5879", NotifyResource.class)
-            .addInInterceptor(new RestMcuSecurityClientInInterceptor(new RestmcuTestSecurityKey()))
-            .addOutInterceptor(new RestMcuSecurityClientOutInterceptor(new RestmcuTestSecurityKey()));
+    public RestServerRule notifyRule = new RestServerRule(new RestBuilder() {
+        {
+            addInInterceptor(new RestMcuSecurityClientInInterceptor(new RestmcuTestSecurityKey()));
+            addOutInterceptor(new RestMcuSecurityClientOutInterceptor(new RestmcuTestSecurityKey()));
+        }
+    }, "http://0.0.0.0:5879", NotifyResource.class);
 
     @Test
     public void should() throws Exception {
