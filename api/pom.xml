@@ -1,50 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>restmcu-api</artifactId>
+    <name>RestMcu - Api</name>
 
-	<artifactId>restmcu-api</artifactId>
-	<name>RestMcu - Api</name>
+    <parent>
+        <groupId>org.housecream.restmcu</groupId>
+        <artifactId>restmcu</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
 
-	<parent>
-		<groupId>org.housecream.restmcu</groupId>
-		<artifactId>restmcu</artifactId>
-		<version>0.1-SNAPSHOT</version>
-		<relativePath>../</relativePath>
-	</parent>
-
-	<dependencies>
-
-<!-- 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1-b01</version>
-		</dependency>
- -->
-		<dependency>
-			<groupId>fr.norad.core</groupId>
-			<artifactId>core</artifactId>
-			<version>0.7</version>
-		</dependency>
-      <dependency>
-            <groupId>fr.norad.jaxrs.client.server</groupId>
-            <artifactId>jaxrs-client-server</artifactId>
-            <version>0.6-SNAPSHOT</version>
-            <scope>provided</scope>
+    <dependencies>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
         </dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>r09</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-
-	</dependencies>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>fr.norad.jaxrs.oauth2</groupId>
+            <artifactId>jaxrs-oauth2-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

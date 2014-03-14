@@ -1,10 +1,9 @@
 package org.housecream.restmcu.it;
 
-import org.housecream.restmcu.api.filter.RestMcuSecurityServerFilter;
-import org.junit.Rule;
-import org.junit.Test;
 import fr.norad.jaxrs.client.server.rest.RestBuilder;
 import fr.norad.jaxrs.junit.RestServerRule;
+import org.junit.Rule;
+import org.junit.Test;
 
 public class SecurityIT {
 
@@ -14,7 +13,7 @@ public class SecurityIT {
     @Rule
     public RestServerRule notifyRule = new RestServerRule(new RestBuilder() {
         {
-            addProvider(new RestMcuSecurityServerFilter(new RestmcuTestSecurityKey()));
+//            addProvider(new RestMcuSecurityServerFilter(new RestmcuTestSecurityKey()));
         }
     }, "http://0.0.0.0:5879", TestBoard.class);
 

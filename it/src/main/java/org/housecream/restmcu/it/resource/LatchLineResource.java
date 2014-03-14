@@ -23,6 +23,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.housecream.restmcu.api.LineNotFoundException;
+import org.housecream.restmcu.api.RestMcuUpdateException;
 import org.housecream.restmcu.api.domain.line.RestMcuLine;
 import org.housecream.restmcu.api.domain.line.RestMcuLineSettings;
 import org.housecream.restmcu.api.resource.client.RestMcuLineResource;
@@ -64,29 +66,29 @@ public class LatchLineResource implements RestMcuLineResource {
     }
 
     @Override
-    public RestMcuLine getLine(Integer lineId) throws NotFoundException {
+    public RestMcuLine getLine(Integer lineId) throws LineNotFoundException {
         LineInfo lineInfo = lines.get(lineId);
         if (lineInfo == null) {
-            throw new NotFoundException("line not found" + lineId);
+            throw new LineNotFoundException("line not found" + lineId);
         }
         return lineInfo.getDescription();
     }
 
     @Override
-    public RestMcuLineSettings getLineSettings(Integer lineId) throws NotFoundException, UpdateException {
+    public RestMcuLineSettings getLineSettings(Integer lineId) throws LineNotFoundException, RestMcuUpdateException {
         LineInfo lineInfo = lines.get(lineId);
         if (lineInfo == null) {
-            throw new NotFoundException("line not found" + lineId);
+            throw new LineNotFoundException("line not found" + lineId);
         }
         return lineInfo.getSettings();
     }
 
     @Override
-    public void setLineSettings(Integer lineId, RestMcuLineSettings lineSettings) throws NotFoundException,
-            UpdateException {
+    public void setLineSettings(Integer lineId, RestMcuLineSettings lineSettings) throws LineNotFoundException,
+            RestMcuUpdateException {
         LineInfo lineInfo = lines.get(lineId);
         if (lineInfo == null) {
-            throw new NotFoundException("line not found" + lineId);
+            throw new LineNotFoundException("line not found" + lineId);
         }
 
         if (lineSettings.getName() != null) {
@@ -99,19 +101,19 @@ public class LatchLineResource implements RestMcuLineResource {
     }
 
     @Override
-    public Float getLineValue(Integer lineId) throws NotFoundException {
+    public Float getLineValue(Integer lineId) throws LineNotFoundException {
         LineInfo lineInfo = lines.get(lineId);
         if (lineInfo == null) {
-            throw new NotFoundException("line not found" + lineId);
+            throw new LineNotFoundException("line not found" + lineId);
         }
         return lineInfo.getValue();
     }
 
     @Override
-    public void setLineValue(Integer lineId, Float value) throws NotFoundException, UpdateException {
+    public void setLineValue(Integer lineId, Float value) throws LineNotFoundException, RestMcuUpdateException {
         LineInfo lineInfo = lines.get(lineId);
         if (lineInfo == null) {
-            throw new NotFoundException("line not found" + lineId);
+            throw new LineNotFoundException("line not found" + lineId);
         }
         lineInfo.setValue(value);
         lineInfo.setDateLatch(new Date());

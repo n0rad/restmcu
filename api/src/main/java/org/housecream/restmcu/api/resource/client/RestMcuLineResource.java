@@ -16,16 +16,12 @@
  */
 package org.housecream.restmcu.api.resource.client;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import org.housecream.restmcu.api.LineNotFoundException;
+import org.housecream.restmcu.api.RestMcuUpdateException;
 import org.housecream.restmcu.api.domain.line.RestMcuLine;
 import org.housecream.restmcu.api.domain.line.RestMcuLineSettings;
-import fr.norad.core.lang.exception.NotFoundException;
-import fr.norad.core.lang.exception.UpdateException;
+
+import javax.ws.rs.*;
 
 @Path("/line/{lineId}")
 @Produces("application/json")
@@ -33,23 +29,23 @@ import fr.norad.core.lang.exception.UpdateException;
 public interface RestMcuLineResource {
 
     @GET
-    RestMcuLine getLine(@PathParam("lineId") Integer lineId) throws NotFoundException;
+    RestMcuLine getLine(@PathParam("lineId") Integer lineId) throws LineNotFoundException;
 
     @GET
     @Path("/settings")
-    RestMcuLineSettings getLineSettings(@PathParam("lineId") Integer lineId) throws NotFoundException,
-            UpdateException;
+    RestMcuLineSettings getLineSettings(@PathParam("lineId") Integer lineId) throws RestMcuUpdateException,
+            LineNotFoundException;
 
     @PUT
     @Path("/settings")
     void setLineSettings(@PathParam("lineId") Integer lineId, RestMcuLineSettings lineSettings)
-            throws NotFoundException, UpdateException;
+            throws RestMcuUpdateException, LineNotFoundException;
 
     @GET
     @Path("/value")
-    Float getLineValue(@PathParam("lineId") Integer lineId) throws NotFoundException;
+    Float getLineValue(@PathParam("lineId") Integer lineId) throws LineNotFoundException;
 
     @PUT
     @Path("/value")
-    void setLineValue(@PathParam("lineId") Integer lineId, Float value) throws NotFoundException, UpdateException;
+    void setLineValue(@PathParam("lineId") Integer lineId, Float value) throws LineNotFoundException, RestMcuUpdateException;
 }

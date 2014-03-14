@@ -1,5 +1,6 @@
 package org.housecream.restmcu.it;
 
+import org.housecream.restmcu.api.RestMcuUpdateException;
 import org.housecream.restmcu.api.domain.board.RestMcuBoard;
 import org.housecream.restmcu.api.domain.board.RestMcuBoardSettings;
 import org.housecream.restmcu.api.resource.client.RestMcuBoardResource;
@@ -19,7 +20,7 @@ public class TestBoard implements RestMcuBoardResource {
     }
 
     @Override
-    public void setBoardSettings(RestMcuBoardSettings boardSettings) throws UpdateException {
+    public void setBoardSettings(RestMcuBoardSettings boardSettings) throws RestMcuUpdateException {
     }
 
     @Override

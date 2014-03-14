@@ -16,14 +16,12 @@
  */
 package org.housecream.restmcu.api.resource.client;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import org.housecream.restmcu.api.RestMcuUpdateException;
 import org.housecream.restmcu.api.domain.board.RestMcuBoard;
 import org.housecream.restmcu.api.domain.board.RestMcuBoardSettings;
-import fr.norad.core.lang.exception.UpdateException;
+
+import javax.validation.Valid;
+import javax.ws.rs.*;
 
 @Path("/")
 @Produces("application/json")
@@ -35,7 +33,7 @@ public interface RestMcuBoardResource {
 
     @PUT
     @Path("/settings")
-    public void setBoardSettings(RestMcuBoardSettings boardSettings) throws UpdateException;
+    public void setBoardSettings(@Valid RestMcuBoardSettings boardSettings) throws RestMcuUpdateException;
 
     @GET
     @Path("/settings")

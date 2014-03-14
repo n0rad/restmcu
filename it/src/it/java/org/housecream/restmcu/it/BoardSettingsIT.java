@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+
+import org.housecream.restmcu.api.RestMcuUpdateException;
 import org.housecream.restmcu.api.domain.board.RestMcuBoardSettings;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -57,7 +59,7 @@ public class BoardSettingsIT {
         boolean exceptionflag = false;
         try {
             restmcu.getBoardResource().setBoardSettings(boardSettings);
-        } catch (UpdateException e) {
+        } catch (RestMcuUpdateException e) {
             exceptionflag = true;
         }
         assertTrue(exceptionflag);
@@ -72,7 +74,7 @@ public class BoardSettingsIT {
         boolean exceptionflag = false;
         try {
             restmcu.getBoardResource().setBoardSettings(boardSettings);
-        } catch (UpdateException e) {
+        } catch (RestMcuUpdateException e) {
             exceptionflag = true;
         }
         assertTrue(exceptionflag);

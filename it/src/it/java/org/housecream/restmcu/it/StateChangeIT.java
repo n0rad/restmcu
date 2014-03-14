@@ -40,7 +40,7 @@ public class StateChangeIT {
         lineResource.setLineValue(9, 1f);
 
         RestMcuLineNotification restMcuLineNotification = notifyResource.awaitLine().get(0);
-        assertEquals(54, restMcuLineNotification.getId());
+        assertEquals(54, restMcuLineNotification.getLineId());
         assertEquals(new RestMcuLineNotify(RestMcuLineNotifyCondition.SUP_OR_EQUAL, 1f),
                 restMcuLineNotification.getNotify());
         assertEquals(0f, restMcuLineNotification.getOldValue(), 0);

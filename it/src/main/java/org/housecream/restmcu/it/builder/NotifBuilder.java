@@ -42,10 +42,10 @@ public class NotifBuilder {
     public RestMcuLineNotification build() {
         RestMcuLineNotification pinNotif = new RestMcuLineNotification();
         if (lineId == null) {
-            pinNotif.setId(lineInfo.getLineId());
+            pinNotif.setLineId(lineInfo.getLineId());
             pinNotif.setOldValue(lineInfo.getValue());
         } else {
-            pinNotif.setId(lineId);
+            pinNotif.setLineId(lineId);
             pinNotif.setOldValue(oldValue);
         }
         pinNotif.setValue(value);

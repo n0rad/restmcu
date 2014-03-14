@@ -16,18 +16,7 @@
  */
 package org.housecream.restmcu.api.filter;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
-import java.util.List;
-import java.util.TreeMap;
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.cxf.message.Message;
-import com.google.common.base.Preconditions;
-
+/*
 public class RestMcuSecurityContext {
 
     private long maxValidWindowSecondOneSide = 60; // window of 2x1min
@@ -105,3 +94,4 @@ public class RestMcuSecurityContext {
     }
 
 }
+*/

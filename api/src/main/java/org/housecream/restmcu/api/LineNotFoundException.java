@@ -14,22 +14,15 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package org.housecream.restmcu.it;
+package org.housecream.restmcu.api;
 
-/*
-public class RestmcuTestSecurityKey implements RestMcuSecurityKey {
 
-    private static final String key = "TOTO42";
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import fr.norad.jaxrs.oauth2.HttpStatus;
 
-    @Override
-    public String getKey() {
-        return key;
+@HttpStatus(NOT_FOUND)
+public class LineNotFoundException extends Exception {
+    public LineNotFoundException(String message) {
+        super(message);
     }
-
-    @Override
-    public String buildMessage(long posixTimestamp, Message message) {
-        return posixTimestamp + "MESSAGE";
-    }
-
 }
-*/

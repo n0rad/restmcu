@@ -18,20 +18,30 @@ package org.housecream.restmcu.it.resource;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import org.housecream.restmcu.api.RestMcuUpdateException;
 import org.housecream.restmcu.api.domain.board.RestMcuBoard;
 import org.housecream.restmcu.api.domain.board.RestMcuBoardNotification;
 import org.housecream.restmcu.api.domain.board.RestMcuBoardSettings;
 import org.housecream.restmcu.api.domain.line.RestMcuLineNotification;
 import org.housecream.restmcu.api.resource.client.RestMcuBoardResource;
 import org.housecream.restmcu.api.resource.server.RestMcuNotifyResource;
-import com.google.common.base.Preconditions;
-import fr.norad.core.lang.exception.UpdateException;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import fr.norad.jaxrs.client.server.resource.mapper.HttpStatusExceptionMapper;
 import fr.norad.jaxrs.client.server.rest.RestBuilder;
+
 
 public class LatchBoardResource implements RestMcuBoardResource {
 
     public final RestMcuBoard board = new RestMcuBoard();
     public final RestMcuBoardSettings boardSettings = new RestMcuBoardSettings();
+    public final RestBuilder builder = new RestBuilder()
+            .addProvider(new JacksonJsonProvider())
+            .addInFaultInterceptor(RestBuilder.Generic.inStderrLogger)
+            .addInInterceptor(RestBuilder.Generic.inStdoutLogger)
+            .addOutFaultInterceptor(RestBuilder.Generic.outStderrLogger)
+            .addOutInterceptor(RestBuilder.Generic.outStdoutLogger)
+            .addProvider(new HttpStatusExceptionMapper());
+
 
     private CountDownLatch setLatch = new CountDownLatch(1);
     private final String source;
@@ -48,15 +58,13 @@ public class LatchBoardResource implements RestMcuBoardResource {
         if (notif.getSource() == null) {
             notif.setSource(source);
         }
-        Preconditions.checkNotNull(boardSettings.getNotifyUrl(), "notification url is mandatory");
-        RestMcuNotifyResource client = new RestBuilder().buildClient(RestMcuNotifyResource.class,
+        RestMcuNotifyResource client = builder.buildClient(RestMcuNotifyResource.class,
                 boardSettings.getNotifyUrl());
         client.lineNotification(notif);
     }
 
     public void sendNotif(RestMcuBoardNotification notif) {
-        Preconditions.checkNotNull(boardSettings.getNotifyUrl(), "notification url is mandatory");
-        RestMcuNotifyResource client = new RestBuilder().buildClient(RestMcuNotifyResource.class,
+        RestMcuNotifyResource client = builder.buildClient(RestMcuNotifyResource.class,
                 boardSettings.getNotifyUrl());
         client.boardNotification(notif);
     }
@@ -79,7 +87,7 @@ public class LatchBoardResource implements RestMcuBoardResource {
     }
 
     @Override
-    public void setBoardSettings(RestMcuBoardSettings boardSettings) throws UpdateException {
+    public void setBoardSettings(RestMcuBoardSettings boardSettings) throws RestMcuUpdateException {
         if (boardSettings.getIp() != null) {
             this.boardSettings.setIp(boardSettings.getIp());
         }

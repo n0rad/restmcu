@@ -17,6 +17,9 @@
 package org.housecream.restmcu.it.resource;
 
 import static org.housecream.restmcu.it.builder.NotifBuilder.notif;
+
+import org.housecream.restmcu.api.LineNotFoundException;
+import org.housecream.restmcu.api.RestMcuUpdateException;
 import org.housecream.restmcu.api.domain.line.RestMcuLineNotification;
 import fr.norad.core.lang.exception.NotFoundException;
 import fr.norad.core.lang.exception.UpdateException;
@@ -30,7 +33,7 @@ public class EmulatorLineResource extends LatchLineResource {
     }
 
     @Override
-    public void setLineValue(Integer lineId, Float value) throws NotFoundException, UpdateException {
+    public void setLineValue(Integer lineId, Float value) throws LineNotFoundException, RestMcuUpdateException {
         Float oldValue = lineInfo(lineId).getValue();
         super.setLineValue(lineId, value);
         notifyChange(lineId, oldValue);

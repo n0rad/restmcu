@@ -1,45 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.housecream.restmcu</groupId>
-	<artifactId>restmcu</artifactId>
-	<version>0.1-SNAPSHOT</version>
-	<name>RestMcu</name>
-	<packaging>pom</packaging>
+    <groupId>org.housecream.restmcu</groupId>
+    <artifactId>restmcu</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <name>RestMcu</name>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>org.housecream.parent</groupId>
         <artifactId>parent-java</artifactId>
-        <version>1.19-SNAPSHOT</version>
+        <version>1.19</version>
     </parent>
 
-	<modules>
-		<module>api</module>
-		<module>it</module>
-	</modules>
+    <modules>
+        <module>api</module>
+        <module>it</module>
+    </modules>
 
-	<properties>
-		<jacoco.file.path>/tmp/hccJacoco.out</jacoco.file.path>
-		<ajsl.version>0.5-SNAPSHOT</ajsl.version>
-		<cxf.version>2.7.5</cxf.version>
-		<spring.version>3.1.0.RELEASE</spring.version>
-	</properties>
+    <properties>
+        <jacoco.file.path>/tmp/hccJacoco.out</jacoco.file.path>
+        <cxf.version>2.7.5</cxf.version>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.housecream.restmcu</groupId>
-				<artifactId>restmcu-api</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.housecream.restmcu</groupId>
-				<artifactId>restmcu-stub</artifactId>
-				<type>war</type>
-				<version>${project.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>0.11.8</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.housecream.restmcu</groupId>
+                <artifactId>restmcu-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.housecream.restmcu</groupId>
+                <artifactId>restmcu-stub</artifactId>
+                <type>war</type>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>fr.norad.jaxrs.oauth2</groupId>
+                <artifactId>jaxrs-oauth2-api</artifactId>
+                <version>0.8-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                <artifactId>jackson-jaxrs-json-provider</artifactId>
+                <version>2.1.4</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>2.0-m10</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.1.0.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.norad.jaxrs.client.server</groupId>
+                <artifactId>jaxrs-client-server-core</artifactId>
+                <version>0.8-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>fr.norad.jaxrs.junit</groupId>
+                <artifactId>jaxrs-junit</artifactId>
+                <version>0.5-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

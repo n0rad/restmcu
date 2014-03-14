@@ -90,7 +90,7 @@ endif
 #	AVRDUDE_PATH=$(INSTALL_DIR)/hardware/tools/
 #endif 
 ifndef AVR_LIB_PATH
-	AVR_LIB_PATH=/usr/lib/avr
+	AVR_LIB_PATH=/usr/avr
 endif 
 
 

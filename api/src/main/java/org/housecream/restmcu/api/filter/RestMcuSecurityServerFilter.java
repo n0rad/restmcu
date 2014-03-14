@@ -16,17 +16,7 @@
  */
 package org.housecream.restmcu.api.filter;
 
-import java.lang.reflect.Method;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.ext.Provider;
-import org.apache.cxf.jaxrs.ext.RequestHandler;
-import org.apache.cxf.jaxrs.ext.ResponseHandler;
-import org.apache.cxf.jaxrs.model.ClassResourceInfo;
-import org.apache.cxf.jaxrs.model.OperationResourceInfo;
-import org.apache.cxf.message.Message;
-import org.housecream.restmcu.api.resource.server.RestMcuNotifyResource;
-
+/*
 @Provider
 public class RestMcuSecurityServerFilter implements RequestHandler, ResponseHandler {
 
@@ -70,3 +60,4 @@ public class RestMcuSecurityServerFilter implements RequestHandler, ResponseHand
     }
 
 }
+*/

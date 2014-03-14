@@ -16,14 +16,7 @@
  */
 package org.housecream.restmcu.api.filter;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
-import org.apache.cxf.phase.Phase;
-
+/*
 public class RestMcuSecurityClientOutInterceptor extends AbstractPhaseInterceptor<Message> {
     private RestMcuSecurityContext restMcuSecurityContext;
 
@@ -45,3 +38,4 @@ public class RestMcuSecurityClientOutInterceptor extends AbstractPhaseIntercepto
         headers.put("Hmac-Hash", Arrays.asList(restMcuSecurityContext.buildHash(time, message)));
     }
 }
+*/

@@ -16,11 +16,7 @@
  */
 package org.housecream.restmcu.api.filter;
 
-import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
-import org.apache.cxf.phase.Phase;
-import fr.norad.jaxrs.client.server.resource.filter.FilterUtils;
-
+/*
 public class RestMcuSecurityClientInInterceptor extends AbstractPhaseInterceptor<Message> {
 
     private RestMcuSecurityContext restMcuSecurityContext;
@@ -41,3 +37,4 @@ public class RestMcuSecurityClientInInterceptor extends AbstractPhaseInterceptor
     }
 
 }
+*/

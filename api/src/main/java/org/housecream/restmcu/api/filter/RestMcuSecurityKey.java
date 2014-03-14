@@ -16,8 +16,7 @@
  */
 package org.housecream.restmcu.api.filter;
 
-import org.apache.cxf.message.Message;
-
+/*
 public interface RestMcuSecurityKey {
 
     String getKey();
@@ -25,3 +24,4 @@ public interface RestMcuSecurityKey {
     String buildMessage(long posixTimestamp, Message message);
 
 }
+*/

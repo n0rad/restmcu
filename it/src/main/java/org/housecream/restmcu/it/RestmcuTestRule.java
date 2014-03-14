@@ -16,8 +16,6 @@
  */
 package org.housecream.restmcu.it;
 
-import org.housecream.restmcu.api.filter.RestMcuSecurityClientInInterceptor;
-import org.housecream.restmcu.api.filter.RestMcuSecurityClientOutInterceptor;
 import org.housecream.restmcu.api.resource.client.RestMcuBoardResource;
 import org.housecream.restmcu.api.resource.client.RestMcuLineResource;
 import org.junit.rules.ExternalResource;
@@ -37,8 +35,10 @@ public class RestmcuTestRule extends ExternalResource {
 
         RestBuilder context = new RestBuilder();
 
+/*
         context.addInInterceptor(new RestMcuSecurityClientInInterceptor(new RestmcuTestSecurityKey()));
         context.addOutInterceptor(new RestMcuSecurityClientOutInterceptor(new RestmcuTestSecurityKey()));
+*/
 
         lineResource = context.buildClient(RestMcuLineResource.class, url);
         boardResource = context.buildClient(RestMcuBoardResource.class, url);
